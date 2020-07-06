@@ -1,0 +1,105 @@
+@import '../../styles/variables';
+
+.section {
+  margin: 0.75em 0;
+  text-align: justify;
+
+  &-title {
+    background-color: $duleone-red;
+    border-radius: 3px;
+    color: $white;
+    display: block;
+    font-size: 19px;
+    font-weight: normal;
+    margin: 0 0 8px 0;
+    padding: 4px 8px;
+  }
+}
+
+
+.subsection {
+  margin-bottom: 0.75em;
+
+  &-title {
+    font-weight: bold;
+    font-size: 19px;
+    margin: 0;
+    display: inline-block;
+  }
+
+  &-date {
+    font-size: 16px;
+    color: $duleone-red;
+    display: block;
+
+
+    @media (min-width: 520px) {
+      float: right;
+      vertical-align: top;
+
+      &-block {
+        @media only print {
+          float: none;
+        }
+      }
+    }
+  }
+
+  &-position-title {
+    font-style: italic;
+    font-weight: normal;
+    font-size: 19px;
+    margin: 0;
+    vertical-align: top;
+  }
+
+  &-content-wrapper {
+    margin-top: 0;
+  }
+}
+
+ul.subsection-content-wrapper {
+  padding-left: 36px;
+}
+
+
+.container {
+  max-width: 736px;
+  margin: 0 auto;
+}
+
+@media only print {
+  .section {
+    page-break-inside: avoid;
+    font-size: 12pt;
+
+    &-title {
+      font-size: 14pt;
+      color: inherit;
+      background-color: inherit;
+      font-weight: bold;
+      border-radius: 0;
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+
+  .subsection {
+    page-break-inside: avoid;
+
+    &-date {
+      font-size: 9pt;
+    }
+
+    &-title,
+    &-position-title {
+      font-size: 13pt;
+    }
+
+    &-content {
+      text-align: left;
+    }
+  }
+
+}
