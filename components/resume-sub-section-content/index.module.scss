@@ -1,0 +1,11 @@
+@import '../../styles/variables';
+
+.subsection-content {
+  &-wrapper {
+    margin-top: 0;
+  }
+
+  @media only print {
+    text-align: left;
+  }
+}

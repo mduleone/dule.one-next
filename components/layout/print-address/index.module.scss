@@ -1,0 +1,18 @@
+.print-address {
+  font-size: 19px;
+  margin: 0 auto;
+
+  &-container {
+    display: none;
+    visibility: hidden;
+    position: absolute;
+    top: calc(2em + 8px);
+    left: 0;
+    right: 0;
+
+    @media only print {
+      display: block;
+      visibility: visible;
+    }
+  }
+}

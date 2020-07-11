@@ -1,0 +1,14 @@
+.print-coa {
+  display: none;
+  visibility: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 120px;
+  z-index: 100;
+
+  @media only print {
+    display: block;
+    visibility: visible;
+  }
+}

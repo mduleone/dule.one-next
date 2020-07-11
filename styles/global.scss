@@ -28,7 +28,7 @@ body {
 }
 
 a {
-  color: dodgerblue;
+  color: $link-color;
   text-decoration: none;
 }
 
@@ -37,4 +37,8 @@ a:active {
   border: none;
   box-shadow: none;
   outline: none;
+}
+
+ul {
+  padding-left: 36px;
 }
