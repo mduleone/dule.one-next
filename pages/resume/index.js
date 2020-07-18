@@ -1,16 +1,14 @@
 import PropTypes from 'prop-types';
 
-import resume from '../../data/resume.json';
+import resume from '../../data/resume';
 import Layout from '../../components/layout';
 import ResumeSection, { sectionShape } from '../../components/resume-section';
 
-export const getStaticProps = async () => {
-  return {
-    props: {
-      resume,
-    },
-  };
-};
+export const getStaticProps = () => ({
+  props: {
+    resume,
+  },
+});
 
 const Resume = ({ resume }) => {
   return (

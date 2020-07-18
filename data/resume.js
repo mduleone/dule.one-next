@@ -1,4 +1,4 @@
-[
+const resume = [
   {
     "id": "summary",
     "title": "Summary",
@@ -281,4 +281,6 @@
       }
     ]
   }
-]
+];
+
+export default resume;
