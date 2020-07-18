@@ -17,10 +17,9 @@ const Contact = ({ contacts = [] }) => (
     <ul className={styles['contact-list']}>
       {contacts.map(({ href, icon, name}) => (
         <li key={`${icon.join('-')}-${name}`}>
-          <a target="_blank" rel="noopener noreferrer" href={href}>
+          <a target="_blank" rel="noopener noreferrer" href={href} className={styles.contact}>
+            <span className={styles['contact-name']}>{name}</span>
             <FontAwesomeIcon className={styles.icon} icon={icon} />
-            {' '}
-            {name}
           </a>
         </li>
       ))}

@@ -1,7 +1,19 @@
-.icon {
-  color: #000;
+.contact {
+  position: relative;
+
+  &-name {
+    margin-left: 1.5em;
+  }
+
+  &-list {
+    list-style: none;
+  }
 }
 
-.contact-list {
-  list-style: none;
+.icon {
+  color: #000;
+  position: absolute;
+  vertical-align: middle;
+  width: 1em;
+  left: 0;
 }
