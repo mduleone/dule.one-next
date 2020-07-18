@@ -20,8 +20,8 @@ const projects = [
   {
     title: "matt.dule.one",
     href: "/",
-    repo: "https://github.com/mduleone/matt.dule.one",
-    desc: "This project: my personal website. A home-grown Angular 1.3 app created in 2014.",
+    repo: "https://github.com/mduleone/dule.one-next",
+    desc: "This project: my personal website. A NextJS app.",
   },
   {
     title: "Casino Craps",

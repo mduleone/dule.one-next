@@ -13,7 +13,7 @@ export const getStaticProps = () => ({
 const Projects = ({ projects }) => (
   <Layout>
     {projects.map(({ title, href, repo, desc }) => (
-      <div className={styles['project']}>
+      <div key={title} className={styles['project']}>
         <p className={styles['project-title']}>
           <a href={href} target="_blank" rel="noopener noreferrer">
             {title}
