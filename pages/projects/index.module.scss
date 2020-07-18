@@ -1,0 +1,46 @@
+@import '../../styles/variables';
+
+.project {
+  border-radius: 3px;
+  box-shadow: 5px 5px 1em $shadow-color;
+  margin: 1em;
+  padding: 1em;
+
+  &-title {
+    display: block;
+    font-size: 25px;
+    font-weight: bold;
+
+    & a {
+      position: relative;
+      color: $duleone-red;
+
+      &.active,
+      &:hover,
+      &:focus {
+        &::after {
+          transform: scaleX(1);
+          transition: transform linear 250ms;
+          transform-origin: left;
+        }
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        transform: scaleX(0);
+        background-color: $duleone-red;
+        transition: transform linear 250ms;
+        transform-origin: right;
+      }
+    }
+  }
+
+  &-repository {
+    margin-top: 1em;
+  }
+}

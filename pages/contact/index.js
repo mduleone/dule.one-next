@@ -12,23 +12,21 @@ export const getStaticProps = () => ({
   },
 });
 
-const Contact = ({ contacts = [] }) => {
-  return (
-    <Layout>
-      <ul className={styles['contact-list']}>
-        {contacts.map(({ href, icon, name}) => (
-          <li key={`${icon.join('-')}-${name}`}>
-            <a target="_blank" rel="noopener noreferrer" href={href}>
-              <FontAwesomeIcon className={styles.icon} icon={icon} />
-              {' '}
-              {name}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </Layout>
-  );
-};
+const Contact = ({ contacts = [] }) => (
+  <Layout>
+    <ul className={styles['contact-list']}>
+      {contacts.map(({ href, icon, name}) => (
+        <li key={`${icon.join('-')}-${name}`}>
+          <a target="_blank" rel="noopener noreferrer" href={href}>
+            <FontAwesomeIcon className={styles.icon} icon={icon} />
+            {' '}
+            {name}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </Layout>
+);
 
 Contact.propTypes = {
   contacts: PropTypes.arrayOf(PropTypes.shape({
