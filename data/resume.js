@@ -25,7 +25,7 @@ const resume = [
             "date": "June 2020 - Present"
           },
           {
-            "title": "Senior Softare Engineer",
+            "title": "Senior Software Engineer",
             "date": "February 2019 - May 2020"
           }
         ],
@@ -39,7 +39,7 @@ const resume = [
         "date": "October 2017 - February 2019",
         "positions": [
           {
-            "title": "Senior Softare Engineer",
+            "title": "Senior Software Engineer",
             "date": "October 2017 - February 2019"
           }
         ],
@@ -53,7 +53,7 @@ const resume = [
         "date": "December 2015 - September 2017",
         "positions": [
           {
-            "title": "Senior Engineering Manager",
+            "title": "Senior Front End Engineer",
             "date": "June 2017 - Present"
           },
           {
