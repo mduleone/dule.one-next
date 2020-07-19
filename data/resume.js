@@ -86,11 +86,11 @@ const resume = [
         "name": "Innovative Software Solutions Inc.",
         "location": "Maple Shade, NJ",
         "displayName": "Innovative&nbsp;Software&nbsp;Solutions&nbsp;Inc., Maple&nbsp;Shade,&nbsp;NJ",
-        "date": "June 2014 - December 2015",
+        "date": "February 2012 - June 2014",
         "positions": [
           {
             "title": "COBOL Programmer",
-            "date": "June 2014 - December 2015"
+            "date": "February 2012 - June 2014"
           }
         ],
         "content": "Take specifications provided by clients and develop new software for Benefit Fund Administration. Analyze and assess bugs in existing software reported by clients and implement appropriate changes to resolve issues. Emphasis on product quality and turnaround."
