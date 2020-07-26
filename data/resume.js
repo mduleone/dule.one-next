@@ -54,7 +54,7 @@ const resume = [
         "positions": [
           {
             "title": "Senior Front End Engineer",
-            "date": "June 2017 - Present"
+            "date": "June 2017 - September 2017"
           },
           {
             "title": "Front End Engineer II",

@@ -4,6 +4,10 @@
   margin: 0.75em 0;
   text-align: justify;
 
+&:first-child {
+  margin-top: 0;
+}
+
   &-title {
     background-color: $duleone-red;
     border-radius: 3px;
