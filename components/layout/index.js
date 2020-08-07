@@ -9,7 +9,7 @@ import PrintCoa from './print-coa';
 
 const Layout = ({ children }) => {
   const router = useRouter();
-  const activeLink = navLinks.find(({href}) => router.pathname === href);
+  const activeLink = navLinks.find(({ href }) => router.pathname === href) || navLinks[0];
 
   return (
     <>
