@@ -1,0 +1,13 @@
+{
+  "presets": [
+    [
+      "next/babel",
+      {
+        "class-properties": {}
+      }
+    ]
+  ],
+  "plugins": [
+    "babel-plugin-styled-components"
+  ]
+}

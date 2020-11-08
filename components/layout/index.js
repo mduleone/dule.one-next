@@ -1,31 +1,50 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import styled from 'styled-components';
 
-import Favicon from './favicon';
 import Header, { navLinks } from './header';
 import PrintAddress from './print-address';
-import styles from './index.module.scss';
 import PrintCoa from './print-coa';
 
 const Layout = ({ children }) => {
   const router = useRouter();
-  const activeLink = navLinks.find(({href}) => router.pathname === href);
+  const activeLink = navLinks.find(({ href }) => router.pathname === href);
 
   return (
     <>
       <Head>
         <title>Matt DuLeone - {activeLink.name}</title>
-        <Favicon />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
       </Head>
       <Header activeLink={activeLink} />
       <PrintAddress />
       <PrintCoa />
-      <main className={styles.content}>
+      <Main>
         {children}
-      </main>
+      </Main>
     </>
   );
 };
 
 export default Layout;
+
+const Main = styled.main`
+  max-width: 736px;
+  margin: 3em 1em 0;
+  padding-top: 1em;
+
+  @media only screen and (min-width: 363px) {
+    margin: 4em 1em 0;
+  }
+
+  @media only screen and (min-width: 520px) {
+    margin: 2em 1em 0;
+  }
+  @media only screen and (min-width: 752px ) {
+    margin: 2em auto 0;
+  }
+
+  @media only print {
+    max-width: 100%;
+    margin: 36px 0;
+  }
+`;
