@@ -1,19 +1,52 @@
+import styled from 'styled-components';
+
 import Layout from '../../components/layout';
-import styles from './index.module.scss';
+import Name from '../../components/name';
 
 const Home = () => {
   return (
     <Layout>
-      <div className={styles.about}>
-        <span className={styles.line}>Software Engineer.</span>
-        <span className={styles.line}>Mathematician.</span>
-        <span className={styles.line}>Problem Solver.</span>
-      </div>
-      <div>
-        <img alt="DuLeone Coat of Arms" src="/images/duleone.jpg" className={styles.coa} />
-      </div>
+      <NameContainer>
+        <Name imageWidth={160} />
+      </NameContainer>
+      <About>
+        <AboutLine>Software Engineer.</AboutLine>
+        <AboutLine>Mathematician.</AboutLine>
+        <AboutLine>Problem Solver.</AboutLine>
+      </About>
+      <CoatOfArms alt="DuLeone Coat of Arms" src="/images/duleone.jpg" />
     </Layout>
   )
 }
 
 export default Home;
+
+const NameContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const About = styled.div`
+  padding-top: 48px;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+`;
+
+const AboutLine = styled.span`
+  &:nth-child(n+1) {
+    display: block;
+
+    @media only screen and (min-width: 520px) {
+      display: inline-block;
+      margin-left: 4px;
+    }
+  }
+`;
+
+const CoatOfArms = styled.img`
+  display: block;
+  margin: 48px auto 0;
+  max-width: 540px;
+  width: 100%;
+`;

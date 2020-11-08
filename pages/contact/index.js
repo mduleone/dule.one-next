@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import styled from 'styled-components';
 
 import Layout from '../../components/layout';
 import contacts from '../../data/contacts';
-
-import styles from './index.module.scss';
 
 export const getStaticProps = () => ({
   props: {
@@ -14,16 +13,16 @@ export const getStaticProps = () => ({
 
 const Contact = ({ contacts = [] }) => (
   <Layout>
-    <ul className={styles['contact-list']}>
-      {contacts.map(({ href, icon, name}) => (
+    <Container>
+      {contacts.map(({ href, icon, name }) => (
         <li key={`${icon.join('-')}-${name}`}>
-          <a target="_blank" rel="noopener noreferrer" href={href} className={styles.contact}>
-            <span className={styles['contact-name']}>{name}</span>
-            <FontAwesomeIcon className={styles.icon} icon={icon} />
-          </a>
+          <ContactItem target="_blank" rel="noopener noreferrer" href={href}>
+            <ContactName>{name}</ContactName>
+            <Icon icon={icon} />
+          </ContactItem>
         </li>
       ))}
-    </ul>
+    </Container>
   </Layout>
 );
 
@@ -40,3 +39,23 @@ Contact.defaultProps = {
 };
 
 export default Contact;
+
+const Container = styled.ul`
+  list-style: none;
+`;
+
+const ContactItem = styled.a`
+  position: relative;
+`;
+
+const ContactName = styled.span`
+  margin-left: 24px;
+`;
+
+const Icon = styled(FontAwesomeIcon)`
+  color: ${({ theme }) => theme.colors.black};
+  position: absolute;
+  vertical-align: middle;
+  width: 16px;
+  left: 0;
+`;

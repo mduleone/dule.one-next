@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import styled from 'styled-components';
 
 import ResumeSubSectionContent, { subSectionContentShape } from '../resume-sub-section-content';
-import styles from './index.module.scss';
 
 export const subSectionShape = {
   id: PropTypes.string,
@@ -24,42 +24,33 @@ const ResumeSubSection = ({ subsection }) => {
     (Array.isArray(subsection.positions) && subsection.positions.length > 1)
       ? subsection.positions.map((position) => (
         <div key={`${position.title}-${position.date}`}>
-          <h4 className={cx('u-inline-block', styles['subsection-position-title'])} dangerouslySetInnerHTML={{ __html: position.title }} />
-          <time className={styles['subsection-date']}>{position.date}</time>
+          <PositionTitle multi dangerouslySetInnerHTML={{ __html: position.title }} />
+          <SubSectionDate>{position.date}</SubSectionDate>
         </div>
       ))
       : (
-        <h4
-          className={styles['subsection-position-title']}
-          dangerouslySetInnerHTML={{ __html: subsection.positions[0].title }}
-        />
+        <PositionTitle dangerouslySetInnerHTML={{ __html: subsection.positions[0].title }} />
       )
   );
 
   return (
-    <div className={cx(styles.subsection, { 'u-print-half': subsection.printHalfWidth, 'u-no-print': subsection.hideForPrint })}>
-      <div className={styles['subsection-heading']}>
+    <SubSection className={cx({ 'print-half': subsection.printHalfWidth, 'no-print': subsection.hideForPrint })}>
+      <div>
         {subsection.href
           ? (
             <a href={subsection.href} target="_blank" rel="noopener noreferrer">
-              <h3
-                dangerouslySetInnerHTML={{ __html: subsection.displayName }}
-                className={styles['subsection-title']}
-              />
+              <SubSectionTitle dangerouslySetInnerHTML={{ __html: subsection.displayName }} />
             </a>
           )
           : (
-            <h3
-              dangerouslySetInnerHTML={{ __html: subsection.displayName }}
-              className={styles['subsection-title']}
-            />
+            <SubSectionTitle dangerouslySetInnerHTML={{ __html: subsection.displayName }} />
           )
         }
-        <time className={cx(styles['subsection-date'], { [styles['subsection-date-block']]: subsection.printHalfWidth })}>{subsection.date}</time>
+        <SubSectionDate block={subsection.printHalfWidth}>{subsection.date}</SubSectionDate>
         {positions}
         <ResumeSubSectionContent content={subsection.content} />
       </div>
-    </div>
+    </SubSection>
   );
 };
 
@@ -68,3 +59,66 @@ ResumeSubSection.propTypes = {
 };
 
 export default ResumeSubSection;
+
+const SubSection = styled.div`
+  margin-bottom: 0.75em;
+
+  @media only print {
+    page-break-inside: avoid;
+
+    &.print-half {
+      width: 50% !important;
+      display: inline-block;
+
+      & + & {
+        display: inline-block;
+        vertical-align: top;
+      }
+    }
+
+    &.no-print {
+      display: none !important;
+      visibility: hidden !important;
+    }
+  }
+`;
+
+const SubSectionTitle = styled.h3`
+  font-weight: bold;
+  font-size: 19px;
+  margin: 0;
+  display: inline-block;
+
+  @media only print {
+    font-size: 13pt;
+  }
+`;
+
+const SubSectionDate = styled.time`
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.duleoneRed};
+  display: block;
+
+  @media (min-width: 520px) {
+    float: ${({ block }) => block ? 'none' : 'right'};
+    vertical-align: top;
+  }
+
+  @media only print {
+    font-size: 9pt;
+    float: ${({ block }) => block ? 'none' : 'right'};
+  }
+`;
+
+const PositionTitle = styled.h4`
+  display: ${({ multi }) => multi ? 'inline-block' : 'block'};
+  font-style: italic;
+  font-weight: normal;
+  font-size: 19px;
+  margin: 0;
+  vertical-align: top;
+
+  @media only print {
+    font-size: 13pt;
+  }
+`;

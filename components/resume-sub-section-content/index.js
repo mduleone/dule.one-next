@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types';
-import cx from 'classnames';
-
-import styles from './index.module.scss';
+import styled from 'styled-components';
 
 const contentShape = {
   screenPrefix: PropTypes.string,
@@ -20,17 +18,16 @@ const ContentPiece = ({ piece }) => {
     copy,
   } = piece;
 
-  const Tag = href ? 'a' : 'div';
-  const linkProps = href ? { target: '_blank', rel: 'noopener noreferrer'} : {};
+  const linkProps = href ? { as: 'a', href, target: '_blank', rel: 'noopener noreferrer' } : {};
   return (
-    <Tag
+    <Content
       {...linkProps}
-      className={cx(styles['subsection-content'], { 'u-no-print': hideForPrint })}
+      hideForPrint={hideForPrint}
     >
-      {screenPrefix && <span className="u-no-print u-mr4">{screenPrefix}</span>}
-      {printPrefix && <span className="u-only-print u-mr4">{printPrefix}</span>}
+      {screenPrefix && <ScreenPrefix>{screenPrefix}</ScreenPrefix>}
+      {printPrefix && <PrintPrefix>{printPrefix}</PrintPrefix>}
       <span dangerouslySetInnerHTML={{ __html: copy }} />
-    </Tag>
+    </Content>
   );
 };
 
@@ -43,16 +40,47 @@ export const subSectionContentShape = [
   PropTypes.arrayOf(PropTypes.shape(contentShape)),
 ];
 
+const Content = styled.div`
+  @media only print {
+    text-align: left;
+    ${({ hideForPrint }) => hideForPrint ? `
+    display: none !important;
+    visibility: hidden !important;
+    ` : ''}
+  }
+`;
+
+const ScreenPrefix = styled.span`
+  margin-right: 4px;
+
+  @media only print {
+    display: none !important;
+    visibility: hidden !important;
+  }
+`;
+
+const PrintPrefix = styled.span`
+  margin-right: 4px;
+
+  @media only screen {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  @media only print {
+    display: inline-block !important;
+    visibility: visible !important;
+  }
+`;
+
 const ResumeSubSectionContent = ({ content }) => {
   if (!content) {
     return null;
   }
 
-  const wrapperClasses = styles['subsection-content-wrapper'];
-
   if (typeof content === 'string') {
     return (
-      <div className={wrapperClasses} dangerouslySetInnerHTML={{ __html: content }} />
+      <SubSectionContent dangerouslySetInnerHTML={{ __html: content }} />
     );
   }
 
@@ -60,12 +88,12 @@ const ResumeSubSectionContent = ({ content }) => {
 
   return content.length === 1
     ? (
-      <div className={wrapperClasses}><ContentPiece piece={singularPiece}/></div>
+      <SubSectionContent><ContentPiece piece={singularPiece} /></SubSectionContent>
     )
     : (
-      <ul className={wrapperClasses}>
-        {content.map((piece) => <li key={piece.copy}><ContentPiece piece={piece}/></li>)}
-      </ul>
+      <SubSectionContent as="ul">
+        {content.map((piece) => <li key={piece.copy}><ContentPiece piece={piece} /></li>)}
+      </SubSectionContent>
     );
 };
 
@@ -74,3 +102,7 @@ ResumeSubSectionContent.propTypes = {
 };
 
 export default ResumeSubSectionContent;
+
+const SubSectionContent = styled.div`
+  margin-top: 4px;
+`;
