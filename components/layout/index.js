@@ -36,7 +36,7 @@ const Main = styled.main`
     margin: 4em 1em 0;
   }
 
-  @media only screen and (min-width: 520px) {
+  @media only screen and (min-width: 590px) {
     margin: 2em 1em 0;
   }
   @media only screen and (min-width: 752px ) {

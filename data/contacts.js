@@ -10,6 +10,11 @@ const contacts = [
     name: 'matt.duleone',
   },
   {
+    icon: ['fab', 'instagram'],
+    href: 'https://www.instagram.com/mduleone',
+    name: '@mduleone',
+  },
+  {
     icon: ['fab', 'twitter'],
     href: 'https://twitter.com/Crimyon',
     name: '@Crimyon',

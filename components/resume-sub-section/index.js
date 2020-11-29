@@ -99,7 +99,7 @@ const SubSectionDate = styled.time`
   color: ${({ theme }) => theme.colors.duleoneRed};
   display: block;
 
-  @media (min-width: 520px) {
+  @media (min-width: 590px) {
     float: ${({ block }) => block ? 'none' : 'right'};
     vertical-align: top;
   }

@@ -22,8 +22,12 @@ const Home = () => {
 export default Home;
 
 const NameContainer = styled.div`
-  display: flex;
+  display: none;
   justify-content: center;
+
+  @media only screen and (min-width: 768px) {
+    display: flex;
+  }
 `;
 
 const About = styled.div`
@@ -37,7 +41,7 @@ const AboutLine = styled.span`
   &:nth-child(n+1) {
     display: block;
 
-    @media only screen and (min-width: 520px) {
+    @media only screen and (min-width: 590px) {
       display: inline-block;
       margin-left: 4px;
     }

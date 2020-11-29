@@ -75,7 +75,7 @@ const Container = styled.header`
     font-size: 25px;
   }
 
-  @media only screen and (min-width: 520px) {
+  @media only screen and (min-width: 590px) {
     flex-direction: row;
     font-size: 19px;
   }
@@ -92,7 +92,7 @@ const Container = styled.header`
 const Nav = styled.nav`
   width: 100%;
 
-  @media only screen and (min-width: 520px) {
+  @media only screen and (min-width: 590px) {
     width: auto;
   }
 
@@ -117,7 +117,7 @@ const NavListItem = styled.li`
     margin: 0 0;
   }
 
-  @media only screen and (min-width: 520px) {
+  @media only screen and (min-width: 590px) {
     padding: 0 0.5em;
 
     &:first-child {
@@ -140,7 +140,7 @@ const NavListItem = styled.li`
     top: 50%;
     transform: translate(-50%, -50%);
 
-    @media only screen and (min-width: 520px) {
+    @media only screen and (min-width: 590px) {
       content: '';
     }
   }

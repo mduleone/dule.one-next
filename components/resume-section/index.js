@@ -42,13 +42,18 @@ export default ResumeSection;
 
 const Section = styled.div`
   margin: 0.75em 0;
-  text-align: justify;
+  text-align: left;
+
+  @media only screen and (min-width: 590px) {
+    text-align: justify;
+  }
 
   &:first-child {
     margin-top: 0;
   }
 
   @media only print {
+    text-align: justify;
     page-break-inside: avoid;
     font-size: 12pt;
     display: ${({ hideForPrint }) => hideForPrint ? 'none' : 'inherit'};
