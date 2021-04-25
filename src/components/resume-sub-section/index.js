@@ -12,6 +12,7 @@ export const subSectionShape = {
   date: PropTypes.string,
   printHalfWidth: PropTypes.bool,
   hideForPrint: PropTypes.bool,
+  hideContentForPrint: PropTypes.bool,
   positions: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string,
     date: PropTypes.string,
@@ -48,7 +49,7 @@ const ResumeSubSection = ({ subsection }) => {
         }
         <SubSectionDate block={subsection.printHalfWidth}>{subsection.date}</SubSectionDate>
         {positions}
-        <ResumeSubSectionContent content={subsection.content} />
+        <ResumeSubSectionContent hideForPrint={subsection.hideContentForPrint} content={subsection.content} />
       </div>
     </SubSection>
   );
