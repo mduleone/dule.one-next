@@ -2,7 +2,7 @@ const resume = [
   {
     "id": "summary",
     "title": "Summary",
-    "content": "I am a highly motivated engineer who is excited to learn about and work with new and evolving technologies. I pride myself on being a fast learner, an innovative thinker, and a team player with advanced problem solving skills applicable to current issues. I care deeply about writing clean, robust, and maintainable code, and empowering others to do the same. An ideal role would include the ability to leverage my skills to create the future, while troubleshooting and solving problems of the past.",
+    "content": "Successful engineering leader with over nine years of meaningful software contributions. Extensive experience providing solutions across myriad industries including health and wellness, food-delivery services, and education, among others. Strong collaborative leader who has consistently over-delivered. Proven track record of building clean, robust, maintainable products, and empowering others to do the same. Managed several complex projects servicing stakeholders across multiple business units.",
   },
   {
     "id": "tech",
@@ -29,7 +29,7 @@ const resume = [
             "date": "February 2019 - May 2020",
           },
         ],
-        "content": "Technical owner of forward-facing Front End web presence. People manager of Front End Engineering team. Tech-lead of the Growth Product-Engineering team, focusing on the pre-purchase user experience. Architected and orchestrated carving out the Front End application from our React-rendering Rails monolith into a NextJS application — increasing engineer productivity and drastically decreasing site loading time. Improved key site-speed metrics by over 3-times, coupled with other conversion-enhancing tactics to increase site-wide conversion by over 7% while growing site traffic by 35%. Implemented integrations with third parties to ensure GDPR and CCPA privacy, cookie policy, and data-deletion requirement compliance. Partnered with internal Marketing stakeholders to transition ownership of Google Tag Manager from Marketing to Engineering to guarantee accurate data-delivery, Cookie-related privacy compliance, as well as a well-groomed Tag Manager implementation.",
+        "content": "Technical owner of forward-facing Front End web presence. People manager of Front End Engineering team. Tech-lead of the Growth Product-Engineering team, focusing on the pre-purchase user experience. In conjunction with the rest of the management team, built out Incident Response Procedures and engineering on-call responsibilities. Architected and orchestrated carving out the Front End application from our React-rendering Rails monolith into a NextJS application — increasing engineer productivity and drastically decreasing site loading time. Improved key site-speed metrics by over 3-times, coupled with other conversion-enhancing tactics to increase site-wide conversion by over 7% while growing site traffic by 35%. Implemented integrations with third parties to ensure GDPR and CCPA privacy, cookie policy, and data-deletion requirement compliance. Partnered with internal Marketing stakeholders to manage implementation of Tag Manager solution.",
       },
       {
         "id": "slice",
