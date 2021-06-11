@@ -79,7 +79,7 @@ const resume = [
             "date": "June 2014 - December 2015",
           },
         ],
-        "content": "Developer, technical generalist, and mathematician on Technical Innovation team at NBCUniversal. Ideate, design, prototype, and build solutions to problems across company footprint and all brands, from wearables in Universal Parks to web based solutions for Television networks including NBC, CNBC, and Telemundo.<br />Named Inventor on 2 Patents.<br />Participated in and acted as Technical/Developer Support during NBCUniversal hosted hackathons.",
+        "content": "Developer, technical generalist, and mathematician on Technical Innovation team at NBCUniversal. Ideate, design, prototype, and build solutions to problems across company footprint and all brands, from wearables in Universal Parks to web based solutions for Television networks including NBC, CNBC, and Telemundo. Participated in and acted as Technical/Developer Support during NBCUniversal hosted hackathons. Named Inventor on 2 Patents.",
         "hideContentForPrint": true,
       },
       {
