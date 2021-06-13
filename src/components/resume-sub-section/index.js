@@ -21,6 +21,9 @@ export const subSectionShape = {
 };
 
 const ResumeSubSection = ({ subsection }) => {
+  if (subsection.id === 'spacer') {
+    return <SubSectionSpacer />
+  }
   const positions = subsection.positions && (
     (Array.isArray(subsection.positions) && subsection.positions.length > 1)
       ? subsection.positions.map((position) => (
@@ -47,7 +50,7 @@ const ResumeSubSection = ({ subsection }) => {
             <SubSectionTitle dangerouslySetInnerHTML={{ __html: subsection.displayName }} />
           )
         }
-        <SubSectionDate block={subsection.printHalfWidth}>{subsection.date}</SubSectionDate>
+        <SubSectionDate printHalf={subsection.printHalfWidth}>{subsection.date}</SubSectionDate>
         {positions}
         <ResumeSubSectionContent hideForPrint={subsection.hideContentForPrint} content={subsection.content} />
       </div>
@@ -70,10 +73,11 @@ const SubSection = styled.div`
     &.print-half {
       width: 50% !important;
       display: inline-block;
+      max-width: calc(50% - 0.5em);
 
-      & + & {
-        display: inline-block;
+      &:nth-child(odd) {
         vertical-align: top;
+        margin-left: 1em;
       }
     }
 
@@ -91,7 +95,7 @@ const SubSectionTitle = styled.h3`
   display: inline-block;
 
   @media only print {
-    font-size: 13pt;
+    font-size: 12pt;
   }
 `;
 
@@ -101,13 +105,13 @@ const SubSectionDate = styled.time`
   display: block;
 
   @media (min-width: 590px) {
-    float: ${({ block }) => block ? 'none' : 'right'};
+    float: right;
     vertical-align: top;
   }
 
   @media only print {
     font-size: 9pt;
-    float: ${({ block }) => block ? 'none' : 'right'};
+    float: ${({ printHalf }) => printHalf ? 'none' : 'right'};
   }
 `;
 
@@ -120,6 +124,11 @@ const PositionTitle = styled.h4`
   vertical-align: top;
 
   @media only print {
-    font-size: 13pt;
+    font-size: 12pt;
   }
+`;
+
+const SubSectionSpacer = styled.div`
+  display: none;
+  visibility: hidden;
 `;

@@ -2,7 +2,7 @@ const resume = [
   {
     "id": "summary",
     "title": "Summary",
-    "content": "Successful engineering leader with over nine years of meaningful software contributions. Extensive experience providing solutions across myriad industries including health and wellness, food-delivery services, and education, among others. Strong collaborative leader who has consistently over-delivered. Proven track record of building clean, robust, maintainable products, and empowering others to do the same. Managed several complex projects servicing stakeholders across multiple business units.",
+    "content": "Successful engineering leader with over nine years of meaningful software contributions. Extensive experience providing solutions across a myriad of industries including health and wellness, food-delivery services, and education, among others. Strong collaborative leader who has consistently over-delivered. Proven track record of building clean, robust, maintainable products, and empowering others to do the same. Managed several complex projects servicing stakeholders across multiple business units.",
   },
   {
     "id": "tech",
@@ -80,7 +80,6 @@ const resume = [
           },
         ],
         "content": "Developer, technical generalist, and mathematician on Technical Innovation team at NBCUniversal. Ideate, design, prototype, and build solutions to problems across company footprint and all brands, from wearables in Universal Parks to web based solutions for Television networks including NBC, CNBC, and Telemundo. Participated in and acted as Technical/Developer Support during NBCUniversal hosted hackathons. Named Inventor on 2 Patents.",
-        "hideContentForPrint": true,
       },
       {
         "id": "issi",
@@ -95,7 +94,6 @@ const resume = [
           },
         ],
         "content": "Take specifications provided by clients and develop new software for Benefit Fund Administration. Analyze and assess bugs in existing software reported by clients and implement appropriate changes to resolve issues. Emphasis on product quality and turnaround.",
-        "hideContentForPrint": true,
       },
       {
         "id": "tdbank",
@@ -197,6 +195,7 @@ const resume = [
         "displayName": "Amazon IoT Button Starter Kit",
         "date": "October 2016",
         "content": "Built during <a href=\"https://hacktoberfest.digitalocean.com/\" target=\"_blank\">Hacktoberfest 2016</a>, this is to serve as a starting point for projects that want to use an <a href=\"https://aws.amazon.com/iotbutton/\" target=\"_blank\">Amazon IoT Button</a> in conjunction with a web interface.<br /><a href=\"https://github.com/mduleone/iotbutton-starter\" target=\"_blank\">Repository</a><br />",
+        "hideForPrint": true,
       },
       {
         "id": "5cardAlexa",
@@ -209,7 +208,8 @@ const resume = [
         "id": "poker",
         "displayName": "Node Poker",
         "date": "January 2016",
-        "content": "NodeJS implementation of hand analyzers for several poker variations, including Five Card Draw and Texas Hold'em. Includes an Express server to determine the winner of a poker hand and a simple front end experiment for Texas Hold'em hands.<br /><a href=\"https://github.com/mduleone/nodePoker\" target=\"_blank\">Repository</a><br /><a href=\"/holdemAnalyzer\" target=\"_blank\" >Play</a>",
+        "content": "NodeJS implementation of hand analyzers for several poker variations, including Five Card Draw and Texas Hold'em.<br /><a href=\"https://github.com/mduleone/nodePoker\" target=\"_blank\">Repository</a><br /><a href=\"/holdemAnalyzer\" target=\"_blank\" >Play</a>",
+        "printHalfWidth": true,
       },
       {
         "id": "utterance",
@@ -218,17 +218,20 @@ const resume = [
         "content": "Simple CLI intended to make creating complex Alexa Skill Utterances simpler.<br /><a href=\"https://github.com/mduleone/makeUtterance\" target=\"_blank\">Repository</a><br /><a href=\"https://www.npmjs.com/package/make-utterance\" target=\"_blank\" >npm</a>",
         "hideForPrint": true,
       },
+      { "id": "spacer"},
       {
         "id": "craps",
         "displayName": "Casino Craps",
         "date": "February 2013 - January 2014",
         "content": "Front end implementation of the popular casino game Craps. Built as a means to learn JavaScript, JQuery, how to interact with the HTML5 canvas, and CSS.<br /><a href=\"https://github.com/mduleone/craps\" target=\"_blank\" >Repository</a><br /><a href=\"https://dule.one/craps\" target=\"_blank\" >Play</a>",
+        "printHalfWidth": true,
       },
     ],
   },
   {
     "id": "education",
     "title": "Education",
+    "printHalfWidth": true,
     "subSections": [
       {
         "id": "rutgers",

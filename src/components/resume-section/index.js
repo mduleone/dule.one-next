@@ -54,7 +54,6 @@ const Section = styled.div`
 
   @media only print {
     text-align: justify;
-    page-break-inside: avoid;
     font-size: 12pt;
     display: ${({ hideForPrint }) => hideForPrint ? 'none' : 'inherit'};
     visibility: ${({ hideForPrint }) => hideForPrint ? 'hidden' : 'inherit'};

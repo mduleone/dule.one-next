@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const contentShape = {
   screenPrefix: PropTypes.string,
@@ -107,9 +107,9 @@ const SubSectionContent = styled.div`
   margin-top: 4px;
 
   @media only print {
-    ${({ hideForPrint }) => hideForPrint ? `
+    ${({ hideForPrint }) => hideForPrint && css`
       display: none !important;
       visibility: hidden !important;
-    ` : ''}
+    `}
   }
 `;
