@@ -18,7 +18,11 @@ export const sectionShape = {
 };
 
 const ResumeSection = ({ section }) => (
-  <Section hideForPrint={section.hideForPrint}>
+  <Section
+    hideForPrint={section.hideForPrint}
+    noPrintTopMargin={section.noPrintTopMargin}
+    noPrintBottomMargin={section.noPrintBottomMargin}
+  >
     <SectionTitle>
       {section.printPrefix && (
         <PrintPrefix>
@@ -57,6 +61,8 @@ const Section = styled.div`
     font-size: 12pt;
     display: ${({ hideForPrint }) => hideForPrint ? 'none' : 'inherit'};
     visibility: ${({ hideForPrint }) => hideForPrint ? 'hidden' : 'inherit'};
+    margin-top: ${({ noPrintTopMargin }) => noPrintTopMargin ? 0 : '0.75em'};
+    margin-bottom: ${({ noPrintBottomMargin }) => noPrintBottomMargin ? 0 : '0.75em'};
   }
 `;
 

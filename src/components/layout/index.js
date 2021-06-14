@@ -45,6 +45,6 @@ const Main = styled.main`
 
   @media only print {
     max-width: 100%;
-    margin: 36px 0;
+    margin: 36px 0 0;
   }
 `;
