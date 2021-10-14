@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const contentShape = {
   screenPrefix: PropTypes.string,
@@ -73,14 +73,14 @@ const PrintPrefix = styled.span`
   }
 `;
 
-const ResumeSubSectionContent = ({ content }) => {
+const ResumeSubSectionContent = ({ content, hideForPrint }) => {
   if (!content) {
     return null;
   }
 
   if (typeof content === 'string') {
     return (
-      <SubSectionContent dangerouslySetInnerHTML={{ __html: content }} />
+      <SubSectionContent hideForPrint={hideForPrint} dangerouslySetInnerHTML={{ __html: content }} />
     );
   }
 
@@ -88,10 +88,10 @@ const ResumeSubSectionContent = ({ content }) => {
 
   return content.length === 1
     ? (
-      <SubSectionContent><ContentPiece piece={singularPiece} /></SubSectionContent>
+      <SubSectionContent hideForPrint={hideForPrint}><ContentPiece piece={singularPiece} /></SubSectionContent>
     )
     : (
-      <SubSectionContent as="ul">
+      <SubSectionContent hideForPrint={hideForPrint} as="ul">
         {content.map((piece) => <li key={piece.copy}><ContentPiece piece={piece} /></li>)}
       </SubSectionContent>
     );
@@ -105,4 +105,11 @@ export default ResumeSubSectionContent;
 
 const SubSectionContent = styled.div`
   margin-top: 4px;
+
+  @media only print {
+    ${({ hideForPrint }) => hideForPrint && css`
+      display: none !important;
+      visibility: hidden !important;
+    `}
+  }
 `;
