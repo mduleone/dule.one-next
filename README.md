@@ -8,7 +8,7 @@ First, run the development server:
 yarn dev
 ```
 
-Then, you'll be able to see the application running at http://localhost:3000. Edit files in [`src/pages`](./src/pages) to edit the various pages. All of the various pages are powered by data in he [`src/data`](./src/data) directory.
+Then, you'll be able to see the application running at http://localhost:3000. Edit files in [`src/pages`](./src/pages) to edit the various pages. All of the various pages are powered by data in the [`src/data`](./src/data) directory.
 
 ## Generating the Resume
 
