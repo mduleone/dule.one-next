@@ -1,30 +1,19 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## Development
 
 First, run the development server:
 
-```bash
-npm run dev
-# or
+```sh
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then, you'll be able to see the application running at http://localhost:3000. Edit files in [`src/pages`](./src/pages) to edit the various pages. All of the various pages are powered by data in he [`src/data`](./src/data) directory.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Generating the Resume
 
-## Learn More
+In Chrome on macOS, navigate to /resume and print the page to either to a PDF or a printer, and remember to remove the headers and footers for the cleanest version, without the added page title, date, or url.
 
-To learn more about Next.js, take a look at the following resources:
+## Deploying
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This application is cloned to a digital ocean droplet, statically exported, and then served via Apache. See it live at https://matt.dule.one.
