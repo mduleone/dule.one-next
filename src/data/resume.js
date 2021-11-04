@@ -4,7 +4,7 @@ const resume = [
     title: "Summary",
     noPrintBottomMargin: true,
     webOrder: -1,
-    content: "Successful engineering leader with over nine years of meaningful software contributions. Extensive experience providing solutions across a myriad of industries including health and wellness, food-delivery services, and education, among others. Strong collaborator who has consistently over-delivered. Proven track record of building clean, robust, maintainable products, and empowering others to do the same. Comfortable working on cross functional teams.",
+    content: "Successful engineering leader with over a decade of meaningful software contributions. Extensive experience providing solutions across a myriad of industries including health and wellness, food-delivery services, and education, among others. Strong collaborator who has consistently over-delivered. Proven track record of building clean, robust, maintainable products, and empowering others to do the same. Comfortable working on cross functional teams.",
   },
   {
     id: "work",
@@ -19,8 +19,12 @@ const resume = [
         date: "February 2019 - Present",
         positions: [
           {
+            title: "Director of Engineering, Digital Product",
+            date: "December 2021 - Present",
+          },
+          {
             title: "Senior Engineering Manager",
-            date: "June 2020 - Present",
+            date: "June 2020 - November 2021",
           },
           {
             title: "Senior Software Engineer",
@@ -28,6 +32,7 @@ const resume = [
           },
         ],
         content: "Technical owner of forward-facing Front End web presence. People manager of Front End Engineering team. Tech-lead of the Growth Product-Engineering team, focusing on the pre-purchase user experience. In conjunction with the rest of the management team, built out Incident Response Procedures and engineering on-call responsibilities. Architected and orchestrated carving out the Front End application from our React-rendering Rails monolith into a Next.js application — increasing engineer productivity and drastically decreasing site loading time. Improved key site-speed metrics by over 3-times, coupled with other conversion-enhancing tactics to increase site-wide conversion by over 7% while growing site traffic by 35%. Implemented integrations with third parties to ensure GDPR and CCPA privacy, cookie policy, and data-deletion requirement compliance. Partnered with internal Marketing stakeholders to manage implementation of Tag Manager solution.",
+        hideContent: true,
       },
       {
         id: "slice",
