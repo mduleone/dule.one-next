@@ -36,7 +36,7 @@ const Header = ({ activeLink }) => {
           {navLinks.map(({ name, href }) => (
             <NavListItem key={name}>
               <Link href={href}>
-                <NavListItemLink active={activeLink.href === href}>
+                <NavListItemLink $active={activeLink.href === href}>
                   {name}
                 </NavListItemLink>
               </Link>
@@ -158,7 +158,7 @@ const NavListItemLink = styled.a`
     left: 0;
     right: 0;
     height: 1px;
-    transform: scaleX(${({ active }) => active ? 1 : 0});
+    transform: scaleX(${({ $active }) => $active ? 1 : 0});
     background-color: ${({ theme }) => theme.colors.linkColor};
     transition: transform linear 250ms;
     transform-origin: right;

@@ -2,16 +2,14 @@ const resume = [
   {
     id: "summary",
     title: "Summary",
+    noPrintBottomMargin: true,
+    webOrder: -1,
     content: "Successful engineering leader with over nine years of meaningful software contributions. Extensive experience providing solutions across a myriad of industries including health and wellness, food-delivery services, and education, among others. Strong collaborator who has consistently over-delivered. Proven track record of building clean, robust, maintainable products, and empowering others to do the same. Comfortable working on cross functional teams.",
-  },
-  {
-    id: "tech",
-    title: "Technology Proficiencies",
-    content: "JavaScript, React, Next.js, Redux, Node.js, SASS, Express, d3.js, HTML, CSS, Ruby, Rails, GraphQL, PHP, Android, AndroidWear, C#, Matlab, ImageMagick, Java, COBOL, Python",
   },
   {
     id: "work",
     title: "Professional Experience",
+    noPrintBottomMargin: true,
     subSections: [
       {
         id: "care/of",
@@ -115,6 +113,8 @@ const resume = [
   {
     id: "awards",
     title: "Honors and Awards",
+    noPrintBottomMargin: true,
+    noPrintTopMargin: true,
     subSections: [
       {
         id: "patents",
@@ -228,6 +228,13 @@ const resume = [
         printHalfWidth: true,
       },
     ],
+  },
+  {
+    id: "tech",
+    title: "Technology Proficiencies",
+    noPrintTopMargin: true,
+    content: "JavaScript, React, Next.js, Redux, Node.js, SASS, Express, d3.js, HTML, CSS, Ruby, Rails, GraphQL, PHP, Android, AndroidWear, C#, Matlab, ImageMagick, Java, COBOL, Python",
+    webOrder: -1,
   },
   {
     id: "education",

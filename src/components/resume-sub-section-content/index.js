@@ -22,7 +22,7 @@ const ContentPiece = ({ piece }) => {
   return (
     <Content
       {...linkProps}
-      hideForPrint={hideForPrint}
+      $hideForPrint={hideForPrint}
     >
       {screenPrefix && <ScreenPrefix>{screenPrefix}</ScreenPrefix>}
       {printPrefix && <PrintPrefix>{printPrefix}</PrintPrefix>}
@@ -43,7 +43,7 @@ export const subSectionContentShape = [
 const Content = styled.div`
   @media only print {
     text-align: left;
-    ${({ hideForPrint }) => hideForPrint ? `
+    ${({ $hideForPrint }) => $hideForPrint ? `
     display: none !important;
     visibility: hidden !important;
     ` : ''}
@@ -80,7 +80,7 @@ const ResumeSubSectionContent = ({ content, hideForPrint }) => {
 
   if (typeof content === 'string') {
     return (
-      <SubSectionContent hideForPrint={hideForPrint} dangerouslySetInnerHTML={{ __html: content }} />
+      <SubSectionContent $hideForPrint={hideForPrint} dangerouslySetInnerHTML={{ __html: content }} />
     );
   }
 
@@ -88,10 +88,10 @@ const ResumeSubSectionContent = ({ content, hideForPrint }) => {
 
   return content.length === 1
     ? (
-      <SubSectionContent hideForPrint={hideForPrint}><ContentPiece piece={singularPiece} /></SubSectionContent>
+      <SubSectionContent $hideForPrint={hideForPrint}><ContentPiece piece={singularPiece} /></SubSectionContent>
     )
     : (
-      <SubSectionContent hideForPrint={hideForPrint} as="ul">
+      <SubSectionContent $hideForPrint={hideForPrint} as="ul">
         {content.map((piece) => <li key={piece.copy}><ContentPiece piece={piece} /></li>)}
       </SubSectionContent>
     );
@@ -107,7 +107,7 @@ const SubSectionContent = styled.div`
   margin-top: 4px;
 
   @media only print {
-    ${({ hideForPrint }) => hideForPrint && css`
+    ${({ $hideForPrint }) => $hideForPrint && css`
       display: none !important;
       visibility: hidden !important;
     `}

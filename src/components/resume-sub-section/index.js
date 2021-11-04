@@ -28,7 +28,7 @@ const ResumeSubSection = ({ subsection }) => {
     (Array.isArray(subsection.positions) && subsection.positions.length > 1)
       ? subsection.positions.map((position) => (
         <div key={`${position.title}-${position.date}`}>
-          <PositionTitle multi dangerouslySetInnerHTML={{ __html: position.title }} />
+          <PositionTitle $multi dangerouslySetInnerHTML={{ __html: position.title }} />
           <SubSectionDate>{position.date}</SubSectionDate>
         </div>
       ))
@@ -50,7 +50,7 @@ const ResumeSubSection = ({ subsection }) => {
             <SubSectionTitle dangerouslySetInnerHTML={{ __html: subsection.displayName }} />
           )
         }
-        <SubSectionDate printHalf={subsection.printHalfWidth}>{subsection.date}</SubSectionDate>
+        <SubSectionDate $printHalf={subsection.printHalfWidth}>{subsection.date}</SubSectionDate>
         {positions}
         <ResumeSubSectionContent hideForPrint={subsection.hideContentForPrint} content={subsection.content} />
       </div>
@@ -66,6 +66,10 @@ export default ResumeSubSection;
 
 const SubSection = styled.div`
   margin-bottom: 0.75em;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 
   @media only print {
     page-break-inside: avoid;
@@ -111,12 +115,12 @@ const SubSectionDate = styled.time`
 
   @media only print {
     font-size: 9pt;
-    float: ${({ printHalf }) => printHalf ? 'none' : 'right'};
+    float: ${({ $printHalf }) => $printHalf ? 'none' : 'right'};
   }
 `;
 
 const PositionTitle = styled.h4`
-  display: ${({ multi }) => multi ? 'inline-block' : 'block'};
+  display: ${({ $multi }) => $multi ? 'inline-block' : 'block'};
   font-style: italic;
   font-weight: normal;
   font-size: 19px;

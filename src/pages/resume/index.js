@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 import resume from '../../data/resume';
 import Layout from '../../components/layout';
@@ -13,7 +14,9 @@ export const getStaticProps = () => ({
 const Resume = ({ resume }) => {
   return (
     <Layout>
-      {resume.map((section) => <ResumeSection key={section.id} section={section} />)}
+      <ScreenFlex>
+        {resume.map((section) => <ResumeSection key={section.id} section={section} />)}
+      </ScreenFlex>
     </Layout>
   );
 };
@@ -23,5 +26,12 @@ Resume.propTypes = {
 };
 
 Resume.defaultProps = {};
+
+const ScreenFlex = styled.div`
+  @media only screen {
+    display: flex;
+    flex-direction: column;
+  }
+`;
 
 export default Resume;

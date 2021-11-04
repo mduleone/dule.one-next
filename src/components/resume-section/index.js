@@ -15,13 +15,15 @@ export const sectionShape = {
   ]),
   subSections: PropTypes.arrayOf(PropTypes.shape(subSectionShape)),
   hideForPrint: PropTypes.bool,
+  webOrder: PropTypes.number,
 };
 
 const ResumeSection = ({ section }) => (
   <Section
-    hideForPrint={section.hideForPrint}
-    noPrintTopMargin={section.noPrintTopMargin}
-    noPrintBottomMargin={section.noPrintBottomMargin}
+    $hideForPrint={section.hideForPrint}
+    $noPrintTopMargin={section.noPrintTopMargin}
+    $noPrintBottomMargin={section.noPrintBottomMargin}
+    $webOrder={section.webOrder}
   >
     <SectionTitle>
       {section.printPrefix && (
@@ -56,13 +58,21 @@ const Section = styled.div`
     margin-top: 0;
   }
 
+  @media only screen {
+    order: ${({ $webOrder }) => $webOrder};
+  }
+
   @media only print {
     text-align: justify;
     font-size: 12pt;
-    display: ${({ hideForPrint }) => hideForPrint ? 'none' : 'inherit'};
-    visibility: ${({ hideForPrint }) => hideForPrint ? 'hidden' : 'inherit'};
-    margin-top: ${({ noPrintTopMargin }) => noPrintTopMargin ? 0 : '0.75em'};
-    margin-bottom: ${({ noPrintBottomMargin }) => noPrintBottomMargin ? 0 : '0.75em'};
+    display: ${({ $hideForPrint }) => $hideForPrint ? 'none' : 'inherit'};
+    visibility: ${({ $hideForPrint }) => $hideForPrint ? 'hidden' : 'inherit'};
+    margin-top: ${({ $noPrintTopMargin }) => $noPrintTopMargin ? 0 : '0.75em'};
+    margin-bottom: ${({ $noPrintBottomMargin }) => $noPrintBottomMargin ? 0 : '0.75em'};
+
+    &:first-child {
+      margin-top: 0.75em;
+    }
   }
 `;
 
