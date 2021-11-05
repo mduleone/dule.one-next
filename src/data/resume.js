@@ -13,9 +13,9 @@ const resume = [
     subSections: [
       {
         id: "care/of",
-        name: "Care/Of",
+        name: "Care/of",
         location: "New York, NY",
-        displayName: "Care/Of,&nbsp;New&nbsp;York,&nbsp;NY",
+        displayName: "Care/of,&nbsp;New&nbsp;York,&nbsp;NY",
         date: "February 2019 - Present",
         positions: [
           {
