@@ -43,10 +43,10 @@ export const subSectionContentShape = [
 const Content = styled.div`
   @media only print {
     text-align: left;
-    ${({ $hideForPrint }) => $hideForPrint ? `
-    display: none !important;
-    visibility: hidden !important;
-    ` : ''}
+    ${({ $hideForPrint }) => $hideForPrint && css`
+      display: none !important;
+      visibility: hidden !important;
+    `}
   }
 `;
 
@@ -60,14 +60,11 @@ const ScreenPrefix = styled.span`
 `;
 
 const PrintPrefix = styled.span`
-  margin-right: 4px;
-
-  @media only screen {
-    display: none !important;
-    visibility: hidden !important;
-  }
+  display: none !important;
+  visibility: hidden !important;
 
   @media only print {
+    margin-right: 4px;
     display: inline-block !important;
     visibility: visible !important;
   }
