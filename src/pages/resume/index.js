@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import resume from '../../data/resume';
 import Layout from '../../components/layout';
+import PrintHelper from '../../components/print-helper';
 import ResumeSection, { sectionShape } from '../../components/resume-section';
 
 export const getStaticProps = () => ({
@@ -17,6 +18,7 @@ const Resume = ({ resume }) => {
       <ScreenFlex>
         {resume.map((section) => <ResumeSection key={section.id} section={section} />)}
       </ScreenFlex>
+      <PrintHelper /  >
     </Layout>
   );
 };
