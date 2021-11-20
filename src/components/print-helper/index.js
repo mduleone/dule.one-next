@@ -4,27 +4,41 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const PrintHelper = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [didOpen, setDidOpen] = useState(false);
   const close = () => setIsOpen(false);
-  const toggleOpen = () => setIsOpen((prev) => !prev);
+  const clickButton = () => {
+    if (!didOpen) {
+      setDidOpen(true);
+    }
+    setIsOpen((prev) => !prev);
+  };
 
   return (
+    <>
+    {isOpen && <Mask onClick={close} role="button" />}
     <Container>
-      {isOpen && <Mask onClick={close} aria-role="button" />}
-      <Button onClick={toggleOpen} type="button">
+      <Button onClick={clickButton} type="button" $animate={!didOpen}>
         <span>
           <Icon icon={['fas', 'print']} />
-          <PrintCopy>
+          <DesktopFacingCopy>
             Print
-          </PrintCopy>
+          </DesktopFacingCopy>
         </span>
       </Button>
       {isOpen && (
         <PopUp>
-          Do you want to print my resume? Need a PDF version?
-          <br /><br />
-          <PrintButton onClick={() => window.print()}>Simply print this page! (click here)</PrintButton>
-          <br /><br />
-          I've found the best version prints from Google Chrome on macOS.
+          <Top>
+            Do you want to print my resume? Need a PDF version?
+          </Top>
+          <PrintButton onClick={() => window.print()}>
+            Simply print this page!
+            <div>
+              (click here)
+            </div>
+          </PrintButton>
+          <Bottom>
+            I've found the best version prints from Google Chrome on macOS.
+          </Bottom>
           <Triangle xmlns="http://www.w3.org/2000/svg" viewBox="0,0,80,80">
             <defs>
               <filter id="shadow">
@@ -36,18 +50,28 @@ const PrintHelper = () => {
         </PopUp>
       )}
     </Container>
+    </>
   );
 };
 
 export default PrintHelper;
 
+const Mask = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+`;
+
 const Container = styled.div`
   position: fixed;
   right: 1em;
-  bottom: 3em;
+  bottom: 1em;
 
-  @media only screen and (min-width: 768px) {
-    bottom: 5em;
+  @media only screen and (min-width: 980px) {
+    transform: translateX(calc(-50% + 513px));
+    right: 50%;
   }
 
   @media only print {
@@ -55,11 +79,11 @@ const Container = styled.div`
   }
 `;
 
-const PrintCopy = styled.span`
+const DesktopFacingCopy = styled.span`
   display: none;
   margin-left: 8px;
 
-  @media only screen and (min-width: 768px) {
+  @media only screen and (min-width: 980px) {
     display: inline;
   }
 `;
@@ -69,19 +93,38 @@ const PopUp = styled.div`
   border-radius: 6px;
   bottom: calc(100% + 20px);
   box-shadow: 0 0 5px ${({ theme }) => theme.colors.shadowColor};
-  min-width: 210px;
+  display: flex;
+  min-width: 500px;
   position: absolute;
   right: 0;
   padding: 0.5em;
   text-align: center;
+  align-items: center;
+
+  @media only screen and (min-height: 400px) {
+    display: block;
+    min-width: 220px;
+  }
 `;
 
-const Mask = styled.div`
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+const Top = styled.p`
+margin-bottom: 0;
+margin-right: 16px;
+
+@media only screen and (min-height: 400px) {
+  margin-bottom: 16px;
+  margin-right: 0;
+}
+`;
+
+const Bottom = styled.p`
+margin-top: 0;
+margin-left: 16px;
+
+@media only screen and (min-height: 400px) {
+  margin-top: 16px;
+  margin-left: 0;
+}
 `;
 
 const Triangle = styled.svg`
@@ -99,6 +142,12 @@ const Triangle = styled.svg`
   }
 `;
 
+const Icon = styled(FontAwesomeIcon)`
+  color: ${({ theme }) => theme.colors.duleoneRed};
+  display: inline;
+`;
+
+
 const PrintButton = styled.button`
   appearance: none;
   -webkit-appearance: none;
@@ -108,7 +157,8 @@ const PrintButton = styled.button`
   font-family: inherit;
   font-size: 100%;
   display: inline;
-  padding: 3px;
+  padding: 4px;
+  min-width: 130px;
   margin: 0;
   box-shadow: 0 0 3px ${({ theme }) => theme.colors.shadowColor};
   border-radius: 6px;
@@ -128,7 +178,9 @@ const Button = styled.button`
   margin: 0;
   cursor: pointer;
   max-width: 100px;
-  animation: bounce 5s infinite;
+  animation: bounce 5s;
+  animation-iteration-count: ${({ $animate }) => $animate ? 'infinite' : '0'};
+  animation-delay: 5s;
   padding: 8px;
 
   @keyframes bounce {
@@ -156,9 +208,4 @@ const Button = styled.button`
       transform: translateY(-2px);
     }
   }
-`;
-
-const Icon = styled(FontAwesomeIcon)`
-  color: ${({ theme }) => theme.colors.duleoneRed};
-  display: inline;
 `;
