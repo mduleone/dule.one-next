@@ -28,7 +28,7 @@ const PrintHelper = () => {
       {isOpen && (
         <PopUp>
           <Top>
-            Do you want to print my resume? Need a PDF version?
+            Do you want to print my resume? Need a PDF?
           </Top>
           <PrintButton onClick={() => window.print()}>
             Simply print this page!
@@ -37,7 +37,7 @@ const PrintHelper = () => {
             </div>
           </PrintButton>
           <Bottom>
-            I've found the best version prints from Google Chrome on macOS.
+            I've found the best version prints from Chrome on macOS.
           </Bottom>
           <Triangle xmlns="http://www.w3.org/2000/svg" viewBox="0,0,80,80">
             <defs>
@@ -103,7 +103,7 @@ const PopUp = styled.div`
 
   @media only screen and (min-height: 400px) {
     display: block;
-    min-width: 220px;
+    min-width: 230px;
   }
 `;
 
