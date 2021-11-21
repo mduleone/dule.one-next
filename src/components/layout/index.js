@@ -28,7 +28,7 @@ const Layout = ({ children }) => {
 export default Layout;
 
 const Main = styled.main`
-  max-width: 736px;
+  max-width: calc(768px - 2em);
   margin: 3em 1em 0;
   padding-top: 1em;
 
@@ -39,7 +39,7 @@ const Main = styled.main`
   @media only screen and (min-width: 590px) {
     margin: 2em 1em 0;
   }
-  @media only screen and (min-width: 752px ) {
+  @media only screen and (min-width: 768px ) {
     margin: 2em auto 0;
   }
 

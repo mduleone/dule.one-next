@@ -1,3 +1,4 @@
+import '@fortawesome/fontawesome-svg-core/styles.css';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 
 import '../util/font-awesome';

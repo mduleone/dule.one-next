@@ -69,8 +69,8 @@ const Container = styled.div`
   right: 1em;
   bottom: 1em;
 
-  @media only screen and (min-width: 980px) {
-    transform: translateX(calc(-50% + 513px));
+  @media only screen and (min-width: 966px) {
+    transform: translateX(calc(-50% + (768px / 2) + 2em + 83px));
     right: 50%;
   }
 
@@ -83,7 +83,7 @@ const DesktopFacingCopy = styled.span`
   display: none;
   margin-left: 8px;
 
-  @media only screen and (min-width: 980px) {
+  @media only screen and (min-width: 768px) {
     display: inline;
   }
 `;
@@ -154,6 +154,7 @@ const PrintButton = styled.button`
   border-width: 0;
   border-radius: 0;
   background-color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.linkColor};
   font-family: inherit;
   font-size: 100%;
   display: inline;
