@@ -3,7 +3,7 @@ const projects = [
     title: "Tranquil Island",
     href: "https://tranquil-island.glitch.me",
     repo: "https://glitch.com/edit/#!/tranquil-island",
-    desc: "Generative Art!<br /><br />Inspired by a lightning talk at <a href='https://manhattanjs.com'>ManhattanJS</a> from <a href='https://twitter.com/twholman'>Tim Holman</a> about <a href='https://www.youtube.com/watch?v=4Se0_w0ISYk'>generative art (video from JSConf Austraila)</a>, and then again inspired to sit down and play with things by a talk on GPU generated art by <a href='https://twitter.com/MaxBittker'>Max Bittker</a> at <a href='https://dinosaurjs.org'>DinosaurJS</a>.",
+    desc: "Generative Art!<br /><br />Inspired by a lightning talk at <a href=\"https://manhattanjs.com\" target=\"_blank\" rel=\"noopener noreferrer\">ManhattanJS</a> from <a href=\"https://twitter.com/twholman\">Tim Holman</a> about <a href=\"https://www.youtube.com/watch?v=4Se0_w0ISYk\">generative art (video from JSConf Austraila)</a>, and then again inspired to sit down and play with things by a talk on GPU generated art by <a href=\"https://twitter.com/MaxBittker\" target=\"_blank\" rel=\"noopener noreferrer\">Max Bittker</a> at <a href=\"https://dinosaurjs.org\" target=\"_blank\" rel=\"noopener noreferrer\">DinosaurJS</a>.",
   },
   {
     title: "Crapshoot",
@@ -15,7 +15,7 @@ const projects = [
     title: "Redux Majic",
     href: "https://www.npmjs.com/package/redux-majic",
     repo: "https://github.com/mduleone/redux-majic",
-    desc: "\"Module Architecture for JsonAPI Ingesting Consumers\"<br /><br />Redux Majic makes building client-side JavaScript applications using <a href='http://redux.js.org/' target='_blank'>Redux</a> against <a href='http://jsonapi.org/' target='_blank'>JsonAPI</a> backends easier.",
+    desc: "\"Module Architecture for JsonAPI Ingesting Consumers\"<br /><br />Redux Majic makes building client-side JavaScript applications using <a href=\"http://redux.js.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Redux</a> against <a href=\"http://jsonapi.org/\" target=\"_blank\" rel=\"noopener noreferrer\">JsonAPI</a> backends easier.",
   },
   {
     title: "matt.dule.one",
@@ -39,13 +39,13 @@ const projects = [
     title: "Node Poker",
     href: "/holdemAnalyzer",
     repo: "https://github.com/mduleone/nodePoker",
-    desc: "A Node.js implementation of a poker hand analyzer. <a href='http://dule.one/holdemAnalyzer' target='_blank'>Texas Hold'em</a> implemented in the GUI, <a href='http://dule.one/holdem?board=KsQsTsKdAd&hand1=AsJs&hand2=AhKh&hand5=TdTh' target='_blank'>Texas Hold'em</a> and <a href='http://dule.one/poker?hand1=AsJsKsQsTs&hand2=AhKhAcKdAd' target='_blank'>5 card</a> poker implemented in an API. More games implemented in the project, but none with exposed endpoints. Inspired by solving <a href='https://projecteuler.net/problem=54' target='_blank'>Project Euler #54</a> in <a href='https://gist.github.com/mduleone/133c118b8a6c6bb9b624' target='_blank'>COBOL</a> and wanting a more practical API.",
+    desc: "A Node.js implementation of a poker hand analyzer. <a href=\"http://dule.one/holdemAnalyzer\" target=\"_blank\" rel=\"noopener noreferrer\">Texas Hold'em</a> implemented in the GUI, <a href=\"http://dule.one/holdem?board=KsQsTsKdAd&hand1=AsJs&hand2=AhKh&hand5=TdTh\" target=\"_blank\" rel=\"noopener noreferrer\">Texas Hold' em</a> and <a href=\"http://dule.one/poker?hand1=AsJsKsQsTs&hand2=AhKhAcKdAd\" target=\"_blank\" rel=\"noopener noreferrer\">5 card</a> poker implemented in an API. More games implemented in the project, but none with exposed endpoints. Inspired by solving <a href=\"https://projecteuler.net/problem=54\" target=\"_blank\" rel=\"noopener noreferrer\">Project Euler #54</a> in <a href=\"https://gist.github.com/mduleone/133c118b8a6c6bb9b624\" target=\"_blank\" rel=\"noopener noreferrer\">COBOL</a> and wanting a more practical API.",
   },
   {
     title: "Five Card Draw - Alexa Skill",
     href: "",
     repo: "https://github.com/mduleone/alexaFivecard",
-    desc: "A Five Card Draw Poker skill for the Amazon Echo. Ask Alexa to deal you a hand, and then try your best to beat her!<br /><br />Powered by <a href='http://dule.one/holdemAnalyzer' target='_blank'>Node Poker</a>.",
+    desc: "A Five Card Draw Poker skill for the Amazon Echo. Ask Alexa to deal you a hand, and then try your best to beat her!<br /><br />Powered by <a href=\"http://dule.one/holdemAnalyzer\" target=\"_blank\" rel=\"noopener noreferrer\">Node Poker</a>.",
   },
   {
     title: "Make Utterance",
@@ -57,7 +57,7 @@ const projects = [
     title: "Pokedex - Alexa Skill",
     href: "",
     repo: "https://github.com/mduleone/EchoPokedex",
-    desc: "A Pokedex skill for the Amazon Echo. Ask Alexa to tell you about any Pokemon in the Pokemon universe.<br /><br />Powered by the <a href='http://pokeapi.co/' target='_blank'>Pok&eacute;mon RESTful API</a>.",
+    desc: "A Pokedex skill for the Amazon Echo. Ask Alexa to tell you about any Pokemon in the Pokemon universe.<br /><br />Powered by the <a href=\"http://pokeapi.co/\" target=\"_blank\" rel=\"noopener noreferrer\">Pok&eacute;mon RESTful API</a>.",
   },
 ];
 

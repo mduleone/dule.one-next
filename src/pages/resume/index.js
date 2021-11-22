@@ -18,7 +18,7 @@ const Resume = ({ resume }) => {
       <ScreenFlex>
         {resume.map((section) => <ResumeSection key={section.id} section={section} />)}
       </ScreenFlex>
-      <PrintHelper /  >
+      <PrintHelper />
     </Layout>
   );
 };
