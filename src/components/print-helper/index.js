@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { rem } from '../../util/style/lengths';
 import theme from '../../util/theme';
+import track from '../../util/track';
 
 const PrintHelper = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +15,7 @@ const PrintHelper = () => {
       setDidOpen(true);
     }
     setIsOpen((prev) => !prev);
+    track('click print helper');
   };
 
   useEffect(() => {
