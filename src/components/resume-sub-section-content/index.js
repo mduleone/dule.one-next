@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
+import { rem } from '../../util/style/lengths';
 
 const contentShape = {
   screenPrefix: PropTypes.string,
@@ -101,7 +102,11 @@ ResumeSubSectionContent.propTypes = {
 export default ResumeSubSectionContent;
 
 const SubSectionContent = styled.div`
-  margin-top: 4px;
+  margin-top: ${rem(4)};
+
+  & sup {
+    font-size: smaller;
+  }
 
   @media only print {
     ${({ $hideForPrint }) => $hideForPrint && css`

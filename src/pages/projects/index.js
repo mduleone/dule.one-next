@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import Layout from '../../components/layout';
 import projects from '../../data/projects';
+import { rem } from '../../util/style/lengths';
 
 export const getStaticProps = () => ({
   props: {
@@ -48,10 +49,10 @@ Projects.defaultProps = {
 export default Projects;
 
 const Project = styled.div`
-  border-radius: 3px;
-  box-shadow: 5px 5px 1em ${({ theme }) => theme.colors.shadowColor};
-  margin: 1em;
-  padding: 1em;
+  border-radius: ${rem(3)};
+  box-shadow: ${rem(5)} ${rem(5)} ${rem(19)} ${({ theme }) => theme.colors.shadowColor};
+  margin:  ${rem(19)};
+  padding:  ${rem(19)};
 
   @media only print {
     page-break-inside: avoid;
@@ -60,7 +61,7 @@ const Project = styled.div`
 
 const ProjectTitleContainer = styled.p`
   display: block;
-  font-size: 25px;
+  font-size:  ${rem(25)};
   font-weight: bold;
 `;
 
@@ -83,7 +84,7 @@ const ProjectTitle = styled.a`
     bottom: 0;
     left: 0;
     right: 0;
-    height: 2px;
+    height:  ${rem(2)};
     transform: scaleX(0);
     background-color: ${({ theme }) => theme.colors.duleoneRed};
     transition: transform linear 250ms;
@@ -92,5 +93,5 @@ const ProjectTitle = styled.a`
 `;
 
 const ProjectRepository = styled.p`
-  margin-top: 16px;
+  margin-top:  ${rem(16)};
 `;

@@ -2,6 +2,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 
 import '../util/font-awesome';
+import { DEFAULT_SIZE, rem } from '../util/style/lengths';
 import theme from '../util/theme';
 
 const App = ({ Component, pageProps }) => (
@@ -18,7 +19,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     padding: 0;
     font-family: ${({ theme }) => theme.fonts.screenFont};
-    font-size: 19px;
+    font-size: 16px;
     margin: 0 auto;
     position: relative;
     -webkit-text-size-adjust: none;
@@ -30,6 +31,14 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
+  body * {
+    font-size: ${rem(19)};
+
+    @media only print {
+      font-size: 12pt;
+    }
+  }
+  
   * {
     box-sizing: border-box;
   }
@@ -47,7 +56,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   ul {
-    padding-left: 36px;
+    padding-left: ${rem(36)};
   }
 
   p {

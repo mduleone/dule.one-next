@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { rem } from '../../util/style/lengths';
 
 const Name = ({ imageWidth, header = false }) => {
   return (
@@ -22,49 +23,49 @@ const imageMargin = 8;
 
 const Container = styled.span`
   display: inline-block;
-  font-size: ${({ $header, $width }) => $header ? 19 : ($width / 2)}px;
-  line-height: ${({ $width }) => $width}px;
+  font-size: ${({ $header, $width }) => rem($header ? 19 : ($width / 2))};
+  line-height: ${({ $width }) => rem($width)};
   color: ${({ theme }) => theme.colors.black};
   position: relative;
-  margin-left: ${({ $width }) => ($width + imageMargin)}px;
+  margin-left: ${({ $width }) => rem($width + imageMargin)};
 
-  @media only screen and (min-width: 363px) {
-    font-size: ${({ $header, $width }) => $header ? 40 : ($width / 2)}px;
+  @media only screen and (min-width: ${rem(363)}) {
+    font-size: ${({ $header, $width }) => rem($header ? 40 : ($width / 2))};
   }
 
-  @media only screen and (min-width: 590px) {
-    font-size: ${({ $header, $width }) => $header ? 19 : ($width / 2)}px;
+  @media only screen and (min-width: ${rem(590)}) {
+    font-size: ${({ $header, $width }) => rem($header ? 19 : ($width / 2))};
   }
 
   @media only print {
-    font-size: ${({ $header, $width }) => $header ? $width : ($width / 2)}px;
-    line-height: ${({ $header, $width }) => $header ? 'inherit' : `${$width}px`};
+    font-size: ${({ $header, $width }) => rem($header ? $width : ($width / 2))};
+    line-height: ${({ $header, $width }) => $header ? 'inherit' : rem($width)};
     color: ${({ theme }) => theme.colors.black};
     position: ${({ $header }) => $header ? 'static' : 'relative'};
-    margin-left: ${({ $header, $width }) => $header ? 0 : ($width + imageMargin)}px;
+    margin-left: ${({ $header, $width }) => $header ? 0 : rem($width + imageMargin)};
   }
 `;
 
 const Image = styled.img`
   border-radius: 50%;
   position: absolute;
-  border: 1px solid ${({ theme }) => theme.colors.black};
-  height: ${({ $width }) => $width}px;
-  width: ${({ $width }) => $width}px;
-  left: -${({ $width }) => ($width + imageMargin)}px;
+  border: ${rem(1)} solid ${({ theme }) => theme.colors.black};
+  height: ${({ $width }) => rem($width)};
+  width: ${({ $width }) => rem($width)};
+  left: -${({ $width }) => rem($width + imageMargin)};
   top: 0;
 
-  @media only screen and (min-width: 363px) {
-    height: 40px;
-    width: 40px;
-    top: -${imageMargin}px;
-    left: -${(40 + imageMargin)}px;
+  @media only screen and (min-width:  ${rem(363)}) {
+    height:  ${rem(40)};
+    width:  ${rem(40)};
+    top: -${rem(imageMargin)};
+    left: -${rem(40 + imageMargin)};
   }
 
-  @media only screen and (min-width: 590px) {
-    height: ${({ $width }) => $width}px;
-    width: ${({ $width }) => $width}px;
-    left: -${({ $width }) => ($width + imageMargin)}px;
+  @media only screen and (min-width: ${rem(590)}) {
+    height: ${({ $width }) => rem($width)};
+    width: ${({ $width }) => rem($width)};
+    left: -${({ $width }) => rem($width + imageMargin)};
     top: 0;
   }
 

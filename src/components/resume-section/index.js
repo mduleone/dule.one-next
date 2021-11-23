@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { rem } from '../../util/style/lengths';
 
 import ResumeSubSection, { subSectionShape } from '../resume-sub-section';
 
@@ -47,10 +48,10 @@ ResumeSection.propTypes = {
 export default ResumeSection;
 
 const Section = styled.div`
-  margin: 0.75em 0;
+  margin: ${rem(19 * (3/4))} 0;
   text-align: left;
 
-  @media only screen and (min-width: 590px) {
+  @media only screen and (min-width: ${rem(590)}) {
     text-align: justify;
   }
 
@@ -67,24 +68,26 @@ const Section = styled.div`
     font-size: 12pt;
     display: ${({ $hideForPrint }) => $hideForPrint ? 'none' : 'inherit'};
     visibility: ${({ $hideForPrint }) => $hideForPrint ? 'hidden' : 'inherit'};
-    margin-top: ${({ $noPrintTopMargin }) => $noPrintTopMargin ? 0 : '0.75em'};
-    margin-bottom: ${({ $noPrintBottomMargin }) => $noPrintBottomMargin ? 0 : '0.75em'};
+    margin-top: ${({ $noPrintTopMargin }) => $noPrintTopMargin ? 0 : rem(12)};
+    margin-right: 0;
+    margin-bottom: ${({ $noPrintBottomMargin }) => $noPrintBottomMargin ? 0 : rem(12)};
+    margin-left: 0;
 
     &:first-child {
-      margin-top: 0.75em;
+      margin-top: ${rem(12)};
     }
   }
 `;
 
 const SectionTitle = styled.h2`
   background-color: ${({ theme }) => theme.colors.duleoneRed};
-  border-radius: 3px;
+  border-radius: ${rem(3)};
   color: ${({ theme }) => theme.colors.white};
   display: block;
-  font-size: 19px;
+  font-size: ${rem(19)};
   font-weight: normal;
-  margin: 0 0 8px 0;
-  padding: 4px 8px;
+  margin: 0 0 ${rem(8)} 0;
+  padding: ${rem(4)} ${rem(8)};
 
   @media only print {
     font-size: 14pt;
@@ -94,6 +97,10 @@ const SectionTitle = styled.h2`
     border-radius: 0;
     padding: 0;
     margin: 0;
+
+    & * {
+      font-size: 14pt;
+    }
   }
 `;
 
@@ -104,7 +111,7 @@ const PrintPrefix = styled.span`
   }
 
   @media only print {
-    margin-right: 4px;
+    margin-right: ${rem(4)};
     display: inline-block;
     visibility: visible;
   }
