@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { rem } from '../../../util/style/lengths';
 
 const PrintCoa = () => (
   <PrintCoatOfArms src="/images/duleone.jpg" />
@@ -12,7 +13,7 @@ const PrintCoatOfArms = styled.img`
   position: absolute;
   right: 0;
   top: 0;
-  width: 120px;
+  width: ${rem(120)};
   z-index: 100;
 
   @media only print {

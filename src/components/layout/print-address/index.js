@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { rem } from '../../../util/style/lengths';
 
 const PrintAddress = () => (
   <Container>
@@ -15,7 +16,7 @@ const Container = styled.div`
   display: none;
   visibility: hidden;
   position: absolute;
-  top: calc(2em + 8px);
+  top: ${rem(19 * 2 + 8)};
   left: 0;
   right: 0;
 
@@ -23,9 +24,15 @@ const Container = styled.div`
     display: block;
     visibility: visible;
   }
-`;
+  `;
 
 const Address = styled.div`
-  font-size: 19px;
+  font-size: ${rem(19)};
   margin: 0 auto;
+
+  @media only print {
+    & * {
+      font-size: ${rem(19)};
+    }
+  }
 `;

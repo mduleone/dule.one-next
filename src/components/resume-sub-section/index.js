@@ -3,6 +3,7 @@ import cx from 'classnames';
 import styled from 'styled-components';
 
 import ResumeSubSectionContent, { subSectionContentShape } from '../resume-sub-section-content';
+import { rem } from '../../util/style/lengths';
 
 export const subSectionShape = {
   id: PropTypes.string,
@@ -65,7 +66,7 @@ ResumeSubSection.propTypes = {
 export default ResumeSubSection;
 
 const SubSection = styled.div`
-  margin-bottom: 0.75em;
+  margin-bottom: ${rem(19 * (3/4))};
 
   &:last-child {
     margin-bottom: 0;
@@ -73,15 +74,16 @@ const SubSection = styled.div`
 
   @media only print {
     page-break-inside: avoid;
+    margin-bottom: ${rem(12)};
 
     &.print-half {
       width: 50% !important;
       display: inline-block;
-      max-width: calc(50% - 0.5em);
+      max-width: calc(50% - ${rem(8)});
 
       &:nth-child(odd) {
         vertical-align: top;
-        margin-left: 1em;
+        margin-left: ${rem(16)};
       }
     }
 
@@ -94,7 +96,7 @@ const SubSection = styled.div`
 
 const SubSectionTitle = styled.h3`
   font-weight: bold;
-  font-size: 19px;
+  font-size: ${rem(19)};
   margin: 0;
   display: inline-block;
 
@@ -104,11 +106,11 @@ const SubSectionTitle = styled.h3`
 `;
 
 const SubSectionDate = styled.time`
-  font-size: 16px;
+  font-size: ${rem(16)};
   color: ${({ theme }) => theme.colors.duleoneRed};
   display: block;
 
-  @media (min-width: 590px) {
+  @media (min-width: ${rem(590)}) {
     float: right;
     vertical-align: top;
   }
@@ -123,7 +125,7 @@ const PositionTitle = styled.h4`
   display: ${({ $multi }) => $multi ? 'inline-block' : 'block'};
   font-style: italic;
   font-weight: normal;
-  font-size: 19px;
+  font-size:  ${rem(19)};
   margin: 0;
   vertical-align: top;
 

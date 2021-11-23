@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import Layout from '../../components/layout';
 import contacts from '../../data/contacts';
+import { rem } from '../../util/style/lengths';
 
 export const getStaticProps = () => ({
   props: {
@@ -49,13 +50,13 @@ const ContactItem = styled.a`
 `;
 
 const ContactName = styled.span`
-  margin-left: 24px;
+  margin-left: ${rem(24)};
 `;
 
 const Icon = styled(FontAwesomeIcon)`
   color: ${({ theme }) => theme.colors.black};
   position: absolute;
   vertical-align: middle;
-  width: 16px;
+  width: ${rem(16)};
   left: 0;
 `;

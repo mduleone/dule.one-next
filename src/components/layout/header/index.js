@@ -3,6 +3,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 
 import Name from '../../name';
+import { rem } from '../../../util/style/lengths';
 
 export const navLinks = [
   {
@@ -63,21 +64,21 @@ const Container = styled.header`
   left: 0;
   top: 0;
   width: 100%;
-  font-size: 19px;
-  padding: .5em;
+  font-size: ${rem(19)};
+  padding: ${rem(19 / 2)};
   z-index: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
 
-  @media only screen and (min-width: 363px) {
-    font-size: 25px;
+  @media only screen and (min-width: ${rem(363)}) {
+    font-size: ${rem(25)};
   }
 
-  @media only screen and (min-width: 590px) {
+  @media only screen and (min-width: ${rem(590)}) {
     flex-direction: row;
-    font-size: 19px;
+    font-size: ${rem(19)};
   }
 
   @media only print {
@@ -85,14 +86,14 @@ const Container = styled.header`
     padding: 0;
     position: static;
     display: block;
-    border-bottom: 1px solid #ccc;
+    border-bottom: ${rem(1)} solid #ccc;
   }
 `;
 
 const Nav = styled.nav`
   width: 100%;
 
-  @media only screen and (min-width: 590px) {
+  @media only screen and (min-width: ${rem(590)}) {
     width: auto;
   }
 
@@ -113,12 +114,12 @@ const NavListItem = styled.li`
   display: inline-block;
   position: relative;
 
-  @media only screen and (min-width: 363px) {
+  @media only screen and (min-width: ${rem(363)}) {
     margin: 0 0;
   }
 
-  @media only screen and (min-width: 590px) {
-    padding: 0 0.5em;
+  @media only screen and (min-width: ${rem(590)}) {
+    padding: 0 ${rem(19/2)};
 
     &:first-child {
       padding-left: 0;
@@ -133,14 +134,14 @@ const NavListItem = styled.li`
     content: none;
     background-color: ${({ theme }) => theme.colors.black};
     border-radius: 50%;
-    height: 5px;
-    width: 5px;
+    height: ${rem(5)};
+    width: ${rem(5)};
     position: absolute;
     left: 0;
     top: 50%;
     transform: translate(-50%, -50%);
 
-    @media only screen and (min-width: 590px) {
+    @media only screen and (min-width: ${rem(590)}) {
       content: '';
     }
   }
@@ -157,7 +158,7 @@ const NavListItemLink = styled.a`
     bottom: 0;
     left: 0;
     right: 0;
-    height: 1px;
+    height: ${rem(1)};
     transform: scaleX(${({ $active }) => $active ? 1 : 0});
     background-color: ${({ theme }) => theme.colors.linkColor};
     transition: transform linear 250ms;

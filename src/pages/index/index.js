@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import Layout from '../../components/layout';
 import Name from '../../components/name';
+import { rem } from '../../util/style/lengths';
 
 const Home = () => {
   return (
@@ -25,13 +26,13 @@ const NameContainer = styled.div`
   display: none;
   justify-content: center;
 
-  @media only screen and (min-width: 768px) {
+  @media only screen and (min-width: ${rem(768)}) {
     display: flex;
   }
 `;
 
 const About = styled.div`
-  padding-top: 48px;
+  padding-top: ${rem(48)};
   width: 100%;
   margin: auto;
   text-align: center;
@@ -41,16 +42,16 @@ const AboutLine = styled.span`
   &:nth-child(n+1) {
     display: block;
 
-    @media only screen and (min-width: 590px) {
+    @media only screen and (min-width: ${rem(590)}) {
       display: inline-block;
-      margin-left: 4px;
+      margin-left: ${rem(4)};
     }
   }
 `;
 
 const CoatOfArms = styled.img`
   display: block;
-  margin: 48px auto 0;
-  max-width: 540px;
+  margin: ${rem(48)} auto 0;
+  max-width: ${rem(540)};
   width: 100%;
 `;

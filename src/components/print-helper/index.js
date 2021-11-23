@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { rem } from '../../util/style/lengths';
 
 const PrintHelper = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -66,11 +67,11 @@ const Mask = styled.div`
 
 const Container = styled.div`
   position: fixed;
-  right: 1em;
-  bottom: 1em;
+  right: ${rem(19)};
+  bottom: ${rem(19)};
 
-  @media only screen and (min-width: 966px) {
-    transform: translateX(calc(-50% + (768px / 2) + 2em + 83px));
+  @media only screen and (min-width: ${rem(966)}) {
+    transform: translateX(calc(-50% + ( ${rem(768)} / 2) + ${rem(19 * 2)} + ${rem(83)}));
     right: 50%;
   }
 
@@ -81,48 +82,48 @@ const Container = styled.div`
 
 const DesktopFacingCopy = styled.span`
   display: none;
-  margin-left: 8px;
+  margin-left: ${rem(8)};
 
-  @media only screen and (min-width: 768px) {
+  @media only screen and (min-width: ${rem(768)}) {
     display: inline;
   }
 `;
 
 const PopUp = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
-  border-radius: 6px;
-  bottom: calc(100% + 20px);
-  box-shadow: 0 0 5px ${({ theme }) => theme.colors.shadowColor};
+  border-radius: ${rem(6)};
+  bottom: calc(100% + ${rem(20)});
+  box-shadow: 0 0 ${rem(5)} ${({ theme }) => theme.colors.shadowColor};
   display: flex;
-  min-width: 500px;
+  min-width: ${rem(500)};
   position: absolute;
   right: 0;
-  padding: 0.5em;
+  padding: ${rem(19/2)};
   text-align: center;
   align-items: center;
 
-  @media only screen and (min-height: 400px) {
+  @media only screen and (min-height: ${rem(400)}) {
     display: block;
-    min-width: 230px;
+    min-width: ${rem(230)};
   }
 `;
 
 const Top = styled.p`
 margin-bottom: 0;
-margin-right: 16px;
+margin-right: ${rem(16)};
 
-@media only screen and (min-height: 400px) {
-  margin-bottom: 16px;
+@media only screen and (min-height: ${rem(400)}) {
+  margin-bottom: ${rem(16)};
   margin-right: 0;
 }
 `;
 
 const Bottom = styled.p`
 margin-top: 0;
-margin-left: 16px;
+margin-left: ${rem(16)};
 
-@media only screen and (min-height: 400px) {
-  margin-top: 16px;
+@media only screen and (min-height: ${rem(400)}) {
+  margin-top: ${rem(16)};
   margin-left: 0;
 }
 `;
@@ -130,15 +131,15 @@ margin-left: 16px;
 const Triangle = styled.svg`
   position: absolute;
   bottom: initial;
-  top: calc(100% - 1px);
-  right: 3px;
-  width: 30px;
-  height: 30px;
+  top: calc(100% - ${rem(1)});
+  right: ${rem(3)};
+  width: ${rem(30)};
+  height: ${rem(30)};
 
   & > polygon {
     fill: #fff;
     stroke: #fff;
-    stroke-width: 2px;
+    stroke-width: ${rem(2)};
   }
 `;
 
@@ -158,11 +159,11 @@ const PrintButton = styled.button`
   font-family: inherit;
   font-size: 100%;
   display: inline;
-  padding: 4px;
-  min-width: 130px;
+  padding: ${rem(4)};
+  min-width: ${rem(130)};
   margin: 0;
-  box-shadow: 0 0 3px ${({ theme }) => theme.colors.shadowColor};
-  border-radius: 6px;
+  box-shadow: 0 0 ${rem(3)} ${({ theme }) => theme.colors.shadowColor};
+  border-radius: ${rem(6)};
   cursor: pointer;
 `;
 
@@ -170,19 +171,19 @@ const Button = styled.button`
   appearance: button;
   -webkit-appearance: button;
   border-color: ${({ theme }) => theme.colors.shadowColor};
-  border-width: 1px;
-  border-radius: 6px;
+  border-width: ${rem(1)};
+  border-radius: ${rem(6)};
   background-color: ${({ theme }) => theme.colors.white};
   font-family: inherit;
   font-size: 100%;
   line-height: 1.15;
   margin: 0;
   cursor: pointer;
-  max-width: 100px;
+  max-width: ${rem(100)};
   animation: bounce 5s;
   animation-iteration-count: ${({ $animate }) => $animate ? 'infinite' : '0'};
   animation-delay: 5s;
-  padding: 8px;
+  padding: ${rem(8)};
 
   @keyframes bounce {
     0%, 10%, 100% {
@@ -190,23 +191,23 @@ const Button = styled.button`
     }
 
     5% {
-      transform: translateY(1px);
+      transform: translateY(${rem(1)});
     }
 
     1%, 4% {
-      transform: translateY(-3px);
+      transform: translateY(-${rem(3)});
     }
 
     2%, 3% {
-      transform: translateY(-5px);
+      transform: translateY(-${rem(5)});
     }
 
     6%, 9% {
-      transform: translateY(-1px);
+      transform: translateY(-${rem(1)});
     }
 
     8%, 7% {
-      transform: translateY(-2px);
+      transform: translateY(-${rem(2)});
     }
   }
 `;
