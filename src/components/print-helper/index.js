@@ -33,41 +33,41 @@ const PrintHelper = () => {
 
   return (
     <>
-    {isOpen && <Mask onClick={close} role="button" />}
-    <Container>
-      <Button onClick={clickButton} type="button" $animate={!didOpen}>
-        <span>
-          <Icon icon={['fas', 'print']} />
-          <DesktopFacingCopy>
-            Print
-          </DesktopFacingCopy>
-        </span>
-      </Button>
-      {isOpen && (
-        <PopUp>
-          <Top>
-            Do you want to print my resume? Need a PDF?
-          </Top>
-          <PrintButton onClick={() => window.print()}>
-            Simply print this page!
-            <div>
-              (click here)
-            </div>
-          </PrintButton>
-          <Bottom>
-            I've found the best version prints from Chrome on macOS.
-          </Bottom>
-          <Triangle xmlns="http://www.w3.org/2000/svg" viewBox="0,0,80,80">
-            <defs>
-              <filter id="shadow">
-                <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor={svgDropShadow} />
-              </filter>
-            </defs>
-            <polygon points="0,0 40,40 80,0" style={{ filter: 'url(#shadow)' }} />
-          </Triangle>
-        </PopUp>
-      )}
-    </Container>
+      {isOpen && <Mask onClick={close} role="button" />}
+      <Container>
+        <Button onClick={clickButton} type="button" $animate={!didOpen}>
+          <span>
+            <Icon icon={['fas', 'print']} />
+            <DesktopFacingCopy>
+              Print
+            </DesktopFacingCopy>
+          </span>
+        </Button>
+        {isOpen && (
+          <PopUp>
+            <Top>
+              Do you want to print my resume? Need a PDF?
+            </Top>
+            <PrintButton onClick={() => window.print()}>
+              Simply print this page!
+              <div>
+                (click here)
+              </div>
+            </PrintButton>
+            <Bottom>
+              I've found the best version prints from Chrome on macOS.
+            </Bottom>
+            <Triangle xmlns="http://www.w3.org/2000/svg" viewBox="0,0,80,80">
+              <defs>
+                <filter id="shadow">
+                  <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor={svgDropShadow} />
+                </filter>
+              </defs>
+              <polygon points="0,0 40,40 80,0" style={{ filter: 'url(#shadow)' }} />
+            </Triangle>
+          </PopUp>
+        )}
+      </Container>
     </>
   );
 };
@@ -120,7 +120,7 @@ const PopUp = styled.div`
   align-items: center;
 
   @media (prefers-color-scheme: dark) {
-    background-color: ${({ theme }) => theme.colors.black};
+    background-color: ${({ theme }) => theme.colors.softBlack};
     box-shadow: 0 0 ${rem(5)} ${({ theme }) => theme.colors.inverseShadowColor};
   }
 
@@ -164,8 +164,8 @@ const Triangle = styled.svg`
     stroke-width: ${rem(2)};
 
     @media (prefers-color-scheme: dark) {
-      fill: ${({ theme }) => theme.colors.black};
-      stroke: ${({ theme }) => theme.colors.black};
+      fill: ${({ theme }) => theme.colors.softBlack};
+      stroke: ${({ theme }) => theme.colors.softBlack};
     }
   }
 `;
@@ -198,7 +198,7 @@ const PrintButton = styled.button`
   cursor: pointer;
 
   @media (prefers-color-scheme: dark) {
-    background-color: ${({ theme }) => theme.colors.black};
+    background-color: ${({ theme }) => theme.colors.softBlack};
     color: ${({ theme }) => theme.colors.inverseLinkColor};
     box-shadow: 0 0 ${rem(3)} ${({ theme }) => theme.colors.inverseShadowColor};
   }
@@ -223,7 +223,8 @@ const Button = styled.button`
   padding: ${rem(8)};
 
   @media (prefers-color-scheme: dark) {
-    background-color: ${({ theme }) => theme.colors.black};
+    background-color: ${({ theme }) => theme.colors.softBlack};
+    color: ${({ theme }) => theme.colors.softWhite};
     border-color: ${({ theme }) => theme.colors.inverseShadowColor};
   }
 

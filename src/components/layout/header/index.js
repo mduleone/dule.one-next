@@ -59,7 +59,6 @@ Header.propTypes = {
 export default Header;
 
 const Container = styled.header`
-  background: white;
   position: fixed;
   left: 0;
   top: 0;
@@ -71,11 +70,11 @@ const Container = styled.header`
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  background: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.white};
   color: ${({ theme }) => theme.colors.black};
 
   @media (prefers-color-scheme: dark) {
-    background: ${({ theme }) => theme.colors.black};
+    background-color: ${({ theme }) => theme.colors.softBlack};
     color: ${({ theme }) => theme.colors.white};
   }
 
@@ -139,7 +138,7 @@ const NavListItem = styled.li`
 
   &:not(:first-child)::after {
     content: none;
-    background-color: ${({ theme }) => theme.colors.black};
+    background-color: ${({ theme }) => theme.colors.softBlack};
     border-radius: 50%;
     height: ${rem(5)};
     width: ${rem(5)};

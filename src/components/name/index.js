@@ -31,8 +31,8 @@ const Container = styled.span`
   margin-left: ${({ $width }) => rem($width + imageMargin)};
 
   @media (prefers-color-scheme: dark) {
-    background-color: ${({ theme }) => theme.colors.black};
-    color: ${({ theme }) => theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.softBlack};
+    color: ${({ theme }) => theme.colors.softWhite};
   }
 
   @media only screen and (min-width: ${rem(363)}) {

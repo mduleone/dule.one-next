@@ -61,6 +61,6 @@ const Icon = styled(FontAwesomeIcon)`
   left: 0;
 
   @media (prefers-color-scheme: dark) {
-    color: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.softWhite};
   }
 `;

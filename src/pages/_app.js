@@ -29,12 +29,12 @@ const GlobalStyle = createGlobalStyle`
     margin: 0 auto;
     position: relative;
     -webkit-text-size-adjust: none;
-    background: ${({ theme }) => theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.white};
     color: ${({ theme }) => theme.colors.black};
 
     @media (prefers-color-scheme: dark) {
-      background: ${({ theme }) => theme.colors.black};
-      color: ${({ theme }) => theme.colors.white};
+      background-color: ${({ theme }) => theme.colors.softBlack};
+      color: ${({ theme }) => theme.colors.softWhite};
     }
 
     @media only print {
@@ -66,7 +66,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   button {
-    color: ${({ theme }) => theme.colors.black};
+    color: ${({ theme }) => theme.colors.softBlack};
 
     @media (prefers-color-scheme: dark) {
       color: ${({ theme }) => theme.colors.white};

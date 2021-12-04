@@ -90,8 +90,7 @@ const SectionTitle = styled.h2`
   padding: ${rem(4)} ${rem(8)};
 
   @media (prefers-color-scheme: dark) {
-    background-color: ${({ theme }) => theme.colors.inverseDuleoneRed};
-    color: ${({ theme }) => theme.colors.black};
+    color: ${({ theme }) => theme.colors.white};
   }
 
   @media only print {
