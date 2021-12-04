@@ -101,7 +101,7 @@ const SubSectionTitle = styled.h3`
   display: inline-block;
 
   @media only print {
-    font-size: 12pt;
+    font-size: ${rem(16)};
   }
 `;
 
@@ -116,7 +116,7 @@ const SubSectionDate = styled.time`
   }
 
   @media only print {
-    font-size: 9pt;
+    font-size: ${rem(12)};
     float: ${({ $printHalf }) => $printHalf ? 'none' : 'right'};
   }
 `;
@@ -130,7 +130,7 @@ const PositionTitle = styled.h4`
   vertical-align: top;
 
   @media only print {
-    font-size: 12pt;
+    font-size: ${rem(16)};
   }
 `;
 

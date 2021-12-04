@@ -65,7 +65,7 @@ const Section = styled.div`
 
   @media only print {
     text-align: justify;
-    font-size: 12pt;
+    font-size: ${rem(16)};
     display: ${({ $hideForPrint }) => $hideForPrint ? 'none' : 'inherit'};
     visibility: ${({ $hideForPrint }) => $hideForPrint ? 'hidden' : 'inherit'};
     margin-top: ${({ $noPrintTopMargin }) => $noPrintTopMargin ? 0 : rem(12)};
@@ -90,7 +90,7 @@ const SectionTitle = styled.h2`
   padding: ${rem(4)} ${rem(8)};
 
   @media only print {
-    font-size: 14pt;
+    font-size: ${rem(56/3)};
     color: inherit;
     background-color: inherit;
     font-weight: bold;
@@ -99,7 +99,7 @@ const SectionTitle = styled.h2`
     margin: 0;
 
     & * {
-      font-size: 14pt;
+      font-size: ${rem(56/3)};
     }
   }
 `;
