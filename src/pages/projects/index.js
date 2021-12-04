@@ -54,6 +54,10 @@ const Project = styled.div`
   margin:  ${rem(19)};
   padding:  ${rem(19)};
 
+  @media (prefers-color-scheme: dark) {
+    box-shadow: ${rem(5)} ${rem(5)} ${rem(19)} ${({ theme }) => theme.colors.inverseShadowColor};
+  }
+
   @media only print {
     page-break-inside: avoid;
   }
@@ -68,6 +72,10 @@ const ProjectTitleContainer = styled.p`
 const ProjectTitle = styled.a`
   position: relative;
   color: ${({ theme }) => theme.colors.duleoneRed};
+
+  @media (prefers-color-scheme: dark) {
+    color: ${({ theme }) => theme.colors.inverseDuleoneRed};
+  }
 
   &:hover,
   &:focus {
@@ -89,6 +97,10 @@ const ProjectTitle = styled.a`
     background-color: ${({ theme }) => theme.colors.duleoneRed};
     transition: transform linear 250ms;
     transform-origin: right;
+
+    @media (prefers-color-scheme: dark) {
+      background-color: ${({ theme }) => theme.colors.inverseDuleoneRed};
+    }
   }
 `;
 

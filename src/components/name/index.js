@@ -26,8 +26,14 @@ const Container = styled.span`
   font-size: ${({ $header, $width }) => rem($header ? 19 : ($width / 2))};
   line-height: ${({ $width }) => rem($width)};
   color: ${({ theme }) => theme.colors.black};
+  background-color: ${({ theme }) => theme.colors.white};
   position: relative;
   margin-left: ${({ $width }) => rem($width + imageMargin)};
+
+  @media (prefers-color-scheme: dark) {
+    background-color: ${({ theme }) => theme.colors.black};
+    color: ${({ theme }) => theme.colors.white};
+  }
 
   @media only screen and (min-width: ${rem(363)}) {
     font-size: ${({ $header, $width }) => rem($header ? 40 : ($width / 2))};

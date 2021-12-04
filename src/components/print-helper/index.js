@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { rem } from '../../util/style/lengths';
+import theme from '../../util/theme';
 
 const PrintHelper = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [didOpen, setDidOpen] = useState(false);
+  const [svgDropShadow, setSvgDropShadow] = useState(theme.colors.shadowColor);
   const close = () => setIsOpen(false);
   const clickButton = () => {
     if (!didOpen) {
@@ -13,6 +15,21 @@ const PrintHelper = () => {
     }
     setIsOpen((prev) => !prev);
   };
+
+  useEffect(() => {
+    const listener = () => {
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        setSvgDropShadow(theme.colors.inverseShadowColor);
+      } else {
+        setSvgDropShadow(theme.colors.shadowColor);
+      }
+    }
+    window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', listener);
+
+    listener();
+
+    return () => window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', listener);
+  }, []);
 
   return (
     <>
@@ -43,7 +60,7 @@ const PrintHelper = () => {
           <Triangle xmlns="http://www.w3.org/2000/svg" viewBox="0,0,80,80">
             <defs>
               <filter id="shadow">
-                <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="darkslategray"/>
+                <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor={svgDropShadow} />
               </filter>
             </defs>
             <polygon points="0,0 40,40 80,0" style={{ filter: 'url(#shadow)' }} />
@@ -102,6 +119,11 @@ const PopUp = styled.div`
   text-align: center;
   align-items: center;
 
+  @media (prefers-color-scheme: dark) {
+    background-color: ${({ theme }) => theme.colors.black};
+    box-shadow: 0 0 ${rem(5)} ${({ theme }) => theme.colors.inverseShadowColor};
+  }
+
   @media only screen and (min-height: ${rem(400)}) {
     display: block;
     min-width: ${rem(230)};
@@ -137,15 +159,24 @@ const Triangle = styled.svg`
   height: ${rem(30)};
 
   & > polygon {
-    fill: #fff;
-    stroke: #fff;
+    fill: ${({ theme }) => theme.colors.white};
+    stroke: ${({ theme }) => theme.colors.white};
     stroke-width: ${rem(2)};
+
+    @media (prefers-color-scheme: dark) {
+      fill: ${({ theme }) => theme.colors.black};
+      stroke: ${({ theme }) => theme.colors.black};
+    }
   }
 `;
 
 const Icon = styled(FontAwesomeIcon)`
   color: ${({ theme }) => theme.colors.duleoneRed};
   display: inline;
+
+  @media (prefers-color-scheme: dark) {
+    color: ${({ theme }) => theme.colors.inverseDuleoneRed};
+  }
 `;
 
 
@@ -165,6 +196,12 @@ const PrintButton = styled.button`
   box-shadow: 0 0 ${rem(3)} ${({ theme }) => theme.colors.shadowColor};
   border-radius: ${rem(6)};
   cursor: pointer;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: ${({ theme }) => theme.colors.black};
+    color: ${({ theme }) => theme.colors.inverseLinkColor};
+    box-shadow: 0 0 ${rem(3)} ${({ theme }) => theme.colors.inverseShadowColor};
+  }
 `;
 
 const Button = styled.button`
@@ -184,6 +221,11 @@ const Button = styled.button`
   animation-iteration-count: ${({ $animate }) => $animate ? 'infinite' : '0'};
   animation-delay: 5s;
   padding: ${rem(8)};
+
+  @media (prefers-color-scheme: dark) {
+    background-color: ${({ theme }) => theme.colors.black};
+    border-color: ${({ theme }) => theme.colors.inverseShadowColor};
+  }
 
   @keyframes bounce {
     0%, 10%, 100% {

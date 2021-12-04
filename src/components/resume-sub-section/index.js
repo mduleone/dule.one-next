@@ -110,6 +110,10 @@ const SubSectionDate = styled.time`
   color: ${({ theme }) => theme.colors.duleoneRed};
   display: block;
 
+  @media (prefers-color-scheme: dark) {
+    color: ${({ theme }) => theme.colors.inverseDuleoneRed};
+  }
+
   @media (min-width: ${rem(590)}) {
     float: right;
     vertical-align: top;

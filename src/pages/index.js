@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-import Layout from '../../components/layout';
-import Name from '../../components/name';
-import { rem } from '../../util/style/lengths';
+import Layout from '../components/layout';
+import Name from '../components/name';
+import { rem } from '../util/style/lengths';
 
 const Home = () => {
   return (
@@ -54,4 +54,5 @@ const CoatOfArms = styled.img`
   margin: ${rem(48)} auto 0;
   max-width: ${rem(540)};
   width: 100%;
+  border-radius: 35%;
 `;

@@ -59,4 +59,8 @@ const Icon = styled(FontAwesomeIcon)`
   vertical-align: middle;
   width: ${rem(16)};
   left: 0;
+
+  @media (prefers-color-scheme: dark) {
+    color: ${({ theme }) => theme.colors.white};
+  }
 `;

@@ -71,6 +71,13 @@ const Container = styled.header`
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
+  background: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.black};
+
+  @media (prefers-color-scheme: dark) {
+    background: ${({ theme }) => theme.colors.black};
+    color: ${({ theme }) => theme.colors.white};
+  }
 
   @media only screen and (min-width: ${rem(363)}) {
     font-size: ${rem(25)};
@@ -163,6 +170,10 @@ const NavListItemLink = styled.a`
     background-color: ${({ theme }) => theme.colors.linkColor};
     transition: transform linear 250ms;
     transform-origin: right;
+
+    @media (prefers-color-scheme: dark) {
+      background-color: ${({ theme }) => theme.colors.inverseLinkColor};
+    }
   }
 
   &:hover,
