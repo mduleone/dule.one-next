@@ -72,6 +72,8 @@ const Section = styled.div`
     margin-right: 0;
     margin-bottom: ${({ $noPrintBottomMargin }) => $noPrintBottomMargin ? 0 : rem(12)};
     margin-left: 0;
+    // @TODO: Remove when putting Care/of content back
+    break-inside: avoid;
 
     &:first-child {
       margin-top: ${rem(12)};
