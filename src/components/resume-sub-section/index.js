@@ -53,7 +53,9 @@ const ResumeSubSection = ({ subsection }) => {
         }
         <SubSectionDate $printHalf={subsection.printHalfWidth}>{subsection.date}</SubSectionDate>
         {positions}
-        <ResumeSubSectionContent hideForPrint={subsection.hideContentForPrint} content={subsection.content} />
+        {subsection.content && !subsection.hideContent && (
+          <ResumeSubSectionContent hideForPrint={subsection.hideContentForPrint} content={subsection.content} />
+        )}
       </div>
     </SubSection>
   );
