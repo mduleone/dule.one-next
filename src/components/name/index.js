@@ -44,6 +44,7 @@ const Container = styled.span`
   }
 
   @media only print {
+    overflow: hidden;
     font-size: ${({ $header, $width }) => rem($header ? $width : ($width / 2))};
     line-height: ${({ $header, $width }) => $header ? 'inherit' : rem($width)};
     color: ${({ theme }) => theme.colors.black};
