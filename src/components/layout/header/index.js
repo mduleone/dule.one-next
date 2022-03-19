@@ -135,22 +135,6 @@ const NavListItem = styled.li`
       padding-right: 0;
     }
   }
-
-  &:not(:first-child)::after {
-    content: none;
-    background-color: ${({ theme }) => theme.colors.softBlack};
-    border-radius: 50%;
-    height: ${rem(5)};
-    width: ${rem(5)};
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translate(-50%, -50%);
-
-    @media only screen and (min-width: ${rem(590)}) {
-      content: '';
-    }
-  }
 `;
 
 const NavListItemLink = styled.a`
