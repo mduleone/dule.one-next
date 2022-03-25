@@ -9,7 +9,11 @@ const PrintHelper = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [didOpen, setDidOpen] = useState(false);
   const [svgDropShadow, setSvgDropShadow] = useState(theme.colors.shadowColor);
-  const close = () => setIsOpen(false);
+  const close = () => {
+    track('[resume] close print helper');
+    setIsOpen(false);
+  }
+
   const clickButton = () => {
     if (!didOpen) {
       setDidOpen(true);
