@@ -14,9 +14,8 @@ const App = ({ Component, pageProps }) => (
     </Head>
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <Analytics>
-        <Component {...pageProps} />
-      </Analytics>
+      <Analytics />
+      <Component {...pageProps} />
     </ThemeProvider>
   </>
 );
