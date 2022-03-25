@@ -8,15 +8,12 @@ const GoogleAnalytics = () => {
       <Script>
         {`
           window.dataLayer = window.dataLayer || [];
-          function gtag(...args) {
-            dataLayer.push(args);
-          }
+          function gtag(){dataLayer.push(arguments);}
           window.gtag = gtag;
           gtag('js', new Date());
 
           gtag('config', 'G-ZV1JHW05R8');
           gtag('event', 'page');
-          console.log('fire one');
         `}
       </Script>
     </>

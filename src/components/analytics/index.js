@@ -32,9 +32,7 @@ const Analytics = ({ children }) => {
   return renderAnalytics && (
     <>
       <Google />
-      <>
-        {children}
-      </>
+      {children}
     </>
   );
 

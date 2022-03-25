@@ -4,7 +4,6 @@ const track = (event, data = {}) => {
     return;
   }
 
-  console.log('fire two');
   gtag('event', event, data)
 };
 

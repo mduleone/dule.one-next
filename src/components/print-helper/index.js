@@ -15,7 +15,12 @@ const PrintHelper = () => {
       setDidOpen(true);
     }
     setIsOpen((prev) => !prev);
-    track('click print helper');
+    track('[resume] toggle print helper');
+  };
+
+  const clickPrint = () => {
+    track('[resume] click print from helper');
+    window.print();
   };
 
   useEffect(() => {
@@ -50,7 +55,7 @@ const PrintHelper = () => {
             <Top>
               Do you want to print my resume? Need a PDF?
             </Top>
-            <PrintButton onClick={() => window.print()}>
+            <PrintButton onClick={clickPrint}>
               Simply print this page!
               <div>
                 (click here)
