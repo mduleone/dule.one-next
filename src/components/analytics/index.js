@@ -35,7 +35,6 @@ const Analytics = ({ children }) => {
       {children}
     </>
   );
-
 };
 
 export default Analytics;
