@@ -5,6 +5,7 @@ import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import '../util/font-awesome';
 import { DEFAULT_SIZE, rem } from '../util/style/lengths';
 import theme from '../util/theme';
+import Analytics from '../components/analytics';
 
 const App = ({ Component, pageProps }) => (
   <>
@@ -13,6 +14,7 @@ const App = ({ Component, pageProps }) => (
     </Head>
     <ThemeProvider theme={theme}>
       <GlobalStyle />
+      <Analytics />
       <Component {...pageProps} />
     </ThemeProvider>
   </>

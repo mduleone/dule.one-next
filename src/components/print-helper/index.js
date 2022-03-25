@@ -3,17 +3,28 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { rem } from '../../util/style/lengths';
 import theme from '../../util/theme';
+import track from '../../util/track';
 
 const PrintHelper = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [didOpen, setDidOpen] = useState(false);
   const [svgDropShadow, setSvgDropShadow] = useState(theme.colors.shadowColor);
-  const close = () => setIsOpen(false);
+  const close = () => {
+    track('[resume] close print helper');
+    setIsOpen(false);
+  }
+
   const clickButton = () => {
     if (!didOpen) {
       setDidOpen(true);
     }
     setIsOpen((prev) => !prev);
+    track('[resume] toggle print helper');
+  };
+
+  const clickPrint = () => {
+    track('[resume] click print from helper');
+    window.print();
   };
 
   useEffect(() => {
@@ -48,7 +59,7 @@ const PrintHelper = () => {
             <Top>
               Do you want to print my resume? Need a PDF?
             </Top>
-            <PrintButton onClick={() => window.print()}>
+            <PrintButton onClick={clickPrint}>
               Simply print this page!
               <div>
                 (click here)
