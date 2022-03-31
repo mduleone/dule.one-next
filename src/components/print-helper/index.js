@@ -96,7 +96,7 @@ const Mask = styled.div`
 const Container = styled.div`
   position: fixed;
   right: ${rem(19)};
-  bottom: ${rem(19)};
+  bottom: ${rem(19 + 23.75)};
 
   @media only screen and (min-width: ${rem(966)}) {
     transform: translateX(calc(-50% + ( ${rem(768)} / 2) + ${rem(19 * 2)} + ${rem(83)}));

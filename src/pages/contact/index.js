@@ -48,6 +48,10 @@ const Container = styled.ul`
 
 const ContactListItem = styled.li`
   margin-bottom: ${rem(24)};
+
+  :last-of-type {
+    margin-bottom: ${rem(47.75)};
+  }
 `;
 
 const Icon = styled(FontAwesomeIcon)`

@@ -58,7 +58,15 @@ const Project = styled.div`
     box-shadow: ${rem(5)} ${rem(5)} ${rem(19)} ${({ theme }) => theme.colors.inverseShadowColor};
   }
 
+  :last-of-type {
+    margin-bottom: ${rem(47.75)};
+  }
+
   @media only print {
+    :last-of-type {
+      margin-bottom: ${rem(19)};
+    }
+
     page-break-inside: avoid;
   }
 `;

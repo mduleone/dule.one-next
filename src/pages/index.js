@@ -55,4 +55,8 @@ const CoatOfArms = styled.img`
   max-width: ${rem(540)};
   width: 100%;
   border-radius: 35%;
+
+  @media only screen and (min-width: ${rem(768)}) {
+    margin: ${rem(32)} auto 0;
+  }
 `;
