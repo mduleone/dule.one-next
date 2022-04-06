@@ -31,9 +31,7 @@ const resume = [
             date: "February 2019 - May 2020",
           },
         ],
-        content: "Technical owner of forward-facing Front End web presence. People manager of Front End Engineering team. Tech-lead of the Growth Product-Engineering team, focusing on the pre-purchase user experience. In conjunction with the rest of the management team, built out Incident Response Procedures and engineering on-call responsibilities. Architected and orchestrated carving out the Front End application from our React-rendering Rails monolith into a Next.js application — increasing engineer productivity and drastically decreasing site loading time. Improved key site-speed metrics by over 3-times, coupled with other conversion-enhancing tactics to increase site-wide conversion by over 7% while growing site traffic by 35%. Implemented integrations with third parties to ensure GDPR and CCPA privacy, cookie policy, and data-deletion requirement compliance. Partnered with internal Marketing stakeholders to manage implementation of Tag Manager solution.",
-        // @TODO: Remove when putting Care/of content back
-        hideContent: true,
+        content: "Hired and promoted multiple engineers. Technical owner and architect of forward-facing Front End web presence. People manager of Front End Engineering team. Tech-lead of the Growth Product-Engineering team, focusing on the pre-purchase user experience. In conjunction with the rest of the management team, built out Incident Response Procedures and engineering on-call responsibilities. Architected and orchestrated carving out the Front End application from our React-rendering Rails monolith into a Next.js application — increasing engineer productivity and drastically decreasing site loading time. Improved key site-speed metrics by over 3-times, coupled with other conversion-enhancing tactics to increase site-wide conversion by over 7% while growing site traffic by 35%. Implemented integrations with third parties to ensure GDPR and CCPA privacy, cookie policy, and data-deletion requirement compliance. Partnered with internal Marketing stakeholders to manage implementation of Tag Manager solution.",
       },
       {
         id: "slice",
@@ -202,20 +200,14 @@ const resume = [
         displayName: "Amazon IoT Button Starter Kit",
         date: "October 2016",
         content: "Built during <a href=\"https://hacktoberfest.digitalocean.com/\" target=\"_blank\" rel=\"noopener noreferrer\">Hacktoberfest 2016</a>, this is a template project for an <a href=\"https://aws.amazon.com/iotbutton/\" target=\"_blank\" rel=\"noopener noreferrer\">Amazon IoT Button</a> with a web interface.<br /><a href=\"https://github.com/mduleone/iotbutton-starter\" target=\"_blank\" rel=\"noopener noreferrer\">Repository</a><br />",
-        // @TODO: Uncomment when putting Care/of content back
-        // hideForPrint: true,
-        // @TODO: Remove when putting Care/of content back
-        printHalfWidth: true,
+        hideForPrint: true,
       },
       {
         id: "5cardAlexa",
         displayName: "Five Card Draw - Amazon Alexa Skill",
         date: "January 2016 - March 2016",
         content: "An Amazon Alexa skill that lets you play Five Card Draw. Powered by Node Poker.<br /><a href=\"https://github.com/mduleone/alexaFivecard\" target=\"_blank\" rel=\"noopener noreferrer\">Repository</a>",
-        // @TODO: Uncomment when putting Care/of content back
-        // hideForPrint: true,
-        // @TODO: Remove when putting Care/of content back
-        printHalfWidth: true,
+        hideForPrint: true,
       },
       {
         id: "poker",
@@ -245,7 +237,7 @@ const resume = [
     id: "tech",
     title: "Technology Proficiencies",
     noPrintTopMargin: true,
-    content: "JavaScript, React, Next.js, Redux, Node.js, SASS, Express, d3.js, HTML, CSS, Ruby, Rails, GraphQL, PHP, Android, AndroidWear, C#, Matlab, ImageMagick, Java, COBOL, Python",
+    content: "JavaScript, React, Next.js, Styled Components, React Storybook, Redux, Node.js, Express, d3.js, HTML, CSS, SASS, Ruby, Rails, GraphQL, Matlab, ImageMagick, Python, COBOL",
     webOrder: -1,
   },
   {
