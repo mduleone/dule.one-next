@@ -62,7 +62,7 @@ const Main = styled.main`
   }
 
   @page {
-    margin: 1cm 0.5cm;
+    margin: 1cm 0.75cm;
   }
 `;
 
