@@ -1,21 +1,23 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import resume from '../../data/resume';
-import Layout from '../../components/layout';
-import PrintHelper from '../../components/print-helper';
-import ResumeSection, { sectionShape } from '../../components/resume-section';
+import resumeData from '~/data/resume';
+import Layout from '~/components/layout';
+import PrintHelper from '~/components/print-helper';
+import ResumeSection, { sectionShape } from '~/components/resume-section';
 
 export const getStaticProps = () => ({
   props: {
-    resume,
+    resume: resumeData,
   },
 });
 
 const Resume = ({ resume }) => (
   <Layout>
     <ScreenFlex>
-      {resume.map((section) => <ResumeSection key={section.id} section={section} />)}
+      {resume.map((section) => (
+        <ResumeSection key={section.id} section={section} />
+      ))}
     </ScreenFlex>
     <PrintHelper />
   </Layout>

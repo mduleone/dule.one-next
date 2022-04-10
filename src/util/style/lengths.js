@@ -6,4 +6,4 @@ export const rem = (len) => {
   }
 
   return len === 0 ? 0 : `${len / DEFAULT_SIZE}rem`;
-}
+};

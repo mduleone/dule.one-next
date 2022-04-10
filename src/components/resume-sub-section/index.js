@@ -2,8 +2,10 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import styled from 'styled-components';
 
-import ResumeSubSectionContent, { subSectionContentShape } from '../resume-sub-section-content';
-import { rem } from '../../util/style/lengths';
+import ResumeSubSectionContent, {
+  subSectionContentShape,
+} from '~/components/resume-sub-section-content';
+import { rem } from '~/util/style/lengths';
 
 export const subSectionShape = {
   id: PropTypes.string,
@@ -14,47 +16,65 @@ export const subSectionShape = {
   printHalfWidth: PropTypes.bool,
   hideForPrint: PropTypes.bool,
   hideContentForPrint: PropTypes.bool,
-  positions: PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string,
-    date: PropTypes.string,
-  })),
+  positions: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string,
+      date: PropTypes.string,
+    }),
+  ),
   content: PropTypes.oneOfType(subSectionContentShape),
 };
 
 const ResumeSubSection = ({ subsection }) => {
   if (subsection.id === 'spacer') {
-    return <SubSectionSpacer />
+    return <SubSectionSpacer />;
   }
-  const positions = subsection.positions && (
-    (Array.isArray(subsection.positions) && subsection.positions.length > 1)
-      ? subsection.positions.map((position) => (
+  const positions =
+    subsection.positions &&
+    (Array.isArray(subsection.positions) && subsection.positions.length > 1 ? (
+      subsection.positions.map((position) => (
         <div key={`${position.title}-${position.date}`}>
-          <PositionTitle $multi dangerouslySetInnerHTML={{ __html: position.title }} />
+          <PositionTitle
+            $multi
+            dangerouslySetInnerHTML={{ __html: position.title }}
+          />
           <SubSectionDate>{position.date}</SubSectionDate>
         </div>
       ))
-      : (
-        <PositionTitle dangerouslySetInnerHTML={{ __html: subsection.positions[0].title }} />
-      )
-  );
+    ) : (
+      <PositionTitle
+        dangerouslySetInnerHTML={{ __html: subsection.positions[0].title }}
+      />
+    ));
 
   return (
-    <SubSection className={cx({ 'print-half': subsection.printHalfWidth, 'no-print': subsection.hideForPrint })}>
+    <SubSection
+      className={cx({
+        'print-half': subsection.printHalfWidth,
+        'no-print': subsection.hideForPrint,
+      })}
+    >
       <div>
-        {subsection.href
-          ? (
-            <a href={subsection.href} target="_blank" rel="noopener noreferrer">
-              <SubSectionTitle dangerouslySetInnerHTML={{ __html: subsection.displayName }} />
-            </a>
-          )
-          : (
-            <SubSectionTitle dangerouslySetInnerHTML={{ __html: subsection.displayName }} />
-          )
-        }
-        <SubSectionDate $printHalf={subsection.printHalfWidth}>{subsection.date}</SubSectionDate>
+        {subsection.href ? (
+          <a href={subsection.href} target="_blank" rel="noopener noreferrer">
+            <SubSectionTitle
+              dangerouslySetInnerHTML={{ __html: subsection.displayName }}
+            />
+          </a>
+        ) : (
+          <SubSectionTitle
+            dangerouslySetInnerHTML={{ __html: subsection.displayName }}
+          />
+        )}
+        <SubSectionDate $printHalf={subsection.printHalfWidth}>
+          {subsection.date}
+        </SubSectionDate>
         {positions}
         {subsection.content && !subsection.hideContent && (
-          <ResumeSubSectionContent hideForPrint={subsection.hideContentForPrint} content={subsection.content} />
+          <ResumeSubSectionContent
+            hideForPrint={subsection.hideContentForPrint}
+            content={subsection.content}
+          />
         )}
       </div>
     </SubSection>
@@ -68,7 +88,7 @@ ResumeSubSection.propTypes = {
 export default ResumeSubSection;
 
 const SubSection = styled.div`
-  margin-bottom: ${rem(19 * (3/4))};
+  margin-bottom: ${rem(19 * (3 / 4))};
 
   &:last-child {
     margin-bottom: 0;
@@ -123,15 +143,15 @@ const SubSectionDate = styled.time`
 
   @media only print {
     font-size: ${rem(12)};
-    float: ${({ $printHalf }) => $printHalf ? 'none' : 'right'};
+    float: ${({ $printHalf }) => ($printHalf ? 'none' : 'right')};
   }
 `;
 
 const PositionTitle = styled.h4`
-  display: ${({ $multi }) => $multi ? 'inline-block' : 'block'};
+  display: ${({ $multi }) => ($multi ? 'inline-block' : 'block')};
   font-style: italic;
   font-weight: normal;
-  font-size:  ${rem(19)};
+  font-size: ${rem(19)};
   margin: 0;
   vertical-align: top;
 

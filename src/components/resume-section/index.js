@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { rem } from '../../util/style/lengths';
 
-import ResumeSubSection, { subSectionShape } from '../resume-sub-section';
+import { rem } from '~/util/style/lengths';
+import ResumeSubSection, {
+  subSectionShape,
+} from '~/components/resume-sub-section';
 
 export const sectionShape = {
   id: PropTypes.string.isRequired,
@@ -27,17 +29,16 @@ const ResumeSection = ({ section }) => (
     $webOrder={section.webOrder}
   >
     <SectionTitle>
-      {section.printPrefix && (
-        <PrintPrefix>
-          {section.printPrefix}
-        </PrintPrefix>
-      )}
+      {section.printPrefix && <PrintPrefix>{section.printPrefix}</PrintPrefix>}
       {section.title}
     </SectionTitle>
+    {/* eslint-disable-next-line react/no-danger */}
     <div dangerouslySetInnerHTML={{ __html: section.content }} />
-    {(section.subSections && section.subSections.length > 0) && (
-      section.subSections.map((subsection) => <ResumeSubSection key={subsection.id} subsection={subsection} />)
-    )}
+    {section.subSections &&
+      section.subSections.length > 0 &&
+      section.subSections.map((subsection) => (
+        <ResumeSubSection key={subsection.id} subsection={subsection} />
+      ))}
   </Section>
 );
 
@@ -48,7 +49,7 @@ ResumeSection.propTypes = {
 export default ResumeSection;
 
 const Section = styled.div`
-  margin: ${rem(19 * (3/4))} 0;
+  margin: ${rem(19 * (3 / 4))} 0;
   text-align: left;
 
   @media only screen and (min-width: ${rem(590)}) {
@@ -66,11 +67,13 @@ const Section = styled.div`
   @media only print {
     text-align: justify;
     font-size: ${rem(16)};
-    display: ${({ $hideForPrint }) => $hideForPrint ? 'none' : 'inherit'};
-    visibility: ${({ $hideForPrint }) => $hideForPrint ? 'hidden' : 'inherit'};
-    margin-top: ${({ $noPrintTopMargin }) => $noPrintTopMargin ? 0 : rem(12)};
+    display: ${({ $hideForPrint }) => ($hideForPrint ? 'none' : 'inherit')};
+    visibility: ${({ $hideForPrint }) =>
+      $hideForPrint ? 'hidden' : 'inherit'};
+    margin-top: ${({ $noPrintTopMargin }) => ($noPrintTopMargin ? 0 : rem(12))};
     margin-right: 0;
-    margin-bottom: ${({ $noPrintBottomMargin }) => $noPrintBottomMargin ? 0 : rem(12)};
+    margin-bottom: ${({ $noPrintBottomMargin }) =>
+      $noPrintBottomMargin ? 0 : rem(12)};
     margin-left: 0;
 
     &:first-child {
@@ -94,7 +97,7 @@ const SectionTitle = styled.h2`
   }
 
   @media only print {
-    font-size: ${rem(56/3)};
+    font-size: ${rem(56 / 3)};
     color: inherit;
     background-color: inherit;
     font-weight: bold;
@@ -103,7 +106,7 @@ const SectionTitle = styled.h2`
     margin: 0;
 
     & * {
-      font-size: ${rem(56/3)};
+      font-size: ${rem(56 / 3)};
     }
   }
 `;

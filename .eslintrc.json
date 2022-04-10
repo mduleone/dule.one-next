@@ -1,0 +1,157 @@
+{
+  "root": true,
+  "extends": [
+    "airbnb",
+    "plugin:security/recommended"
+  ],
+  "parser": "@babel/eslint-parser",
+  "settings": {
+    "react": {
+      "linkComponents": [
+        {
+          "name": "Link",
+          "linkAttribute": "to"
+        }
+      ]
+    },
+    "import/resolver": {
+      "alias": {
+        "extensions": [
+          ".js",
+          ".css",
+          ".scss"
+        ],
+        "map": [
+          [
+            "~/*",
+            "./src"
+          ]
+        ]
+      }
+    }
+  },
+  "globals": {
+    "__DEV__": "readonly",
+    "analytics": "readonly",
+    "document": "writable",
+    "ga": "readonly",
+    "gtag": "writable",
+    "localStorage": "readonly",
+    "navigator": "readonly",
+    "window": "writable"
+  },
+  "rules": {
+    "require-atomic-updates": "error",
+    "curly": [
+      "error",
+      "all"
+    ],
+    "eqeqeq": [
+      "error",
+      "always",
+      {
+        "null": "always"
+      }
+    ],
+    "no-unused-expressions": [
+      "error",
+      {
+        "allowShortCircuit": true,
+        "allowTernary": false,
+        "allowTaggedTemplates": false
+      }
+    ],
+    "no-undefined": "error",
+    "brace-style": [
+      "error",
+      "1tbs",
+      {
+        "allowSingleLine": false
+      }
+    ],
+    "func-style": "off",
+    "lines-between-class-members": [
+      "error",
+      "always",
+      {
+        "exceptAfterSingleLine": true
+      }
+    ],
+    "lines-around-directive": "off",
+    "no-underscore-dangle": "off",
+    "no-plusplus": "off",
+    "padding-line-between-statements": [
+      "error",
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": "directive"
+      },
+      {
+        "blankLine": "always",
+        "prev": "directive",
+        "next": "*"
+      }
+    ],
+    "quote-props": [
+      "error",
+      "as-needed",
+      {
+        "keywords": false,
+        "unnecessary": true,
+        "numbers": false
+      }
+    ],
+    "operator-linebreak": "off",
+    "no-confusing-arrow": "off",
+    "implicit-arrow-linebreak": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "indent": "off",
+    "multiline-ternary": "off",
+    "object-curly-newline": "off",
+    "import/default": "error",
+    "import/namespace": "error",
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "always",
+        "groups": [
+          [
+            "builtin",
+            "external"
+          ],
+          "internal",
+          [
+            "parent",
+            "sibling"
+          ],
+          "index"
+        ]
+      }
+    ],
+    "react/jsx-key": "error",
+    "react/no-direct-mutation-state": "error",
+    "react/jsx-filename-extension": "off",
+    "react/jsx-props-no-spreading": [
+      "error",
+      {
+        "explicitSpread": "ignore"
+      }
+    ],
+    "max-len": [
+      0,
+      120
+    ],
+    "no-console": 0,
+    "react/react-in-jsx-scope": 0,
+    "react/require-default-props": [
+      1,
+      {
+        "ignoreFunctionalComponents": true
+      }
+    ],
+    "import/prefer-default-export": 0,
+    "security/detect-object-injection": 0,
+    "import/no-anonymous-default-export": 0
+  }
+}

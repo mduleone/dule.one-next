@@ -1,0 +1,32 @@
+// vim:  syntax=jsonc
+{
+  // Since we don't use typescript
+  "typescript.validate.enable": false,
+  // Use the new vscode-js-debug extension - https://github.com/microsoft/vscode-js-debug
+  "debug.javascript.usePreview": true,
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  /**
+   * Configure VSCode to use eslint to format javascript files
+   * See https://github.com/Microsoft/vscode-eslint#settings-options
+   *
+   * Note: This does not enable auto formatting
+   *       If you want to format on save, see optional_settings.jsonc
+   */
+  "eslint.format.enable": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // Disable this since it conflicts with other formatters (if you have them enabled)
+  // See https://github.com/microsoft/vscode/issues/87096
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": false
+  },
+  // Disable built-in CSS type formatting so it doesn't conflict with stylelint
+  // See https://github.com/stylelint/vscode-stylelint#optional-but-recommended-setup
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "openInGitHub.defaultBranch": "main",
+}

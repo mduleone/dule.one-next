@@ -1,10 +1,12 @@
-const track = (event, data = {}) => {
+const track = (event, data = {}, depth = 0) => {
   if (typeof window === 'undefined' || !window.gtag) {
-    setTimeout(() => track(event, data), 5000);
+    if (depth < 5) {
+      setTimeout(() => track(event, data, depth + 1), 5000);
+    }
     return;
   }
 
-  gtag('event', event, data)
+  gtag('event', event, data);
 };
 
 export default track;

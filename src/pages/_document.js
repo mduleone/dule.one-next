@@ -1,12 +1,7 @@
-import Document, {
-  Html,
-  Head,
-  Main,
-  NextScript,
-} from 'next/document';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
-import Favicon from '../components/favicon';
+import Favicon from '~/components/favicon';
 
 class DuLeoneDocument extends Document {
   static async getInitialProps(ctx) {
@@ -14,10 +9,12 @@ class DuLeoneDocument extends Document {
     const originalRenderPage = ctx.renderPage;
 
     try {
-      ctx.renderPage = () => originalRenderPage({
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />),
-      });
+      ctx.renderPage = () =>
+        originalRenderPage({
+          enhanceApp: (App) => (props) =>
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            sheet.collectStyles(<App {...props} />),
+        });
 
       const initialProps = await Document.getInitialProps(ctx);
       return {

@@ -3,57 +3,82 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
+import { rem } from '~/util/style/lengths';
 
 import Header, { navLinks } from './header';
 import PrintAddress from './print-address';
 import PrintCoa from './print-coa';
-import { rem } from '../../util/style/lengths';
 
-const Layout = ({ children }) => {
+const Layout = ({ children, header = true }) => {
   const router = useRouter();
   const [hostname, setHostname] = useState('matt.dule.one');
-  const [date] = useState((new Date()).getFullYear().toString());
+  const [date] = useState(new Date().getFullYear().toString());
   const activeLink = navLinks.find(({ href }) => router.pathname === href);
 
   useEffect(() => {
     setHostname(window.location.hostname);
-  }, [])
+  }, []);
+
+  let activeName = activeLink?.name ? activeLink.name : '';
+  if (router.pathname === '/blackjack/training') {
+    activeName = 'Blackjack Training';
+  }
 
   return (
     <>
       <Head>
-        <title>Matt DuLeone - {activeLink.name}</title>
+        <title>
+          Matt DuLeone
+          {activeName ? ` - ${activeName}` : ''}
+        </title>
+        <meta
+          property="og:title"
+          content={`Matt DuLeone${activeName ? ` - ${activeName}` : ''}`}
+        />
       </Head>
-      <Header activeLink={activeLink} />
+      {header && <Header activeLink={activeLink} />}
       <PrintAddress />
       <PrintCoa />
-      <Main>
-        {children}
-      </Main>
+      <Main $header={header}>{children}</Main>
       <Footer>
-        &copy;{date} Matt DuLeone | <Link href="/"><a>{hostname}</a></Link>
+        &copy;
+        {date} Matt DuLeone |{' '}
+        <Link href="/">
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+          <a>{hostname}</a>
+        </Link>
       </Footer>
     </>
   );
 };
 
+Layout.propTypes = {
+  children: PropTypes.node.isRequired,
+  header: PropTypes.bool,
+};
+
 export default Layout;
 
 const Main = styled.main`
-  max-width: ${rem(768 - (19 * 2))};
-  margin: ${rem(19 * 3)} ${rem(19)} ${rem(23.75)};
+  max-width: ${rem(768 - 19 * 2)};
+  margin: ${({ $header }) => ($header ? rem(19 * 3) : 0)} ${rem(19)}
+    ${rem(23.75)};
   padding-top: ${rem(19)};
 
   @media only screen and (min-width: ${rem(363)}) {
-    margin: ${rem(19 * 4)} ${rem(19)} ${rem(23.75)};
+    margin: ${({ $header }) => ($header ? rem(19 * 4) : 0)} ${rem(19)}
+      ${rem(23.75)};
   }
 
   @media only screen and (min-width: ${rem(590)}) {
-    margin: ${rem(19 * 2)} ${rem(19)} ${rem(23.75)};
+    margin: ${({ $header }) => ($header ? rem(19 * 2) : 0)} ${rem(19)}
+      ${rem(23.75)};
   }
 
-  @media only screen and (min-width: ${rem(768)} ) {
-    margin: ${rem(19 * 2)} auto ${rem(23.75)};
+  @media only screen and (min-width: ${rem(768)}) {
+    margin: ${({ $header }) => ($header ? rem(19 * 2) : 0)} auto ${rem(23.75)};
   }
 
   @media only print {
@@ -62,7 +87,7 @@ const Main = styled.main`
   }
 
   @page {
-    margin: 1cm 0.5cm;
+    margin: 1cm 0.75cm;
   }
 `;
 

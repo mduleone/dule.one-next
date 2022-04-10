@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 
-import Layout from '../../components/layout';
-import contacts from '../../data/contacts';
-import { rem } from '../../util/style/lengths';
+import Layout from '~/components/layout';
+import contactsData from '~/data/contacts';
+import { rem } from '~/util/style/lengths';
 
 export const getStaticProps = () => ({
   props: {
-    contacts,
+    contacts: contactsData,
   },
 });
 
@@ -28,11 +28,13 @@ const Contact = ({ contacts = [] }) => (
 );
 
 Contact.propTypes = {
-  contacts: PropTypes.arrayOf(PropTypes.shape({
-    icon: PropTypes.arrayOf(PropTypes.string),
-    href: PropTypes.string,
-    name: PropTypes.string,
-  })),
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      icon: PropTypes.arrayOf(PropTypes.string),
+      href: PropTypes.string,
+      name: PropTypes.string,
+    }),
+  ),
 };
 
 Contact.defaultProps = {

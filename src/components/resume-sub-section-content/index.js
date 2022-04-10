@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { rem } from '../../util/style/lengths';
+
+import { rem } from '~/util/style/lengths';
 
 const contentShape = {
   screenPrefix: PropTypes.string,
@@ -11,22 +12,25 @@ const contentShape = {
 };
 
 const ContentPiece = ({ piece }) => {
-  const {
-    screenPrefix,
-    printPrefix,
-    href,
-    hideForPrint,
-    copy,
-  } = piece;
+  const { screenPrefix, printPrefix, href, hideForPrint, copy } = piece;
 
-  const linkProps = href ? { as: 'a', href, target: '_blank', rel: 'noopener noreferrer' } : {};
+  const linkProps = href
+    ? {
+        as: 'a',
+        href,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+      }
+    : {};
   return (
     <Content
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...linkProps}
       $hideForPrint={hideForPrint}
     >
       {screenPrefix && <ScreenPrefix>{screenPrefix}</ScreenPrefix>}
       {printPrefix && <PrintPrefix>{printPrefix}</PrintPrefix>}
+      {/* eslint-disable-next-line react/no-danger */}
       <span dangerouslySetInnerHTML={{ __html: copy }} />
     </Content>
   );
@@ -44,15 +48,17 @@ export const subSectionContentShape = [
 const Content = styled.div`
   @media only print {
     text-align: left;
-    ${({ $hideForPrint }) => $hideForPrint && css`
-      display: none !important;
-      visibility: hidden !important;
-    `}
+    ${({ $hideForPrint }) =>
+      $hideForPrint &&
+      css`
+        display: none !important;
+        visibility: hidden !important;
+      `}
   }
 `;
 
 const ScreenPrefix = styled.span`
-  margin-right: 4px;
+  margin-right: ${rem(4)};
 
   @media only print {
     display: none !important;
@@ -65,7 +71,7 @@ const PrintPrefix = styled.span`
   visibility: hidden !important;
 
   @media only print {
-    margin-right: 4px;
+    margin-right: ${rem(4)};
     display: inline-block !important;
     visibility: visible !important;
   }
@@ -78,25 +84,33 @@ const ResumeSubSectionContent = ({ content, hideForPrint }) => {
 
   if (typeof content === 'string') {
     return (
-      <SubSectionContent $hideForPrint={hideForPrint} dangerouslySetInnerHTML={{ __html: content }} />
+      <SubSectionContent
+        $hideForPrint={hideForPrint}
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
     );
   }
 
   const [singularPiece] = content;
 
-  return content.length === 1
-    ? (
-      <SubSectionContent $hideForPrint={hideForPrint}><ContentPiece piece={singularPiece} /></SubSectionContent>
-    )
-    : (
-      <SubSectionContent $hideForPrint={hideForPrint} as="ul">
-        {content.map((piece) => <li key={piece.copy}><ContentPiece piece={piece} /></li>)}
-      </SubSectionContent>
-    );
+  return content.length === 1 ? (
+    <SubSectionContent $hideForPrint={hideForPrint}>
+      <ContentPiece piece={singularPiece} />
+    </SubSectionContent>
+  ) : (
+    <SubSectionContent $hideForPrint={hideForPrint} as="ul">
+      {content.map((piece) => (
+        <li key={piece.copy}>
+          <ContentPiece piece={piece} />
+        </li>
+      ))}
+    </SubSectionContent>
+  );
 };
 
 ResumeSubSectionContent.propTypes = {
   content: PropTypes.oneOfType(subSectionContentShape),
+  hideForPrint: PropTypes.bool,
 };
 
 export default ResumeSubSectionContent;
@@ -109,9 +123,11 @@ const SubSectionContent = styled.div`
   }
 
   @media only print {
-    ${({ $hideForPrint }) => $hideForPrint && css`
-      display: none !important;
-      visibility: hidden !important;
-    `}
+    ${({ $hideForPrint }) =>
+      $hideForPrint &&
+      css`
+        display: none !important;
+        visibility: hidden !important;
+      `}
   }
 `;
