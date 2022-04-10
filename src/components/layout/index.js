@@ -60,6 +60,10 @@ const Main = styled.main`
     max-width: 100%;
     margin: ${rem(36)} 0 0;
   }
+
+  @page {
+    margin: 1cm 0.5cm;
+  }
 `;
 
 const Footer = styled.footer`

@@ -12,16 +12,14 @@ export const getStaticProps = () => ({
   },
 });
 
-const Resume = ({ resume }) => {
-  return (
-    <Layout>
-      <ScreenFlex>
-        {resume.map((section) => <ResumeSection key={section.id} section={section} />)}
-      </ScreenFlex>
-      <PrintHelper />
-    </Layout>
-  );
-};
+const Resume = ({ resume }) => (
+  <Layout>
+    <ScreenFlex>
+      {resume.map((section) => <ResumeSection key={section.id} section={section} />)}
+    </ScreenFlex>
+    <PrintHelper />
+  </Layout>
+);
 
 Resume.propTypes = {
   resume: PropTypes.arrayOf(PropTypes.shape(sectionShape)),
@@ -29,11 +27,11 @@ Resume.propTypes = {
 
 Resume.defaultProps = {};
 
+export default Resume;
+
 const ScreenFlex = styled.div`
   @media only screen {
     display: flex;
     flex-direction: column;
   }
 `;
-
-export default Resume;
