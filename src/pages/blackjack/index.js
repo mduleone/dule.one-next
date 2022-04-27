@@ -176,13 +176,13 @@ const Key = styled.div`
   display: none;
   padding: 0 ${rem(8)};
   left: 0;
-  top: 0;
-  transform: translate(-50%, -50%);
+  bottom: 0;
+  transform: translate(-50%, 50%);
   z-index: 1;
   white-space: nowrap;
 `;
   
-  const HandKey = styled.div`
+const HandKey = styled.div`
   position: absolute;
   font-size: ${rem(12)};
   line-height: 1.1;
@@ -219,6 +219,7 @@ const Lead = styled.div`
   &:hover,
   &:focus {
     background-color: teal;
+    color: ${({ theme }) => theme.colors.white};
   }
 `;
 
