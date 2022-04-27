@@ -54,7 +54,10 @@ const Blackjack = ({ blackjack }) => {
             <Lead>{key}</Lead>
             {Object.entries(hand).sort(entryKeySort).map(([handKey, {action, surrender}]) => (
               <Hand key={handKey} $action={action}>
-                {transformAction[action]}{surrender ? '*' : ''}
+                {transformAction[action]}
+                {surrender ? '*' : ''}
+                <Key>{key}</Key>
+                <HandKey>{handKey}</HandKey>
               </Hand>
             ))}
           </Row>
@@ -125,15 +128,6 @@ const Table = styled.div`
   align-items: center;
 `;
 
-const Row = styled.div`
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  min-width: 100%;
-`;
-
 const Legend = styled.div`
   font-size: ${rem(14)};
   font-weight: bold;
@@ -171,6 +165,40 @@ const Header = styled.div`
   }
 `;
 
+const Key = styled.div`
+  position: absolute;
+  font-size: ${rem(12)};
+  line-height: 1.1;
+  letter-spacing: -${rem(1)};
+  border-radius: ${rem(100)};
+  color: ${({ theme }) => theme.colors.softBlack};
+  background-color: ${({ theme }) => theme.colors.softWhite};
+  display: none;
+  padding: 0 ${rem(8)};
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  white-space: nowrap;
+`;
+  
+  const HandKey = styled.div`
+  position: absolute;
+  font-size: ${rem(12)};
+  line-height: 1.1;
+  letter-spacing: -${rem(1)};
+  border-radius: ${rem(100)};
+  color: ${({ theme }) => theme.colors.softBlack};
+  background-color: ${({ theme }) => theme.colors.softWhite};
+  display: none;
+  padding: 0 ${rem(8)};
+  right: 0;
+  top: 0;
+  transform: translate(50%, -50%);
+  z-index: 1;
+  white-space: nowrap;
+`;
+
 const Lead = styled.div`
   font-size: ${rem(14)};
   font-weight: bold;
@@ -182,6 +210,29 @@ const Lead = styled.div`
   text-align: right;
   padding-right: ${rem(8)};
   letter-spacing: -${rem(1)};
+
+  &:hover ~ * ${HandKey},
+  &:focus ~ * ${HandKey} {
+    display: block;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: teal;
+  }
+`;
+
+const Row = styled.div`
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  min-width: 100%;
+
+  &:focus-within > ${Lead} {
+    background-color: teal;
+  }
 `;
 
 const Hand = styled.div`
@@ -192,6 +243,19 @@ const Hand = styled.div`
   min-width: ${rem(30)};
   vertical-align: middle;
   color: ${({ theme, $action }) => $action === 'stand' ? theme.colors.white : theme.colors.black};
+  position: relative;
+
+  &:hover,
+  &:focus {
+    ${HandKey},
+    ${Key} {
+      display: block;
+    }
+
+    &:hover ~ ${Lead} {
+      background-color: teal;
+    }
+  }
 
   @media screen and (min-width: ${rem(768)}) {
     min-width: ${rem(50)};
