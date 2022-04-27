@@ -180,6 +180,19 @@ const Header = styled.div`
   }
 `;
 
+const Lead = styled.div`
+  font-size: ${rem(14)};
+  font-weight: bold;
+  white-space: nowrap;
+  align-self: flex-end;
+  min-width: ${rem(40)};
+  width: ${rem(40)};
+  border: none;
+  text-align: right;
+  padding-right: ${rem(8)};
+  letter-spacing: -${rem(1)};
+`;
+
 const Hand = styled.div`
   border: none;
   padding: 0;
@@ -192,16 +205,4 @@ const Hand = styled.div`
   @media screen and (min-width: ${rem(768)}) {
     min-width: ${rem(50)};
   }
-`;
-  
-const Lead = styled.div`
-  font-size: ${rem(14)};
-  font-weight: bold;
-  white-space: nowrap;
-  align-self: flex-end;
-  min-width: ${rem(60)};
-  width: ${rem(60)};
-  border: none;
-  text-align: right;
-  padding-right: ${rem(8)};
 `;

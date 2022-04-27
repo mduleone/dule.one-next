@@ -421,7 +421,7 @@ const blackjack = {
       },},
   },
   hard: {
-    '17+': {
+    '17 +': {
       A: {
         action: 'stand',
         surrender: false,
@@ -799,7 +799,7 @@ const blackjack = {
         surrender: false,
       },
     },
-    '8-': {
+    '8 -': {
       A: {
         action: 'hit',
         surrender: false,
@@ -843,7 +843,7 @@ const blackjack = {
     },
   },
   soft: {
-    'A-9': {
+    'A - 9': {
       A: {
         action: 'stand',
         surrender: false,
@@ -885,7 +885,7 @@ const blackjack = {
         surrender: false,
       },
     },
-    'A-8': {
+    'A - 8': {
       A: {
         action: 'stand',
         surrender: false,
@@ -927,7 +927,7 @@ const blackjack = {
         surrender: false,
       },
     },
-    'A-7': {
+    'A - 7': {
       A: {
         action: 'hit',
         surrender: false,
@@ -969,7 +969,7 @@ const blackjack = {
         surrender: false,
       },
     },
-    'A-6': {
+    'A - 6': {
       A: {
         action: 'hit',
         surrender: false,
@@ -1011,7 +1011,7 @@ const blackjack = {
         surrender: false,
       },
     },
-    'A-5': {
+    'A - 5': {
       A: {
         action: 'hit',
         surrender: false,
@@ -1053,7 +1053,7 @@ const blackjack = {
         surrender: false,
       },
     },
-    'A-4': {
+    'A - 4': {
       A: {
         action: 'hit',
         surrender: false,
@@ -1095,7 +1095,7 @@ const blackjack = {
         surrender: false,
       },
     },
-    'A-3': {
+    'A - 3': {
       A: {
         action: 'hit',
         surrender: false,
@@ -1137,7 +1137,7 @@ const blackjack = {
         surrender: false,
       },
     },
-    'A-2': {
+    'A - 2': {
       A: {
         action: 'hit',
         surrender: false,
