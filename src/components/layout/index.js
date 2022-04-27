@@ -22,7 +22,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Head>
-        <title>Matt DuLeone - {activeLink.name}</title>
+        <title>Matt DuLeone{!!activeLink?.name ? ` - ${activeLink.name}` : ''}</title>
       </Head>
       <Header activeLink={activeLink} />
       <PrintAddress />

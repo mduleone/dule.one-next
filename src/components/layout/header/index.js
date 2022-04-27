@@ -37,7 +37,7 @@ const Header = ({ activeLink }) => {
           {navLinks.map(({ name, href }) => (
             <NavListItem key={name}>
               <Link href={href}>
-                <NavListItemLink $active={activeLink.href === href}>
+                <NavListItemLink $active={activeLink?.href === href}>
                   {name}
                 </NavListItemLink>
               </Link>
