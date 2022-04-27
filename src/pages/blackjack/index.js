@@ -12,7 +12,7 @@ const transformAction = {
   hit: 'H',
 }
 
-const keySort = ([a], [b]) => {
+const entryKeySort = ([a], [b]) => {
   const parsedIntA = parseInt(a, 10);
   const parsedIntB = parseInt(b, 10);
   if (!Number.isNaN(parsedIntA) && !Number.isNaN(parsedIntB)) {
@@ -29,7 +29,12 @@ const keySort = ([a], [b]) => {
 };
 
 const Blackjack = ({ blackjack }) => {
-  const headers = Object.entries(blackjack.pairs.A).sort(keySort).map(([el]) => el);
+  const hands = [
+    ...Object.entries(blackjack.pairs).sort(entryKeySort).map(([key, hand]) => [`${key} ${key}`, hand]),
+    ...Object.entries(blackjack.hard).sort(entryKeySort),
+    ...Object.entries(blackjack.soft).sort(entryKeySort),
+  ];
+  const headers = Object.entries(hands[0][1]).sort(entryKeySort).map(([el]) => el);
 
   return (
     <Layout>
@@ -44,32 +49,18 @@ const Blackjack = ({ blackjack }) => {
           <Lead />
           {headers.map(header => <Header key={header}>{header}</Header>)}
         </Row>
-        {Object.entries(blackjack.pairs).sort(keySort).map(([key, hand]) => {
-          return (
-            <Row>
-              <Lead>{key} {key}</Lead>
-              {Object.entries(hand).sort(keySort).map(([handKey, {action, surrender}]) => <Hand key={handKey} $action={action} >{transformAction[action]}{surrender ? '*' : ''}</Hand>)}
-            </Row>
-          );
-        })}
-        {Object.entries(blackjack.hard).sort(keySort).map(([key, hand]) => {
-          return (
-            <Row>
-              <Lead>{key}</Lead>
-              {Object.entries(hand).sort(keySort).map(([handKey, {action, surrender}]) => <Hand key={handKey} $action={action} >{transformAction[action]}{surrender ? '*' : ''}</Hand>)}
-            </Row>
-          );
-        })}
-        {Object.entries(blackjack.soft).sort(keySort).map(([key, hand]) => {
-          return (
-            <Row>
-              <Lead>{key}</Lead>
-              {Object.entries(hand).sort(keySort).map(([handKey, {action, surrender}]) => <Hand key={handKey} $action={action} >{transformAction[action]}{surrender ? '*' : ''}</Hand>)}
-            </Row>
-          );
-        })}
+        {hands.map(([key, hand]) => (
+          <Row key={key}>
+            <Lead>{key}</Lead>
+            {Object.entries(hand).sort(entryKeySort).map(([handKey, {action, surrender}]) => (
+              <Hand key={handKey} $action={action}>
+                {transformAction[action]}{surrender ? '*' : ''}
+              </Hand>
+            ))}
+          </Row>
+        ))}
         <Row>
-          <ColorlessLegend>* Surrender</ColorlessLegend>
+          <ColorlessLegend>* Surrender if allowed</ColorlessLegend>
         </Row>
       </Table>
     </Layout>
