@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -29,6 +30,8 @@ const entryKeySort = ([a], [b]) => {
 };
 
 const Blackjack = ({ blackjack }) => {
+  const [hoveredPlayerHand, setHoveredPlayerHand] = useState(null);
+  const [hoveredDealerCard, setHoveredDealerCard] = useState(null);
   const hands = [
     ...Object.entries(blackjack.pairs).sort(entryKeySort).map(([key, hand]) => [`${key} ${key}`, hand]),
     ...Object.entries(blackjack.hard).sort(entryKeySort),
@@ -47,16 +50,58 @@ const Blackjack = ({ blackjack }) => {
         </Row>
         <Row>
           <Lead />
-          {headers.map(header => <Header key={header}>{header}</Header>)}
+          {headers.map(header => (
+            <Header
+              key={header}
+              $hovered={hoveredDealerCard === header}
+              onMouseEnter={() => {
+                setHoveredPlayerHand(null);
+                setHoveredDealerCard(header);
+              }}
+              onMouseLeave={() => {
+                setHoveredPlayerHand(null);
+                setHoveredDealerCard(null);
+              }}
+            >
+              {header}
+            </Header>
+          ))}
         </Row>
         {hands.map(([key, hand]) => (
           <Row key={key}>
-            <Lead>{key}</Lead>
+            <Lead
+              $hovered={hoveredPlayerHand === key}
+              onMouseEnter={() => {
+                setHoveredPlayerHand(key);
+                setHoveredDealerCard(null);
+              }}
+              onMouseLeave={() => {
+                setHoveredPlayerHand(null);
+                setHoveredDealerCard(null);
+              }}
+            >
+              {key}
+            </Lead>
             {Object.entries(hand).sort(entryKeySort).map(([handKey, {action, surrender}]) => (
-              <Hand key={handKey} $action={action}>
+              <Hand
+                key={handKey}
+                $action={action}
+                onMouseEnter={() => {
+                  setHoveredPlayerHand(key);
+                  setHoveredDealerCard(handKey);
+                }}
+                onMouseLeave={() => {
+                  setHoveredPlayerHand(null);
+                  setHoveredDealerCard(null);
+                }}
+              >
                 {transformAction[action]}
                 {surrender ? '*' : ''}
-                <Key>{key}</Key>
+                <Key
+                  $columnHovered={hoveredDealerCard === handKey && hoveredPlayerHand === null}
+                >
+                  {key}
+                </Key>
                 <HandKey>{handKey}</HandKey>
               </Hand>
             ))}
@@ -159,6 +204,8 @@ const Header = styled.div`
   font-weight: bold;
   min-width: ${rem(30)};
   text-align: center;
+  background-color: ${({ $hovered }) => $hovered ? 'teal' : 'inherit'};
+  color: ${({ $hovered, theme }) => $hovered ? theme.colors.white : 'inherit'};
 
   @media screen and (min-width: ${rem(768)}) {
     min-width: ${rem(50)};
@@ -173,7 +220,7 @@ const Key = styled.div`
   border-radius: ${rem(100)};
   color: ${({ theme }) => theme.colors.softBlack};
   background-color: ${({ theme }) => theme.colors.softWhite};
-  display: none;
+  display: ${({ $columnHovered }) => $columnHovered ? 'block' : 'none'};
   padding: 0 ${rem(8)};
   left: 0;
   bottom: 0;
@@ -210,16 +257,12 @@ const Lead = styled.div`
   text-align: right;
   padding-right: ${rem(8)};
   letter-spacing: -${rem(1)};
+  background-color: ${({$hovered }) => $hovered ? 'teal' : 'inherit'};
+  color: ${({ $hovered, theme }) => $hovered ? theme.colors.white : 'inherit'};
 
   &:hover ~ * ${HandKey},
   &:focus ~ * ${HandKey} {
     display: block;
-  }
-
-  &:hover,
-  &:focus {
-    background-color: teal;
-    color: ${({ theme }) => theme.colors.white};
   }
 `;
 
@@ -230,10 +273,6 @@ const Row = styled.div`
   flex-direction: row;
   justify-content: center;
   min-width: 100%;
-
-  &:focus-within > ${Lead} {
-    background-color: teal;
-  }
 `;
 
 const Hand = styled.div`
@@ -251,10 +290,6 @@ const Hand = styled.div`
     ${HandKey},
     ${Key} {
       display: block;
-    }
-
-    &:hover ~ ${Lead} {
-      background-color: teal;
     }
   }
 
