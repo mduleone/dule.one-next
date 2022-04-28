@@ -40,7 +40,7 @@ const Blackjack = ({ blackjack }) => {
   const headers = Object.entries(hands[0][1]).sort(entryKeySort).map(([el]) => el);
 
   return (
-    <Layout>
+    <Layout noContentPadding>
       <Table>
         <Row>
           <Legend $action="hit">Hit</Legend>
