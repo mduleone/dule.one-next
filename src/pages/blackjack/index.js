@@ -170,7 +170,7 @@ const computeActionColor = (action, colors) => {
 }
 
 const Table = styled.div`
-  line-height: 1.15;
+  line-height: ${rem(21)};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -237,15 +237,15 @@ const Header = styled.div`
 
 const Pairs = styled.div`
   text-align: center;
-  width: ${rem(219.4)};
+  width: ${rem(210)};
   position: absolute;
-  transform: rotate(-90deg) translate(-239.32px, -69px);
+  transform: rotate(-90deg) translate(-241.32px, -69px);
   transform-origin: left;
   border-left: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
   border-right: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
 
   @media screen and (min-width: ${rem(768)}) {
-    transform: rotate(-90deg) translate(-239.32px, -169px);
+    transform: rotate(-90deg) translate(-241.32px, -169px);
   }
 
   @media (prefers-color-scheme: dark) {
@@ -255,15 +255,15 @@ const Pairs = styled.div`
 
 const Hard = styled.div`
   text-align: center;
-  width: ${rem(219.4)};
+  width: ${rem(210)};
   position: absolute;
-  transform: rotate(-90deg) translate(-457.72px, -69px);
+  transform: rotate(-90deg) translate(-450.32px, -69px);
   transform-origin: left;
   border-left: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
   border-right: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
 
   @media screen and (min-width: ${rem(768)}) {
-    transform: rotate(-90deg) translate(-457.72px, -169px);
+    transform: rotate(-90deg) translate(-450.32px, -169px);
   }
 
   @media (prefers-color-scheme: dark) {
@@ -273,15 +273,15 @@ const Hard = styled.div`
 
 const Soft = styled.div`
   text-align: center;
-  width: ${rem(175.72)};
+  width: ${rem(170)};
   position: absolute;
-  transform: rotate(-90deg) translate(-632.36px, -90px);
+  transform: rotate(-90deg) translate(-619.56px, -89px);
   transform-origin: left;
   border-left: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
   border-right: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
 
   @media screen and (min-width: ${rem(768)}) {
-    transform: rotate(-90deg) translate(-632.36px, -190px);
+    transform: rotate(-90deg) translate(-619.56px, -189px);
   }
 
   @media (prefers-color-scheme: dark) {
