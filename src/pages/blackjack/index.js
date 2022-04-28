@@ -67,6 +67,9 @@ const Blackjack = ({ blackjack }) => {
             </Header>
           ))}
         </Row>
+        <Pairs>Pairs</Pairs>
+        <Hard>Hard</Hard>
+        <Soft>Soft</Soft>
         {hands.map(([key, hand]) => (
           <Row key={key}>
             <Lead
@@ -171,6 +174,16 @@ const Table = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+`;
+
+const Row = styled.div`
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  min-width: 100%;
 `;
 
 const Legend = styled.div`
@@ -184,6 +197,16 @@ const Legend = styled.div`
 
   @media screen and (min-width: ${rem(768)}) {
     min-width: ${rem(50)};
+  }
+
+  &:first-child {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+  }
+
+  &:last-child {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
   }
 `;
 
@@ -212,6 +235,60 @@ const Header = styled.div`
   }
 `;
 
+const Pairs = styled.div`
+  text-align: center;
+  width: ${rem(219.4)};
+  position: absolute;
+  transform: rotate(-90deg) translate(-239.32px, -69px);
+  transform-origin: left;
+  border-left: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
+  border-right: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
+
+  @media screen and (min-width: ${rem(768)}) {
+    transform: rotate(-90deg) translate(-239.32px, -169px);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    border-color: ${({ theme }) => theme.colors.white};
+  }
+`;
+
+const Hard = styled.div`
+  text-align: center;
+  width: ${rem(219.4)};
+  position: absolute;
+  transform: rotate(-90deg) translate(-457.72px, -69px);
+  transform-origin: left;
+  border-left: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
+  border-right: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
+
+  @media screen and (min-width: ${rem(768)}) {
+    transform: rotate(-90deg) translate(-457.72px, -169px);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    border-color: ${({ theme }) => theme.colors.white};
+  }
+`;
+
+const Soft = styled.div`
+  text-align: center;
+  width: ${rem(175.72)};
+  position: absolute;
+  transform: rotate(-90deg) translate(-632.36px, -90px);
+  transform-origin: left;
+  border-left: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
+  border-right: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
+
+  @media screen and (min-width: ${rem(768)}) {
+    transform: rotate(-90deg) translate(-632.36px, -190px);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    border-color: ${({ theme }) => theme.colors.white};
+  }
+`;
+
 const Key = styled.div`
   position: absolute;
   font-size: ${rem(12)};
@@ -221,7 +298,7 @@ const Key = styled.div`
   color: ${({ theme }) => theme.colors.softBlack};
   background-color: ${({ theme }) => theme.colors.softWhite};
   display: ${({ $columnHovered }) => $columnHovered ? 'block' : 'none'};
-  padding: 0 ${rem(8)};
+  padding: 0 ${rem(4)};
   left: 0;
   bottom: 0;
   transform: translate(-50%, 50%);
@@ -238,7 +315,7 @@ const HandKey = styled.div`
   color: ${({ theme }) => theme.colors.softBlack};
   background-color: ${({ theme }) => theme.colors.softWhite};
   display: none;
-  padding: 0 ${rem(8)};
+  padding: 0 ${rem(4)};
   right: 0;
   top: 0;
   transform: translate(50%, -50%);
@@ -264,15 +341,6 @@ const Lead = styled.div`
   &:focus ~ * ${HandKey} {
     display: block;
   }
-`;
-
-const Row = styled.div`
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  min-width: 100%;
 `;
 
 const Hand = styled.div`
