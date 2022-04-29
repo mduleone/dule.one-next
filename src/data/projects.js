@@ -1,9 +1,9 @@
 const projects = [
   {
-    title: "BlackJack",
+    title: "Gammy's Game (Blackjack Strategy Card)",
     href: "/blackjack",
     repo: "https://github.com/mduleone/dule.one-next",
-    desc: "Part of this project. A BlackJack strategy card in-browser, because a physical card inconvenient.",
+    desc: "Part of this project. A BlackJack Strategy Card in-browser, because a physical card inconvenient.",
     internal: true,
   },
   {
