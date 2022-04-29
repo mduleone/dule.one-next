@@ -9,7 +9,7 @@ import PrintAddress from './print-address';
 import PrintCoa from './print-coa';
 import { rem } from '../../util/style/lengths';
 
-const Layout = ({ children, noContentPadding = false }) => {
+const Layout = ({ children }) => {
   const router = useRouter();
   const [hostname, setHostname] = useState('matt.dule.one');
   const [date] = useState((new Date()).getFullYear().toString());
@@ -27,7 +27,7 @@ const Layout = ({ children, noContentPadding = false }) => {
       <Header activeLink={activeLink} />
       <PrintAddress />
       <PrintCoa />
-      <Main $noContentPadding={noContentPadding}>
+      <Main>
         {children}
       </Main>
       <Footer>
@@ -42,7 +42,7 @@ export default Layout;
 const Main = styled.main`
   max-width: ${rem(768 - (19 * 2))};
   margin: ${rem(19 * 3)} ${rem(19)} ${rem(23.75)};
-  padding-top: ${({ $noContentPadding }) => rem($noContentPadding ? 0 : 19)};
+  padding-top: ${rem(19)};
 
   @media only screen and (min-width: ${rem(363)}) {
     margin: ${rem(19 * 4)} ${rem(19)} ${rem(23.75)};

@@ -53,7 +53,7 @@ Header.propTypes = {
   activeLink: PropTypes.shape({
     name: PropTypes.string,
     href: PropTypes.string,
-  }).isRequired,
+  }),
 };
 
 export default Header;

@@ -40,7 +40,7 @@ const Blackjack = ({ blackjack }) => {
   const headers = Object.entries(hands[0][1]).sort(entryKeySort).map(([el]) => el);
 
   return (
-    <Layout noContentPadding>
+    <Layout>
       <Table>
         <Row>
           <Legend $action="hit">Hit</Legend>
@@ -100,12 +100,12 @@ const Blackjack = ({ blackjack }) => {
               >
                 {transformAction[action]}
                 {surrender ? '*' : ''}
-                <Key
+                <DealerHandValue
                   $columnHovered={hoveredDealerCard === handKey && hoveredPlayerHand === null}
                 >
                   {key}
-                </Key>
-                <HandKey>{handKey}</HandKey>
+                </DealerHandValue>
+                <PlayerHandValue>{handKey}</PlayerHandValue>
               </Hand>
             ))}
           </Row>
@@ -170,7 +170,7 @@ const computeActionColor = (action, colors) => {
 }
 
 const Table = styled.div`
-  line-height: ${rem(21)};
+  line-height: ${rem(20)};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -237,15 +237,15 @@ const Header = styled.div`
 
 const Pairs = styled.div`
   text-align: center;
-  width: ${rem(210)};
+  width: ${rem(201)};
   position: absolute;
-  transform: rotate(-90deg) translate(-241.32px, -69px);
+  transform: rotate(-90deg) translate(-230.5px, -77px);
   transform-origin: left;
   border-left: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
   border-right: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
 
   @media screen and (min-width: ${rem(768)}) {
-    transform: rotate(-90deg) translate(-241.32px, -169px);
+    transform: rotate(-90deg) translate(-230.5px, -177px);
   }
 
   @media (prefers-color-scheme: dark) {
@@ -255,15 +255,15 @@ const Pairs = styled.div`
 
 const Hard = styled.div`
   text-align: center;
-  width: ${rem(210)};
+  width: ${rem(201)};
   position: absolute;
-  transform: rotate(-90deg) translate(-450.32px, -69px);
+  transform: rotate(-90deg) translate(-430.5px, -77px);
   transform-origin: left;
   border-left: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
   border-right: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
 
   @media screen and (min-width: ${rem(768)}) {
-    transform: rotate(-90deg) translate(-450.32px, -169px);
+    transform: rotate(-90deg) translate(-430.5px, -177px);
   }
 
   @media (prefers-color-scheme: dark) {
@@ -273,15 +273,15 @@ const Hard = styled.div`
 
 const Soft = styled.div`
   text-align: center;
-  width: ${rem(170)};
+  width: ${rem(161)};
   position: absolute;
-  transform: rotate(-90deg) translate(-619.56px, -89px);
+  transform: rotate(-90deg) translate(-590.5px, -97px);
   transform-origin: left;
   border-left: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
   border-right: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
 
   @media screen and (min-width: ${rem(768)}) {
-    transform: rotate(-90deg) translate(-619.56px, -189px);
+    transform: rotate(-90deg) translate(-590.5px, -197px);
   }
 
   @media (prefers-color-scheme: dark) {
@@ -289,9 +289,9 @@ const Soft = styled.div`
   }
 `;
 
-const Key = styled.div`
+const BubbleKey = styled.div`
   position: absolute;
-  font-size: ${rem(12)};
+  font-size: ${rem(10)};
   line-height: 1.1;
   letter-spacing: -${rem(1)};
   border-radius: ${rem(100)};
@@ -299,28 +299,20 @@ const Key = styled.div`
   background-color: ${({ theme }) => theme.colors.softWhite};
   display: ${({ $columnHovered }) => $columnHovered ? 'block' : 'none'};
   padding: 0 ${rem(4)};
-  left: 0;
-  bottom: 0;
-  transform: translate(-50%, 50%);
   z-index: 1;
   white-space: nowrap;
 `;
-  
-const HandKey = styled.div`
-  position: absolute;
-  font-size: ${rem(12)};
-  line-height: 1.1;
-  letter-spacing: -${rem(1)};
-  border-radius: ${rem(100)};
-  color: ${({ theme }) => theme.colors.softBlack};
-  background-color: ${({ theme }) => theme.colors.softWhite};
-  display: none;
-  padding: 0 ${rem(4)};
+
+const DealerHandValue = styled(BubbleKey)`
+  left: 0;
+  bottom: 0;
+  transform: translate(-50%, 50%);
+`;
+
+const PlayerHandValue = styled(BubbleKey)`
   right: 0;
   top: 0;
   transform: translate(50%, -50%);
-  z-index: 1;
-  white-space: nowrap;
 `;
 
 const Lead = styled.div`
@@ -337,8 +329,8 @@ const Lead = styled.div`
   background-color: ${({$hovered }) => $hovered ? 'teal' : 'inherit'};
   color: ${({ $hovered, theme }) => $hovered ? theme.colors.white : 'inherit'};
 
-  &:hover ~ * ${HandKey},
-  &:focus ~ * ${HandKey} {
+  &:hover ~ * ${PlayerHandValue},
+  &:focus ~ * ${PlayerHandValue} {
     display: block;
   }
 `;
@@ -350,13 +342,14 @@ const Hand = styled.div`
   text-align: center;
   min-width: ${rem(30)};
   vertical-align: middle;
+  font-size: ${rem(16)};
   color: ${({ theme, $action }) => $action === 'stand' ? theme.colors.white : theme.colors.black};
   position: relative;
 
   &:hover,
   &:focus {
-    ${HandKey},
-    ${Key} {
+    ${PlayerHandValue},
+    ${DealerHandValue} {
       display: block;
     }
   }

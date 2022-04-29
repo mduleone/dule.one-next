@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Link from 'next/link';
 
 import Layout from '../../components/layout';
 import projects from '../../data/projects';
@@ -13,23 +14,32 @@ export const getStaticProps = () => ({
 
 const Projects = ({ projects }) => (
   <Layout>
-    {projects.map(({ title, href, repo, desc }) => (
-      <Project key={title}>
-        <ProjectTitleContainer>
-          <ProjectTitle href={href} target="_blank" rel="noopener noreferrer">
-            {title}
-          </ProjectTitle>
-        </ProjectTitleContainer>
-        <p dangerouslySetInnerHTML={{ __html: desc }} />
-        {repo && (
-          <ProjectRepository>
-            <a href={repo} target="_blank" rel="noopener noreferrer">
-              Repository
-            </a>
-          </ProjectRepository>
-        )}
-      </Project>
-    ))}
+    {projects.map(({ title, href, repo, desc, internal }) => {
+      const titleProps = internal ? {} : {
+        target: '_blank',
+        rel: 'noopener noreferrer',
+      };
+
+      return (
+        <Project key={title}>
+          <ProjectTitleContainer>
+            <Link href={href} passHref>
+              <ProjectTitle {...titleProps}>
+                {title}
+              </ProjectTitle>
+            </Link>
+          </ProjectTitleContainer>
+          <p dangerouslySetInnerHTML={{ __html: desc }} />
+          {repo && (
+            <ProjectRepository>
+              <a href={repo} target="_blank" rel="noopener noreferrer">
+                Repository
+              </a>
+            </ProjectRepository>
+          )}
+        </Project>
+      );
+    })}
   </Layout>
 );
 
