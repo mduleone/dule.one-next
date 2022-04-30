@@ -54,6 +54,11 @@ const Blackjack = ({ blackjack }) => {
             <Header
               key={header}
               $hovered={hoveredDealerCard === header}
+              role="button"
+              onClick={() => {
+                setHoveredPlayerHand(null);
+                setHoveredDealerCard(header);
+              }}
               onMouseEnter={() => {
                 setHoveredPlayerHand(null);
                 setHoveredDealerCard(header);
@@ -70,12 +75,17 @@ const Blackjack = ({ blackjack }) => {
         <Pairs>Pairs</Pairs>
         <Hard>Hard</Hard>
         <Soft>Soft</Soft>
-        {hands.map(([key, hand]) => (
-          <Row key={key}>
+        {hands.map(([playerHand, hand]) => (
+          <Row key={playerHand}>
             <Lead
-              $hovered={hoveredPlayerHand === key}
+              $hovered={hoveredPlayerHand === playerHand}
+              role="button"
+              onClick={() => {
+                setHoveredPlayerHand(playerHand);
+                setHoveredDealerCard(null);
+              }}
               onMouseEnter={() => {
-                setHoveredPlayerHand(key);
+                setHoveredPlayerHand(playerHand);
                 setHoveredDealerCard(null);
               }}
               onMouseLeave={() => {
@@ -83,23 +93,28 @@ const Blackjack = ({ blackjack }) => {
                 setHoveredDealerCard(null);
               }}
             >
-              {key}
+              {playerHand}
             </Lead>
-            {Object.entries(hand).sort(entryKeySort).map(([handKey, {action, surrender}]) => {
+            {Object.entries(hand).sort(entryKeySort).map(([dealerCard, {action, surrender}]) => {
               const showPlayerKey =
-                (hoveredDealerCard === null && hoveredPlayerHand === key) ||
-                (hoveredDealerCard === handKey && hoveredPlayerHand === key);
+                (hoveredDealerCard === null && hoveredPlayerHand === playerHand) ||
+                (hoveredDealerCard === dealerCard && hoveredPlayerHand === playerHand);
               const showDealerKey =
-                (hoveredDealerCard === handKey && hoveredPlayerHand === null) ||
-                (hoveredDealerCard === handKey && hoveredPlayerHand === key);
+                (hoveredDealerCard === dealerCard && hoveredPlayerHand === null) ||
+                (hoveredDealerCard === dealerCard && hoveredPlayerHand === playerHand);
 
               return (
                 <Hand
-                  key={handKey}
+                  key={dealerCard}
                   $action={action}
+                  role="button"
+                  onClick={() => {
+                    setHoveredPlayerHand(playerHand);
+                    setHoveredDealerCard(dealerCard);
+                  }}
                   onMouseEnter={() => {
-                    setHoveredPlayerHand(key);
-                    setHoveredDealerCard(handKey);
+                    setHoveredPlayerHand(playerHand);
+                    setHoveredDealerCard(dealerCard);
                   }}
                   onMouseLeave={() => {
                     setHoveredPlayerHand(null);
@@ -108,8 +123,8 @@ const Blackjack = ({ blackjack }) => {
                 >
                   {transformAction[action]}
                   {surrender ? '*' : ''}
-                  <DealerHandValue $show={showDealerKey}>{key}</DealerHandValue>
-                  <PlayerHandValue $show={showPlayerKey}>{handKey}</PlayerHandValue>
+                  <DealerHandValue $show={showDealerKey}>{playerHand}</DealerHandValue>
+                  <PlayerHandValue $show={showPlayerKey}>{dealerCard}</PlayerHandValue>
                 </Hand>
               );
             })}
@@ -234,6 +249,12 @@ const Header = styled.div`
   text-align: center;
   background-color: ${({ $hovered }) => $hovered ? 'teal' : 'inherit'};
   color: ${({ $hovered, theme }) => $hovered ? theme.colors.white : 'inherit'};
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -moz-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  :focus {
+    outline: none;
+  }
 
   @media screen and (min-width: ${rem(768)}) {
     min-width: ${rem(50)};
@@ -333,6 +354,12 @@ const Lead = styled.div`
   letter-spacing: -${rem(1)};
   background-color: ${({$hovered }) => $hovered ? 'teal' : 'inherit'};
   color: ${({ $hovered, theme }) => $hovered ? theme.colors.white : 'inherit'};
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -moz-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  :focus {
+    outline: none;
+  }
 `;
 
 const Hand = styled.div`
@@ -345,6 +372,12 @@ const Hand = styled.div`
   font-size: ${rem(16)};
   color: ${({ theme, $action }) => $action === 'stand' ? theme.colors.white : theme.colors.black};
   position: relative;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -moz-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  :focus {
+    outline: none;
+  }
 
   @media screen and (min-width: ${rem(768)}) {
     min-width: ${rem(50)};
