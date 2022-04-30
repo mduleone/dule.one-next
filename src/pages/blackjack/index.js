@@ -85,29 +85,34 @@ const Blackjack = ({ blackjack }) => {
             >
               {key}
             </Lead>
-            {Object.entries(hand).sort(entryKeySort).map(([handKey, {action, surrender}]) => (
-              <Hand
-                key={handKey}
-                $action={action}
-                onMouseEnter={() => {
-                  setHoveredPlayerHand(key);
-                  setHoveredDealerCard(handKey);
-                }}
-                onMouseLeave={() => {
-                  setHoveredPlayerHand(null);
-                  setHoveredDealerCard(null);
-                }}
-              >
-                {transformAction[action]}
-                {surrender ? '*' : ''}
-                <DealerHandValue
-                  $columnHovered={hoveredDealerCard === handKey && hoveredPlayerHand === null}
+            {Object.entries(hand).sort(entryKeySort).map(([handKey, {action, surrender}]) => {
+              const showPlayerKey =
+                (hoveredDealerCard === null && hoveredPlayerHand === key) ||
+                (hoveredDealerCard === handKey && hoveredPlayerHand === key);
+              const showDealerKey =
+                (hoveredDealerCard === handKey && hoveredPlayerHand === null) ||
+                (hoveredDealerCard === handKey && hoveredPlayerHand === key);
+
+              return (
+                <Hand
+                  key={handKey}
+                  $action={action}
+                  onMouseEnter={() => {
+                    setHoveredPlayerHand(key);
+                    setHoveredDealerCard(handKey);
+                  }}
+                  onMouseLeave={() => {
+                    setHoveredPlayerHand(null);
+                    setHoveredDealerCard(null);
+                  }}
                 >
-                  {key}
-                </DealerHandValue>
-                <PlayerHandValue>{handKey}</PlayerHandValue>
-              </Hand>
-            ))}
+                  {transformAction[action]}
+                  {surrender ? '*' : ''}
+                  <DealerHandValue $show={showDealerKey}>{key}</DealerHandValue>
+                  <PlayerHandValue $show={showPlayerKey}>{handKey}</PlayerHandValue>
+                </Hand>
+              );
+            })}
           </Row>
         ))}
         <Row>
@@ -297,7 +302,7 @@ const BubbleKey = styled.div`
   border-radius: ${rem(100)};
   color: ${({ theme }) => theme.colors.softBlack};
   background-color: ${({ theme }) => theme.colors.softWhite};
-  display: ${({ $columnHovered }) => $columnHovered ? 'block' : 'none'};
+  display: ${({ $show }) => $show ? 'block' : 'none'};
   padding: 0 ${rem(4)};
   z-index: 1;
   white-space: nowrap;
@@ -328,11 +333,6 @@ const Lead = styled.div`
   letter-spacing: -${rem(1)};
   background-color: ${({$hovered }) => $hovered ? 'teal' : 'inherit'};
   color: ${({ $hovered, theme }) => $hovered ? theme.colors.white : 'inherit'};
-
-  &:hover ~ * ${PlayerHandValue},
-  &:focus ~ * ${PlayerHandValue} {
-    display: block;
-  }
 `;
 
 const Hand = styled.div`
@@ -345,14 +345,6 @@ const Hand = styled.div`
   font-size: ${rem(16)};
   color: ${({ theme, $action }) => $action === 'stand' ? theme.colors.white : theme.colors.black};
   position: relative;
-
-  &:hover,
-  &:focus {
-    ${PlayerHandValue},
-    ${DealerHandValue} {
-      display: block;
-    }
-  }
 
   @media screen and (min-width: ${rem(768)}) {
     min-width: ${rem(50)};
