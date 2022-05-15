@@ -2,16 +2,16 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import blackjack from '../../data/blackjack';
-import Layout from '../../components/layout';
-import { rem } from '../../util/style/lengths';
+import blackjackData from '~/data/blackjack';
+import Layout from '~/components/layout';
+import { rem } from '~/util/style/lengths';
 
 const transformAction = {
   split: 'SP',
   double: 'D',
   stand: 'S',
   hit: 'H',
-}
+};
 
 const entryKeySort = ([a], [b]) => {
   const parsedIntA = parseInt(a, 10);
@@ -22,11 +22,10 @@ const entryKeySort = ([a], [b]) => {
 
   if (b > a) {
     return 1;
-  } else if (b < a) {
+  } if (b < a) {
     return -1;
-  } else {
-    return 0;
   }
+  return 0;
 };
 
 const Blackjack = ({ blackjack }) => {
@@ -50,7 +49,7 @@ const Blackjack = ({ blackjack }) => {
         </Row>
         <Row>
           <Lead />
-          {headers.map(header => (
+          {headers.map((header) => (
             <Header
               key={header}
               $hovered={hoveredDealerCard === header}
@@ -95,13 +94,11 @@ const Blackjack = ({ blackjack }) => {
             >
               {playerHand}
             </Lead>
-            {Object.entries(hand).sort(entryKeySort).map(([dealerCard, {action, surrender}]) => {
-              const showPlayerKey =
-                (hoveredDealerCard === null && hoveredPlayerHand === playerHand) ||
-                (hoveredDealerCard === dealerCard && hoveredPlayerHand === playerHand);
-              const showDealerKey =
-                (hoveredDealerCard === dealerCard && hoveredPlayerHand === null) ||
-                (hoveredDealerCard === dealerCard && hoveredPlayerHand === playerHand);
+            {Object.entries(hand).sort(entryKeySort).map(([dealerCard, { action, surrender }]) => {
+              const showPlayerKey = (hoveredDealerCard === null && hoveredPlayerHand === playerHand)
+                || (hoveredDealerCard === dealerCard && hoveredPlayerHand === playerHand);
+              const showDealerKey = (hoveredDealerCard === dealerCard && hoveredPlayerHand === null)
+                || (hoveredDealerCard === dealerCard && hoveredPlayerHand === playerHand);
 
               return (
                 <Hand
@@ -139,7 +136,12 @@ const Blackjack = ({ blackjack }) => {
 };
 
 const cardProps = PropTypes.shape({
-  action: PropTypes.oneOf(['hit', 'double', 'split', 'stand']),
+  action: PropTypes.oneOf([
+    'hit',
+    'double',
+    'split',
+    'stand',
+  ]),
   surrender: PropTypes.bool,
 });
 
@@ -158,7 +160,7 @@ const handProps = PropTypes.shape({
 
 Blackjack.propTypes = {
   blackjack: PropTypes.shape({
-    pairs: PropTypes.objectOf(handProps), 
+    pairs: PropTypes.objectOf(handProps),
     hard: PropTypes.objectOf(handProps),
     soft: PropTypes.objectOf(handProps),
   }),
@@ -168,7 +170,7 @@ Blackjack.defaultProps = {};
 
 export const getStaticProps = () => ({
   props: {
-    blackjack,
+    blackjack: blackjackData,
   },
 });
 
@@ -184,10 +186,10 @@ const computeActionColor = (action, colors) => {
       return 'gold';
     case 'stand':
       return colors.duleoneRed;
-    default: 
-      // no default
+    default:
+      return 'transparent';
   }
-}
+};
 
 const Table = styled.div`
   line-height: ${rem(20)};
@@ -212,7 +214,7 @@ const Legend = styled.div`
   min-width: ${rem(30)};
   text-align: center;
   background-color: ${({ theme, $action }) => computeActionColor($action, theme.colors)};
-  color: ${({ theme, $action }) => $action === 'stand' ? theme.colors.white : theme.colors.black};
+  color: ${({ theme, $action }) => ($action === 'stand' ? theme.colors.white : theme.colors.black)};
   flex: 1 1 auto;
 
   @media screen and (min-width: ${rem(768)}) {
@@ -220,13 +222,13 @@ const Legend = styled.div`
   }
 
   &:first-child {
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
+    border-top-left-radius: ${rem(3)};
+    border-bottom-left-radius: ${rem(3)};
   }
 
   &:last-child {
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
+    border-top-right-radius: ${rem(3)};
+    border-bottom-right-radius: ${rem(3)};
   }
 `;
 
@@ -247,8 +249,8 @@ const Header = styled.div`
   font-weight: bold;
   min-width: ${rem(30)};
   text-align: center;
-  background-color: ${({ $hovered }) => $hovered ? 'teal' : 'inherit'};
-  color: ${({ $hovered, theme }) => $hovered ? theme.colors.white : 'inherit'};
+  background-color: ${({ $hovered }) => ($hovered ? 'teal' : 'inherit')};
+  color: ${({ $hovered, theme }) => ($hovered ? theme.colors.white : 'inherit')};
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -moz-tap-highlight-color: rgba(0, 0, 0, 0);
 
@@ -265,12 +267,14 @@ const Pairs = styled.div`
   text-align: center;
   width: ${rem(201)};
   position: absolute;
+  /* stylelint-disable-next-line unit-disallowed-list */
   transform: rotate(-90deg) translate(-230.5px, -77px);
   transform-origin: left;
   border-left: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
   border-right: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
 
   @media screen and (min-width: ${rem(768)}) {
+    /* stylelint-disable-next-line unit-disallowed-list */
     transform: rotate(-90deg) translate(-230.5px, -177px);
   }
 
@@ -283,12 +287,14 @@ const Hard = styled.div`
   text-align: center;
   width: ${rem(201)};
   position: absolute;
+  /* stylelint-disable-next-line unit-disallowed-list */
   transform: rotate(-90deg) translate(-430.5px, -77px);
   transform-origin: left;
   border-left: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
   border-right: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
 
   @media screen and (min-width: ${rem(768)}) {
+    /* stylelint-disable-next-line unit-disallowed-list */
     transform: rotate(-90deg) translate(-430.5px, -177px);
   }
 
@@ -301,12 +307,14 @@ const Soft = styled.div`
   text-align: center;
   width: ${rem(161)};
   position: absolute;
+  /* stylelint-disable-next-line unit-disallowed-list */
   transform: rotate(-90deg) translate(-590.5px, -97px);
   transform-origin: left;
   border-left: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
   border-right: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
 
   @media screen and (min-width: ${rem(768)}) {
+    /* stylelint-disable-next-line unit-disallowed-list */
     transform: rotate(-90deg) translate(-590.5px, -197px);
   }
 
@@ -323,7 +331,7 @@ const BubbleKey = styled.div`
   border-radius: ${rem(100)};
   color: ${({ theme }) => theme.colors.softBlack};
   background-color: ${({ theme }) => theme.colors.softWhite};
-  display: ${({ $show }) => $show ? 'block' : 'none'};
+  display: ${({ $show }) => ($show ? 'block' : 'none')};
   padding: 0 ${rem(4)};
   z-index: 1;
   white-space: nowrap;
@@ -352,8 +360,8 @@ const Lead = styled.div`
   text-align: right;
   padding-right: ${rem(8)};
   letter-spacing: -${rem(1)};
-  background-color: ${({$hovered }) => $hovered ? 'teal' : 'inherit'};
-  color: ${({ $hovered, theme }) => $hovered ? theme.colors.white : 'inherit'};
+  background-color: ${({ $hovered }) => ($hovered ? 'teal' : 'inherit')};
+  color: ${({ $hovered, theme }) => ($hovered ? theme.colors.white : 'inherit')};
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -moz-tap-highlight-color: rgba(0, 0, 0, 0);
 
@@ -370,7 +378,7 @@ const Hand = styled.div`
   min-width: ${rem(30)};
   vertical-align: middle;
   font-size: ${rem(16)};
-  color: ${({ theme, $action }) => $action === 'stand' ? theme.colors.white : theme.colors.black};
+  color: ${({ theme, $action }) => ($action === 'stand' ? theme.colors.white : theme.colors.black)};
   position: relative;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -moz-tap-highlight-color: rgba(0, 0, 0, 0);

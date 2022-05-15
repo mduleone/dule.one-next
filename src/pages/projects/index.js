@@ -2,33 +2,39 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Link from 'next/link';
 
-import Layout from '../../components/layout';
-import projects from '../../data/projects';
-import { rem } from '../../util/style/lengths';
+import Layout from '~/components/layout';
+import projectsData from '~/data/projects';
+import { rem } from '~/util/style/lengths';
 
 export const getStaticProps = () => ({
   props: {
-    projects,
+    projects: projectsData,
   },
 });
 
 const Projects = ({ projects }) => (
   <Layout>
-    {projects.map(({ title, href, repo, desc, internal }) => {
-      const titleProps = internal ? {} : {
-        target: '_blank',
-        rel: 'noopener noreferrer',
-      };
+    {projects.map(({
+      title, href, repo, desc, internal,
+    }) => {
+      const titleProps = internal
+        ? {}
+        : {
+          target: '_blank',
+          rel: 'noopener noreferrer',
+        };
 
       return (
         <Project key={title}>
           <ProjectTitleContainer>
             <Link href={href} passHref>
+              {/* eslint-disable-next-line react/jsx-props-no-spreading */}
               <ProjectTitle {...titleProps}>
                 {title}
               </ProjectTitle>
             </Link>
           </ProjectTitleContainer>
+          {/* eslint-disable-next-line react/no-danger */}
           <p dangerouslySetInnerHTML={{ __html: desc }} />
           {repo && (
             <ProjectRepository>

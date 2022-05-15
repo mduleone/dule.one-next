@@ -6,7 +6,7 @@ import Document, {
 } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
-import Favicon from '../components/favicon';
+import Favicon from '~/components/favicon';
 
 class DuLeoneDocument extends Document {
   static async getInitialProps(ctx) {

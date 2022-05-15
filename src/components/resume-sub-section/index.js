@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import styled from 'styled-components';
 
-import ResumeSubSectionContent, { subSectionContentShape } from '../resume-sub-section-content';
-import { rem } from '../../util/style/lengths';
+import ResumeSubSectionContent, { subSectionContentShape } from '~/components/resume-sub-section-content';
+import { rem } from '~/util/style/lengths';
 
 export const subSectionShape = {
   id: PropTypes.string,
@@ -23,7 +23,7 @@ export const subSectionShape = {
 
 const ResumeSubSection = ({ subsection }) => {
   if (subsection.id === 'spacer') {
-    return <SubSectionSpacer />
+    return <SubSectionSpacer />;
   }
   const positions = subsection.positions && (
     (Array.isArray(subsection.positions) && subsection.positions.length > 1)
@@ -49,8 +49,7 @@ const ResumeSubSection = ({ subsection }) => {
           )
           : (
             <SubSectionTitle dangerouslySetInnerHTML={{ __html: subsection.displayName }} />
-          )
-        }
+          )}
         <SubSectionDate $printHalf={subsection.printHalfWidth}>{subsection.date}</SubSectionDate>
         {positions}
         {subsection.content && !subsection.hideContent && (
@@ -68,7 +67,7 @@ ResumeSubSection.propTypes = {
 export default ResumeSubSection;
 
 const SubSection = styled.div`
-  margin-bottom: ${rem(19 * (3/4))};
+  margin-bottom: ${rem(19 * (3 / 4))};
 
   &:last-child {
     margin-bottom: 0;
@@ -123,12 +122,12 @@ const SubSectionDate = styled.time`
 
   @media only print {
     font-size: ${rem(12)};
-    float: ${({ $printHalf }) => $printHalf ? 'none' : 'right'};
+    float: ${({ $printHalf }) => ($printHalf ? 'none' : 'right')};
   }
 `;
 
 const PositionTitle = styled.h4`
-  display: ${({ $multi }) => $multi ? 'inline-block' : 'block'};
+  display: ${({ $multi }) => ($multi ? 'inline-block' : 'block')};
   font-style: italic;
   font-weight: normal;
   font-size:  ${rem(19)};

@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import styled from 'styled-components';
 
-import Name from '../../name';
-import { rem } from '../../../util/style/lengths';
+import Name from '~/components/name';
+import { rem } from '~/util/style/lengths';
 
 export const navLinks = [
   {
@@ -24,30 +24,29 @@ export const navLinks = [
   },
 ];
 
-const Header = ({ activeLink }) => {
-  return (
-    <Container>
-      <Link href="/">
-        <a>
-          <Name header imageWidth={30} />
-        </a>
-      </Link>
-      <Nav>
-        <NavList>
-          {navLinks.map(({ name, href }) => (
-            <NavListItem key={name}>
-              <Link href={href}>
-                <NavListItemLink $active={activeLink?.href === href}>
-                  {name}
-                </NavListItemLink>
-              </Link>
-            </NavListItem>
-          ))}
-        </NavList>
-      </Nav>
-    </Container>
-  );
-};
+const Header = ({ activeLink }) => (
+  <Container>
+    <Link href="/">
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+      <a>
+        <Name header imageWidth={30} />
+      </a>
+    </Link>
+    <Nav>
+      <NavList>
+        {navLinks.map(({ name, href }) => (
+          <NavListItem key={name}>
+            <Link href={href}>
+              <NavListItemLink $active={activeLink?.href === href}>
+                {name}
+              </NavListItemLink>
+            </Link>
+          </NavListItem>
+        ))}
+      </NavList>
+    </Nav>
+  </Container>
+);
 
 Header.propTypes = {
   activeLink: PropTypes.shape({
@@ -125,7 +124,7 @@ const NavListItem = styled.li`
   }
 
   @media only screen and (min-width: ${rem(590)}) {
-    padding: 0 ${rem(19/2)};
+    padding: 0 ${rem(19 / 2)};
 
     &:first-child {
       padding-left: 0;
@@ -149,7 +148,7 @@ const NavListItemLink = styled.a`
     left: 0;
     right: 0;
     height: ${rem(1)};
-    transform: scaleX(${({ $active }) => $active ? 1 : 0});
+    transform: scaleX(${({ $active }) => ($active ? 1 : 0)});
     background-color: ${({ theme }) => theme.colors.linkColor};
     transition: transform linear 250ms;
     transform-origin: right;

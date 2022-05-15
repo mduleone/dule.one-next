@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { rem } from '../../util/style/lengths';
-import theme from '../../util/theme';
-import track from '../../util/track';
+
+import { rem } from '~/util/style/lengths';
+import colors from '~/util/colors';
+import track from '~/util/track';
 
 const PrintHelper = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [didOpen, setDidOpen] = useState(false);
-  const [svgDropShadow, setSvgDropShadow] = useState(theme.colors.shadowColor);
+  const [svgDropShadow, setSvgDropShadow] = useState(colors.shadowColor);
   const close = () => {
     track('[resume] close print helper');
     setIsOpen(false);
-  }
+  };
 
   const clickButton = () => {
     if (!didOpen) {
@@ -30,11 +31,11 @@ const PrintHelper = () => {
   useEffect(() => {
     const listener = () => {
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        setSvgDropShadow(theme.colors.inverseShadowColor);
+        setSvgDropShadow(colors.inverseShadowColor);
       } else {
-        setSvgDropShadow(theme.colors.shadowColor);
+        setSvgDropShadow(colors.shadowColor);
       }
-    }
+    };
     window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', listener);
 
     listener();
@@ -66,7 +67,7 @@ const PrintHelper = () => {
               </div>
             </PrintButton>
             <Bottom>
-              I've found the best version prints from Chrome on macOS.
+              I&apos;ve found the best version prints from Chrome on macOS.
             </Bottom>
             <Triangle xmlns="http://www.w3.org/2000/svg" viewBox="0,0,80,80">
               <defs>
@@ -126,7 +127,7 @@ const PopUp = styled.div`
   min-width: ${rem(500)};
   position: absolute;
   right: 0;
-  padding: ${rem(19/2)};
+  padding: ${rem(19 / 2)};
   text-align: center;
   align-items: center;
 
@@ -190,12 +191,11 @@ const Icon = styled(FontAwesomeIcon)`
   }
 `;
 
-
 const PrintButton = styled.button`
   appearance: none;
+  /* stylelint-disable-next-line property-no-vendor-prefix */
   -webkit-appearance: none;
   border-width: 0;
-  border-radius: 0;
   background-color: ${({ theme }) => theme.colors.white};
   color: ${({ theme }) => theme.colors.linkColor};
   font-family: inherit;
@@ -217,6 +217,7 @@ const PrintButton = styled.button`
 
 const Button = styled.button`
   appearance: button;
+  /* stylelint-disable-next-line property-no-vendor-prefix */
   -webkit-appearance: button;
   border-color: ${({ theme }) => theme.colors.shadowColor};
   border-width: ${rem(1)};
@@ -229,7 +230,7 @@ const Button = styled.button`
   cursor: pointer;
   max-width: ${rem(100)};
   animation: bounce 5s;
-  animation-iteration-count: ${({ $animate }) => $animate ? 'infinite' : '0'};
+  animation-iteration-count: ${({ $animate }) => ($animate ? 'infinite' : '0')};
   animation-delay: 5s;
   padding: ${rem(8)};
 

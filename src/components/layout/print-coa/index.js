@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { rem } from '../../../util/style/lengths';
+
+import { rem } from '~/util/style/lengths';
 
 const PrintCoa = () => (
   <PrintCoatOfArms src="/images/duleone.jpg" />

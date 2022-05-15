@@ -1,24 +1,31 @@
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import Head from 'next/head';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
+import PropTypes from 'prop-types';
 
-import '../util/font-awesome';
-import { DEFAULT_SIZE, rem } from '../util/style/lengths';
-import theme from '../util/theme';
-import Analytics from '../components/analytics';
+import '~/util/font-awesome';
+import { rem } from '~/util/style/lengths';
+import providedTheme from '~/util/theme';
+import Analytics from '~/components/analytics';
 
 const App = ({ Component, pageProps }) => (
   <>
     <Head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     </Head>
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={providedTheme}>
       <GlobalStyle />
       <Analytics />
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
       <Component {...pageProps} />
     </ThemeProvider>
   </>
 );
+
+App.propTypes = {
+  Component: PropTypes.node.isRequired,
+  pageProps: PropTypes.shape({}).isRequired,
+};
 
 export default App;
 
@@ -27,9 +34,11 @@ const GlobalStyle = createGlobalStyle`
   body {
     padding: 0;
     font-family: ${({ theme }) => theme.fonts.screenFont};
+    /* stylelint-disable-next-line unit-disallowed-list */
     font-size: 16px;
     margin: 0 auto;
     position: relative;
+    /* stylelint-disable-next-line property-no-vendor-prefix */
     -webkit-text-size-adjust: none;
     background-color: ${({ theme }) => theme.colors.white};
     color: ${({ theme }) => theme.colors.black};

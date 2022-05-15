@@ -118,7 +118,8 @@ const blackjack = {
       5: { action: 'split', surrender: false },
       4: { action: 'split', surrender: false },
       3: { action: 'split', surrender: false },
-      2: { action: 'split', surrender: false },},
+      2: { action: 'split', surrender: false },
+    },
   },
   hard: {
     '17 +': {

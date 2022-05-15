@@ -1,24 +1,22 @@
 import styled from 'styled-components';
 
-import Layout from '../components/layout';
-import Name from '../components/name';
-import { rem } from '../util/style/lengths';
+import Layout from '~/components/layout';
+import Name from '~/components/name';
+import { rem } from '~/util/style/lengths';
 
-const Home = () => {
-  return (
-    <Layout>
-      <NameContainer>
-        <Name imageWidth={160} />
-      </NameContainer>
-      <About>
-        <AboutLine>Software Engineer.</AboutLine>
-        <AboutLine>Mathematician.</AboutLine>
-        <AboutLine>Problem Solver.</AboutLine>
-      </About>
-      <CoatOfArms alt="DuLeone Coat of Arms" src="/images/duleone.jpg" />
-    </Layout>
-  )
-}
+const Home = () => (
+  <Layout>
+    <NameContainer>
+      <Name imageWidth={160} />
+    </NameContainer>
+    <About>
+      <AboutLine>Software Engineer.</AboutLine>
+      <AboutLine>Mathematician.</AboutLine>
+      <AboutLine>Problem Solver.</AboutLine>
+    </About>
+    <CoatOfArms alt="DuLeone Coat of Arms" src="/images/duleone.jpg" />
+  </Layout>
+);
 
 export default Home;
 
