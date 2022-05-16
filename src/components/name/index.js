@@ -1,23 +1,22 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { rem } from '../../util/style/lengths';
 
-const Name = ({ imageWidth, header = false }) => {
-  return (
-    <Container $header={header} $width={imageWidth}>
-      <Image $header={header} $width={imageWidth} src="/me-square-draw.png" />
-      <TopImage $header={header} $width={imageWidth} src="/me-square-real.png" />
-      Matt DuLeone
-    </Container>
-  )
-}
+import { rem } from '~/util/style/lengths';
+
+const Name = ({ imageWidth, header = false }) => (
+  <Container $header={header} $width={imageWidth}>
+    <Image $header={header} $width={imageWidth} src="/me-square-draw.png" />
+    <TopImage $header={header} $width={imageWidth} src="/me-square-real.png" />
+    Matt DuLeone
+  </Container>
+);
 
 export default Name;
 
 Name.propTypes = {
   header: PropTypes.bool,
   imageWidth: PropTypes.number.isRequired,
-}
+};
 
 const imageMargin = 8;
 
@@ -46,10 +45,10 @@ const Container = styled.span`
   @media only print {
     overflow: hidden;
     font-size: ${({ $header, $width }) => rem($header ? $width : ($width / 2))};
-    line-height: ${({ $header, $width }) => $header ? 'inherit' : rem($width)};
+    line-height: ${({ $header, $width }) => ($header ? 'inherit' : rem($width))};
     color: ${({ theme }) => theme.colors.black};
-    position: ${({ $header }) => $header ? 'static' : 'relative'};
-    margin-left: ${({ $header, $width }) => $header ? 0 : rem($width + imageMargin)};
+    position: ${({ $header }) => ($header ? 'static' : 'relative')};
+    margin-left: ${({ $header, $width }) => ($header ? 0 : rem($width + imageMargin))};
   }
 `;
 
@@ -77,7 +76,7 @@ const Image = styled.img`
   }
 
   @media only print {
-    display: ${({ $header }) => $header ? 'none' : 'block'};
+    display: ${({ $header }) => ($header ? 'none' : 'block')};
   }
 `;
 

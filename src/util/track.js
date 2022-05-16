@@ -4,7 +4,7 @@ const track = (event, data = {}) => {
     return;
   }
 
-  gtag('event', event, data)
+  gtag('event', event, data);
 };
 
 export default track;

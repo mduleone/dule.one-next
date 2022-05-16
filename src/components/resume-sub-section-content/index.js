@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { rem } from '../../util/style/lengths';
+
+import { rem } from '~/util/style/lengths';
 
 const contentShape = {
   screenPrefix: PropTypes.string,
@@ -19,14 +20,20 @@ const ContentPiece = ({ piece }) => {
     copy,
   } = piece;
 
-  const linkProps = href ? { as: 'a', href, target: '_blank', rel: 'noopener noreferrer' } : {};
+  const linkProps = href
+    ? {
+      as: 'a', href, target: '_blank', rel: 'noopener noreferrer',
+    }
+    : {};
   return (
     <Content
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...linkProps}
       $hideForPrint={hideForPrint}
     >
       {screenPrefix && <ScreenPrefix>{screenPrefix}</ScreenPrefix>}
       {printPrefix && <PrintPrefix>{printPrefix}</PrintPrefix>}
+      {/* eslint-disable-next-line react/no-danger */}
       <span dangerouslySetInnerHTML={{ __html: copy }} />
     </Content>
   );
@@ -36,10 +43,7 @@ ContentPiece.propTypes = {
   piece: PropTypes.shape(contentShape),
 };
 
-export const subSectionContentShape = [
-  PropTypes.string,
-  PropTypes.arrayOf(PropTypes.shape(contentShape)),
-];
+export const subSectionContentShape = [PropTypes.string, PropTypes.arrayOf(PropTypes.shape(contentShape))];
 
 const Content = styled.div`
   @media only print {
@@ -52,7 +56,7 @@ const Content = styled.div`
 `;
 
 const ScreenPrefix = styled.span`
-  margin-right: 4px;
+  margin-right: ${rem(4)};
 
   @media only print {
     display: none !important;
@@ -65,7 +69,7 @@ const PrintPrefix = styled.span`
   visibility: hidden !important;
 
   @media only print {
-    margin-right: 4px;
+    margin-right: ${rem(4)};
     display: inline-block !important;
     visibility: visible !important;
   }
@@ -97,6 +101,7 @@ const ResumeSubSectionContent = ({ content, hideForPrint }) => {
 
 ResumeSubSectionContent.propTypes = {
   content: PropTypes.oneOfType(subSectionContentShape),
+  hideForPrint: PropTypes.bool,
 };
 
 export default ResumeSubSectionContent;

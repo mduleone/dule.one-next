@@ -3,11 +3,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
+import { rem } from '~/util/style/lengths';
 
 import Header, { navLinks } from './header';
 import PrintAddress from './print-address';
 import PrintCoa from './print-coa';
-import { rem } from '../../util/style/lengths';
 
 const Layout = ({ children }) => {
   const router = useRouter();
@@ -17,12 +19,15 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     setHostname(window.location.hostname);
-  }, [])
+  }, []);
 
   return (
     <>
       <Head>
-        <title>Matt DuLeone{!!activeLink?.name ? ` - ${activeLink.name}` : ''}</title>
+        <title>
+          Matt DuLeone
+          {activeLink?.name ? ` - ${activeLink.name}` : ''}
+        </title>
       </Head>
       <Header activeLink={activeLink} />
       <PrintAddress />
@@ -31,10 +36,20 @@ const Layout = ({ children }) => {
         {children}
       </Main>
       <Footer>
-        &copy;{date} Matt DuLeone | <Link href="/"><a>{hostname}</a></Link>
+        &copy;
+        {date}
+        {' '}
+        Matt DuLeone |
+        {' '}
+        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+        <Link href="/"><a>{hostname}</a></Link>
       </Footer>
     </>
   );
+};
+
+Layout.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default Layout;
