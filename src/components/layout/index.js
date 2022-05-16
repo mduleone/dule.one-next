@@ -14,7 +14,7 @@ import PrintCoa from './print-coa';
 const Layout = ({ children }) => {
   const router = useRouter();
   const [hostname, setHostname] = useState('matt.dule.one');
-  const [date] = useState((new Date()).getFullYear().toString());
+  const [date] = useState(new Date().getFullYear().toString());
   const activeLink = navLinks.find(({ href }) => router.pathname === href);
 
   useEffect(() => {
@@ -32,17 +32,14 @@ const Layout = ({ children }) => {
       <Header activeLink={activeLink} />
       <PrintAddress />
       <PrintCoa />
-      <Main>
-        {children}
-      </Main>
+      <Main>{children}</Main>
       <Footer>
         &copy;
-        {date}
-        {' '}
-        Matt DuLeone |
-        {' '}
-        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-        <Link href="/"><a>{hostname}</a></Link>
+        {date} Matt DuLeone |{' '}
+        <Link href="/">
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+          <a>{hostname}</a>
+        </Link>
       </Footer>
     </>
   );
@@ -55,7 +52,7 @@ Layout.propTypes = {
 export default Layout;
 
 const Main = styled.main`
-  max-width: ${rem(768 - (19 * 2))};
+  max-width: ${rem(768 - 19 * 2)};
   margin: ${rem(19 * 3)} ${rem(19)} ${rem(23.75)};
   padding-top: ${rem(19)};
 
@@ -67,7 +64,7 @@ const Main = styled.main`
     margin: ${rem(19 * 2)} ${rem(19)} ${rem(23.75)};
   }
 
-  @media only screen and (min-width: ${rem(768)} ) {
+  @media only screen and (min-width: ${rem(768)}) {
     margin: ${rem(19 * 2)} auto ${rem(23.75)};
   }
 

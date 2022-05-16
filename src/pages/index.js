@@ -37,7 +37,7 @@ const About = styled.div`
 `;
 
 const AboutLine = styled.span`
-  &:nth-child(n+1) {
+  &:nth-child(n + 1) {
     display: block;
 
     @media only screen and (min-width: ${rem(590)}) {

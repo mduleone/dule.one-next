@@ -22,7 +22,8 @@ const entryKeySort = ([a], [b]) => {
 
   if (b > a) {
     return 1;
-  } if (b < a) {
+  }
+  if (b < a) {
     return -1;
   }
   return 0;
@@ -32,11 +33,15 @@ const Blackjack = ({ blackjack }) => {
   const [hoveredPlayerHand, setHoveredPlayerHand] = useState(null);
   const [hoveredDealerCard, setHoveredDealerCard] = useState(null);
   const hands = [
-    ...Object.entries(blackjack.pairs).sort(entryKeySort).map(([key, hand]) => [`${key} ${key}`, hand]),
+    ...Object.entries(blackjack.pairs)
+      .sort(entryKeySort)
+      .map(([key, hand]) => [`${key} ${key}`, hand]),
     ...Object.entries(blackjack.hard).sort(entryKeySort),
     ...Object.entries(blackjack.soft).sort(entryKeySort),
   ];
-  const headers = Object.entries(hands[0][1]).sort(entryKeySort).map(([el]) => el);
+  const headers = Object.entries(hands[0][1])
+    .sort(entryKeySort)
+    .map(([el]) => el);
 
   return (
     <Layout>
@@ -94,37 +99,49 @@ const Blackjack = ({ blackjack }) => {
             >
               {playerHand}
             </Lead>
-            {Object.entries(hand).sort(entryKeySort).map(([dealerCard, { action, surrender }]) => {
-              const showPlayerKey = (hoveredDealerCard === null && hoveredPlayerHand === playerHand)
-                || (hoveredDealerCard === dealerCard && hoveredPlayerHand === playerHand);
-              const showDealerKey = (hoveredDealerCard === dealerCard && hoveredPlayerHand === null)
-                || (hoveredDealerCard === dealerCard && hoveredPlayerHand === playerHand);
+            {Object.entries(hand)
+              .sort(entryKeySort)
+              .map(([dealerCard, { action, surrender }]) => {
+                const showPlayerKey =
+                  (hoveredDealerCard === null &&
+                    hoveredPlayerHand === playerHand) ||
+                  (hoveredDealerCard === dealerCard &&
+                    hoveredPlayerHand === playerHand);
+                const showDealerKey =
+                  (hoveredDealerCard === dealerCard &&
+                    hoveredPlayerHand === null) ||
+                  (hoveredDealerCard === dealerCard &&
+                    hoveredPlayerHand === playerHand);
 
-              return (
-                <Hand
-                  key={dealerCard}
-                  $action={action}
-                  role="button"
-                  onClick={() => {
-                    setHoveredPlayerHand(playerHand);
-                    setHoveredDealerCard(dealerCard);
-                  }}
-                  onMouseEnter={() => {
-                    setHoveredPlayerHand(playerHand);
-                    setHoveredDealerCard(dealerCard);
-                  }}
-                  onMouseLeave={() => {
-                    setHoveredPlayerHand(null);
-                    setHoveredDealerCard(null);
-                  }}
-                >
-                  {transformAction[action]}
-                  {surrender ? '*' : ''}
-                  <DealerHandValue $show={showDealerKey}>{playerHand}</DealerHandValue>
-                  <PlayerHandValue $show={showPlayerKey}>{dealerCard}</PlayerHandValue>
-                </Hand>
-              );
-            })}
+                return (
+                  <Hand
+                    key={dealerCard}
+                    $action={action}
+                    role="button"
+                    onClick={() => {
+                      setHoveredPlayerHand(playerHand);
+                      setHoveredDealerCard(dealerCard);
+                    }}
+                    onMouseEnter={() => {
+                      setHoveredPlayerHand(playerHand);
+                      setHoveredDealerCard(dealerCard);
+                    }}
+                    onMouseLeave={() => {
+                      setHoveredPlayerHand(null);
+                      setHoveredDealerCard(null);
+                    }}
+                  >
+                    {transformAction[action]}
+                    {surrender ? '*' : ''}
+                    <DealerHandValue $show={showDealerKey}>
+                      {playerHand}
+                    </DealerHandValue>
+                    <PlayerHandValue $show={showPlayerKey}>
+                      {dealerCard}
+                    </PlayerHandValue>
+                  </Hand>
+                );
+              })}
           </Row>
         ))}
         <Row>
@@ -136,12 +153,7 @@ const Blackjack = ({ blackjack }) => {
 };
 
 const cardProps = PropTypes.shape({
-  action: PropTypes.oneOf([
-    'hit',
-    'double',
-    'split',
-    'stand',
-  ]),
+  action: PropTypes.oneOf(['hit', 'double', 'split', 'stand']),
   surrender: PropTypes.bool,
 });
 
@@ -213,8 +225,10 @@ const Legend = styled.div`
   font-weight: bold;
   min-width: ${rem(30)};
   text-align: center;
-  background-color: ${({ theme, $action }) => computeActionColor($action, theme.colors)};
-  color: ${({ theme, $action }) => ($action === 'stand' ? theme.colors.white : theme.colors.black)};
+  background-color: ${({ theme, $action }) =>
+    computeActionColor($action, theme.colors)};
+  color: ${({ theme, $action }) =>
+    $action === 'stand' ? theme.colors.white : theme.colors.black};
   flex: 1 1 auto;
 
   @media screen and (min-width: ${rem(768)}) {
@@ -250,7 +264,8 @@ const Header = styled.div`
   min-width: ${rem(30)};
   text-align: center;
   background-color: ${({ $hovered }) => ($hovered ? 'teal' : 'inherit')};
-  color: ${({ $hovered, theme }) => ($hovered ? theme.colors.white : 'inherit')};
+  color: ${({ $hovered, theme }) =>
+    $hovered ? theme.colors.white : 'inherit'};
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -moz-tap-highlight-color: rgba(0, 0, 0, 0);
 
@@ -361,7 +376,8 @@ const Lead = styled.div`
   padding-right: ${rem(8)};
   letter-spacing: -${rem(1)};
   background-color: ${({ $hovered }) => ($hovered ? 'teal' : 'inherit')};
-  color: ${({ $hovered, theme }) => ($hovered ? theme.colors.white : 'inherit')};
+  color: ${({ $hovered, theme }) =>
+    $hovered ? theme.colors.white : 'inherit'};
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -moz-tap-highlight-color: rgba(0, 0, 0, 0);
 
@@ -373,12 +389,14 @@ const Lead = styled.div`
 const Hand = styled.div`
   border: none;
   padding: 0;
-  background-color: ${({ theme, $action }) => computeActionColor($action, theme.colors)};
+  background-color: ${({ theme, $action }) =>
+    computeActionColor($action, theme.colors)};
   text-align: center;
   min-width: ${rem(30)};
   vertical-align: middle;
   font-size: ${rem(16)};
-  color: ${({ theme, $action }) => ($action === 'stand' ? theme.colors.white : theme.colors.black)};
+  color: ${({ theme, $action }) =>
+    $action === 'stand' ? theme.colors.white : theme.colors.black};
   position: relative;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -moz-tap-highlight-color: rgba(0, 0, 0, 0);

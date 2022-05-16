@@ -12,18 +12,15 @@ const contentShape = {
 };
 
 const ContentPiece = ({ piece }) => {
-  const {
-    screenPrefix,
-    printPrefix,
-    href,
-    hideForPrint,
-    copy,
-  } = piece;
+  const { screenPrefix, printPrefix, href, hideForPrint, copy } = piece;
 
   const linkProps = href
     ? {
-      as: 'a', href, target: '_blank', rel: 'noopener noreferrer',
-    }
+        as: 'a',
+        href,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+      }
     : {};
   return (
     <Content
@@ -43,15 +40,20 @@ ContentPiece.propTypes = {
   piece: PropTypes.shape(contentShape),
 };
 
-export const subSectionContentShape = [PropTypes.string, PropTypes.arrayOf(PropTypes.shape(contentShape))];
+export const subSectionContentShape = [
+  PropTypes.string,
+  PropTypes.arrayOf(PropTypes.shape(contentShape)),
+];
 
 const Content = styled.div`
   @media only print {
     text-align: left;
-    ${({ $hideForPrint }) => $hideForPrint && css`
-      display: none !important;
-      visibility: hidden !important;
-    `}
+    ${({ $hideForPrint }) =>
+      $hideForPrint &&
+      css`
+        display: none !important;
+        visibility: hidden !important;
+      `}
   }
 `;
 
@@ -82,21 +84,28 @@ const ResumeSubSectionContent = ({ content, hideForPrint }) => {
 
   if (typeof content === 'string') {
     return (
-      <SubSectionContent $hideForPrint={hideForPrint} dangerouslySetInnerHTML={{ __html: content }} />
+      <SubSectionContent
+        $hideForPrint={hideForPrint}
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
     );
   }
 
   const [singularPiece] = content;
 
-  return content.length === 1
-    ? (
-      <SubSectionContent $hideForPrint={hideForPrint}><ContentPiece piece={singularPiece} /></SubSectionContent>
-    )
-    : (
-      <SubSectionContent $hideForPrint={hideForPrint} as="ul">
-        {content.map((piece) => <li key={piece.copy}><ContentPiece piece={piece} /></li>)}
-      </SubSectionContent>
-    );
+  return content.length === 1 ? (
+    <SubSectionContent $hideForPrint={hideForPrint}>
+      <ContentPiece piece={singularPiece} />
+    </SubSectionContent>
+  ) : (
+    <SubSectionContent $hideForPrint={hideForPrint} as="ul">
+      {content.map((piece) => (
+        <li key={piece.copy}>
+          <ContentPiece piece={piece} />
+        </li>
+      ))}
+    </SubSectionContent>
+  );
 };
 
 ResumeSubSectionContent.propTypes = {
@@ -114,9 +123,11 @@ const SubSectionContent = styled.div`
   }
 
   @media only print {
-    ${({ $hideForPrint }) => $hideForPrint && css`
-      display: none !important;
-      visibility: hidden !important;
-    `}
+    ${({ $hideForPrint }) =>
+      $hideForPrint &&
+      css`
+        display: none !important;
+        visibility: hidden !important;
+      `}
   }
 `;

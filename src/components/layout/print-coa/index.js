@@ -2,9 +2,7 @@ import styled from 'styled-components';
 
 import { rem } from '~/util/style/lengths';
 
-const PrintCoa = () => (
-  <PrintCoatOfArms src="/images/duleone.jpg" />
-);
+const PrintCoa = () => <PrintCoatOfArms src="/images/duleone.jpg" />;
 
 export default PrintCoa;
 

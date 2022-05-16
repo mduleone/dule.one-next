@@ -2,7 +2,11 @@ import Script from 'next/script';
 
 const GoogleAnalytics = () => (
   <>
-    <Script defer async src="https://www.googletagmanager.com/gtag/js?id=G-ZV1JHW05R8" />
+    <Script
+      defer
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-ZV1JHW05R8"
+    />
     <Script>
       {`
           window.dataLayer = window.dataLayer || [];

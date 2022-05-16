@@ -25,7 +25,7 @@ const Container = styled.div`
     display: block;
     visibility: visible;
   }
-  `;
+`;
 
 const Address = styled.div`
   font-size: ${rem(19)};

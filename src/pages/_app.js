@@ -11,7 +11,10 @@ import Analytics from '~/components/analytics';
 const App = ({ Component, pageProps }) => (
   <>
     <Head>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no"
+      />
     </Head>
     <ThemeProvider theme={providedTheme}>
       <GlobalStyle />

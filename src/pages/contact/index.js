@@ -28,11 +28,13 @@ const Contact = ({ contacts = [] }) => (
 );
 
 Contact.propTypes = {
-  contacts: PropTypes.arrayOf(PropTypes.shape({
-    icon: PropTypes.arrayOf(PropTypes.string),
-    href: PropTypes.string,
-    name: PropTypes.string,
-  })),
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      icon: PropTypes.arrayOf(PropTypes.string),
+      href: PropTypes.string,
+      name: PropTypes.string,
+    }),
+  ),
 };
 
 Contact.defaultProps = {

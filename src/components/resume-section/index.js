@@ -2,7 +2,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import { rem } from '~/util/style/lengths';
-import ResumeSubSection, { subSectionShape } from '~/components/resume-sub-section';
+import ResumeSubSection, {
+  subSectionShape,
+} from '~/components/resume-sub-section';
 
 export const sectionShape = {
   id: PropTypes.string.isRequired,
@@ -27,18 +29,16 @@ const ResumeSection = ({ section }) => (
     $webOrder={section.webOrder}
   >
     <SectionTitle>
-      {section.printPrefix && (
-        <PrintPrefix>
-          {section.printPrefix}
-        </PrintPrefix>
-      )}
+      {section.printPrefix && <PrintPrefix>{section.printPrefix}</PrintPrefix>}
       {section.title}
     </SectionTitle>
     {/* eslint-disable-next-line react/no-danger */}
     <div dangerouslySetInnerHTML={{ __html: section.content }} />
-    {(section.subSections && section.subSections.length > 0) && (
-      section.subSections.map((subsection) => <ResumeSubSection key={subsection.id} subsection={subsection} />)
-    )}
+    {section.subSections &&
+      section.subSections.length > 0 &&
+      section.subSections.map((subsection) => (
+        <ResumeSubSection key={subsection.id} subsection={subsection} />
+      ))}
   </Section>
 );
 
@@ -68,10 +68,12 @@ const Section = styled.div`
     text-align: justify;
     font-size: ${rem(16)};
     display: ${({ $hideForPrint }) => ($hideForPrint ? 'none' : 'inherit')};
-    visibility: ${({ $hideForPrint }) => ($hideForPrint ? 'hidden' : 'inherit')};
+    visibility: ${({ $hideForPrint }) =>
+      $hideForPrint ? 'hidden' : 'inherit'};
     margin-top: ${({ $noPrintTopMargin }) => ($noPrintTopMargin ? 0 : rem(12))};
     margin-right: 0;
-    margin-bottom: ${({ $noPrintBottomMargin }) => ($noPrintBottomMargin ? 0 : rem(12))};
+    margin-bottom: ${({ $noPrintBottomMargin }) =>
+      $noPrintBottomMargin ? 0 : rem(12)};
     margin-left: 0;
 
     &:first-child {

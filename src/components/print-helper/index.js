@@ -30,17 +30,27 @@ const PrintHelper = () => {
 
   useEffect(() => {
     const listener = () => {
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      if (
+        window.matchMedia &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches
+      ) {
         setSvgDropShadow(colors.inverseShadowColor);
       } else {
         setSvgDropShadow(colors.shadowColor);
       }
     };
-    window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', listener);
+    window.matchMedia &&
+      window
+        .matchMedia('(prefers-color-scheme: dark)')
+        .addEventListener('change', listener);
 
     listener();
 
-    return () => window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', listener);
+    return () =>
+      window.matchMedia &&
+      window
+        .matchMedia('(prefers-color-scheme: dark)')
+        .removeEventListener('change', listener);
   }, []);
 
   return (
@@ -50,21 +60,15 @@ const PrintHelper = () => {
         <Button onClick={clickButton} type="button" $animate={!didOpen}>
           <span>
             <Icon icon={['fas', 'print']} />
-            <DesktopFacingCopy>
-              Print
-            </DesktopFacingCopy>
+            <DesktopFacingCopy>Print</DesktopFacingCopy>
           </span>
         </Button>
         {isOpen && (
           <PopUp>
-            <Top>
-              Do you want to print my resume? Need a PDF?
-            </Top>
+            <Top>Do you want to print my resume? Need a PDF?</Top>
             <PrintButton onClick={clickPrint}>
               Simply print this page!
-              <div>
-                (click here)
-              </div>
+              <div>(click here)</div>
             </PrintButton>
             <Bottom>
               I&apos;ve found the best version prints from Chrome on macOS.
@@ -72,10 +76,18 @@ const PrintHelper = () => {
             <Triangle xmlns="http://www.w3.org/2000/svg" viewBox="0,0,80,80">
               <defs>
                 <filter id="shadow">
-                  <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor={svgDropShadow} />
+                  <feDropShadow
+                    dx="0"
+                    dy="0"
+                    stdDeviation="5"
+                    floodColor={svgDropShadow}
+                  />
                 </filter>
               </defs>
-              <polygon points="0,0 40,40 80,0" style={{ filter: 'url(#shadow)' }} />
+              <polygon
+                points="0,0 40,40 80,0"
+                style={{ filter: 'url(#shadow)' }}
+              />
             </Triangle>
           </PopUp>
         )}
@@ -100,7 +112,9 @@ const Container = styled.div`
   bottom: ${rem(19 + 23.75)};
 
   @media only screen and (min-width: ${rem(966)}) {
-    transform: translateX(calc(-50% + ( ${rem(768)} / 2) + ${rem(19 * 2)} + ${rem(83)}));
+    transform: translateX(
+      calc(-50% + (${rem(768)} / 2) + ${rem(19 * 2)} + ${rem(83)})
+    );
     right: 50%;
   }
 
@@ -143,23 +157,23 @@ const PopUp = styled.div`
 `;
 
 const Top = styled.p`
-margin-bottom: 0;
-margin-right: ${rem(16)};
+  margin-bottom: 0;
+  margin-right: ${rem(16)};
 
-@media only screen and (min-height: ${rem(400)}) {
-  margin-bottom: ${rem(16)};
-  margin-right: 0;
-}
+  @media only screen and (min-height: ${rem(400)}) {
+    margin-bottom: ${rem(16)};
+    margin-right: 0;
+  }
 `;
 
 const Bottom = styled.p`
-margin-top: 0;
-margin-left: ${rem(16)};
+  margin-top: 0;
+  margin-left: ${rem(16)};
 
-@media only screen and (min-height: ${rem(400)}) {
-  margin-top: ${rem(16)};
-  margin-left: 0;
-}
+  @media only screen and (min-height: ${rem(400)}) {
+    margin-top: ${rem(16)};
+    margin-left: 0;
+  }
 `;
 
 const Triangle = styled.svg`
@@ -241,7 +255,9 @@ const Button = styled.button`
   }
 
   @keyframes bounce {
-    0%, 10%, 100% {
+    0%,
+    10%,
+    100% {
       transform: translateY(0);
     }
 
@@ -249,19 +265,23 @@ const Button = styled.button`
       transform: translateY(${rem(1)});
     }
 
-    1%, 4% {
+    1%,
+    4% {
       transform: translateY(-${rem(3)});
     }
 
-    2%, 3% {
+    2%,
+    3% {
       transform: translateY(-${rem(5)});
     }
 
-    6%, 9% {
+    6%,
+    9% {
       transform: translateY(-${rem(1)});
     }
 
-    8%, 7% {
+    8%,
+    7% {
       transform: translateY(-${rem(2)});
     }
   }

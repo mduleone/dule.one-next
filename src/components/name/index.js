@@ -22,7 +22,7 @@ const imageMargin = 8;
 
 const Container = styled.span`
   display: inline-block;
-  font-size: ${({ $header, $width }) => rem($header ? 19 : ($width / 2))};
+  font-size: ${({ $header, $width }) => rem($header ? 19 : $width / 2)};
   line-height: ${({ $width }) => rem($width)};
   color: ${({ theme }) => theme.colors.black};
   background-color: ${({ theme }) => theme.colors.white};
@@ -35,20 +35,22 @@ const Container = styled.span`
   }
 
   @media only screen and (min-width: ${rem(363)}) {
-    font-size: ${({ $header, $width }) => rem($header ? 40 : ($width / 2))};
+    font-size: ${({ $header, $width }) => rem($header ? 40 : $width / 2)};
   }
 
   @media only screen and (min-width: ${rem(590)}) {
-    font-size: ${({ $header, $width }) => rem($header ? 19 : ($width / 2))};
+    font-size: ${({ $header, $width }) => rem($header ? 19 : $width / 2)};
   }
 
   @media only print {
     overflow: hidden;
-    font-size: ${({ $header, $width }) => rem($header ? $width : ($width / 2))};
-    line-height: ${({ $header, $width }) => ($header ? 'inherit' : rem($width))};
+    font-size: ${({ $header, $width }) => rem($header ? $width : $width / 2)};
+    line-height: ${({ $header, $width }) =>
+      $header ? 'inherit' : rem($width)};
     color: ${({ theme }) => theme.colors.black};
     position: ${({ $header }) => ($header ? 'static' : 'relative')};
-    margin-left: ${({ $header, $width }) => ($header ? 0 : rem($width + imageMargin))};
+    margin-left: ${({ $header, $width }) =>
+      $header ? 0 : rem($width + imageMargin)};
   }
 `;
 
@@ -61,9 +63,9 @@ const Image = styled.img`
   left: -${({ $width }) => rem($width + imageMargin)};
   top: 0;
 
-  @media only screen and (min-width:  ${rem(363)}) {
-    height:  ${rem(40)};
-    width:  ${rem(40)};
+  @media only screen and (min-width: ${rem(363)}) {
+    height: ${rem(40)};
+    width: ${rem(40)};
     top: -${rem(imageMargin)};
     left: -${rem(40 + imageMargin)};
   }

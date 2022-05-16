@@ -42,11 +42,16 @@
   },
   "rules": {
     "require-atomic-updates": "error", // off with a todo to turn on in airbnb
-    "curly": ["error", "all"], // airbnb allows single-line, block-less control statements, we would require blocks and disallow single-line control statements
+    "curly": [
+      "error",
+      "all"
+    ], // airbnb allows single-line, block-less control statements, we would require blocks and disallow single-line control statements
     "eqeqeq": [
       "error",
       "always",
-      { "null": "always" }
+      {
+        "null": "always"
+      }
     ], // airbnb allows using `==` for comparing against `null`, we explicitly always require `===`
     "no-unused-expressions": [
       "error",
@@ -57,44 +62,52 @@
       }
     ],
     "no-undefined": "error", // airbnb allows using "undefined" as an identifier, we specifically disallow it
-    "array-bracket-newline": [
-      "error",
-      {
-        "multiline": true,
-        "minItems": 3
-      }
-    ], // airbnb is considering turning this on, we like it
-    "array-element-newline": [
-      "error",
-      {
-        "multiline": true,
-        "minItems": 3
-      }
-    ], // airbnb is considering turning this on, we like it
     "brace-style": [
       "error",
       "1tbs",
-      { "allowSingleLine": false }
+      {
+        "allowSingleLine": false
+      }
     ], // airbnb allows single line blocks, we don"t
     "func-style": "off", // airbnb has a todo to enable this, we want to keep this off in the event the todo lands
     "lines-between-class-members": [
       "error",
       "always",
-      { "exceptAfterSingleLine": true }
+      {
+        "exceptAfterSingleLine": true
+      }
     ], // airbnb forces linebreaks between single line class members, we"re indifferent
     "lines-around-directive": "off", // deprecated rule
-    "multiline-ternary": ["error", "always-multiline"], // airbnb has a todo to turn this on as "never", we allow enforce multiline ternary if it"s necessary
     "no-underscore-dangle": "off", // airbnb disallows underscore dangles, we allow it
     "padding-line-between-statements": [
       "error",
-      { "blankLine": "always", "prev": "*", "next": "directive" },
-      { "blankLine": "always", "prev": "directive", "next": "*" }
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": "directive"
+      },
+      {
+        "blankLine": "always",
+        "prev": "directive",
+        "next": "*"
+      }
     ], // enforces directives be separated from other parts of code, airbnb is indifferent
     "quote-props": [
       "error",
       "as-needed",
-      { "keywords": false, "unnecessary": true, "numbers": false }
+      {
+        "keywords": false,
+        "unnecessary": true,
+        "numbers": false
+      }
     ], // airbnb doesn"t enforce consistent as-needed
+    "operator-linebreak": "off",
+    "no-confusing-arrow": "off",
+    "implicit-arrow-linebreak": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "indent": "off",
+    "multiline-ternary": "off",
+    "object-curly-newline": "off",
     "import/default": "error", // airbnb doesn"t enforce checking of default
     "import/namespace": "error", // airbnb doesn"t enforce checking of namespaced properties as they are dereferenced
     "import/order": [
@@ -102,9 +115,15 @@
       {
         "newlines-between": "always",
         "groups": [
-          ["builtin", "external"], // put builtin and external above internal, above parent/sibling imports above index import above everything else
+          [
+            "builtin",
+            "external"
+          ], // put builtin and external above internal, above parent/sibling imports above index import above everything else
           "internal",
-          ["parent", "sibling"],
+          [
+            "parent",
+            "sibling"
+          ],
           "index"
         ]
       }
@@ -118,7 +137,10 @@
         "explicitSpread": "ignore"
       }
     ],
-    "max-len": [0, 120],
+    "max-len": [
+      0,
+      120
+    ],
     "no-console": 0,
     "react/react-in-jsx-scope": 0,
     "react/require-default-props": [

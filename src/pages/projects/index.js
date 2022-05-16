@@ -14,24 +14,20 @@ export const getStaticProps = () => ({
 
 const Projects = ({ projects }) => (
   <Layout>
-    {projects.map(({
-      title, href, repo, desc, internal,
-    }) => {
+    {projects.map(({ title, href, repo, desc, internal }) => {
       const titleProps = internal
         ? {}
         : {
-          target: '_blank',
-          rel: 'noopener noreferrer',
-        };
+            target: '_blank',
+            rel: 'noopener noreferrer',
+          };
 
       return (
         <Project key={title}>
           <ProjectTitleContainer>
             <Link href={href} passHref>
               {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-              <ProjectTitle {...titleProps}>
-                {title}
-              </ProjectTitle>
+              <ProjectTitle {...titleProps}>{title}</ProjectTitle>
             </Link>
           </ProjectTitleContainer>
           {/* eslint-disable-next-line react/no-danger */}
@@ -50,12 +46,14 @@ const Projects = ({ projects }) => (
 );
 
 Projects.propTypes = {
-  projects: PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string,
-    href: PropTypes.string,
-    repo: PropTypes.string,
-    desc: PropTypes.string,
-  })),
+  projects: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string,
+      href: PropTypes.string,
+      repo: PropTypes.string,
+      desc: PropTypes.string,
+    }),
+  ),
 };
 
 Projects.defaultProps = {
@@ -66,12 +64,14 @@ export default Projects;
 
 const Project = styled.div`
   border-radius: ${rem(3)};
-  box-shadow: ${rem(5)} ${rem(5)} ${rem(19)} ${({ theme }) => theme.colors.shadowColor};
-  margin:  ${rem(19)};
-  padding:  ${rem(19)};
+  box-shadow: ${rem(5)} ${rem(5)} ${rem(19)}
+    ${({ theme }) => theme.colors.shadowColor};
+  margin: ${rem(19)};
+  padding: ${rem(19)};
 
   @media (prefers-color-scheme: dark) {
-    box-shadow: ${rem(5)} ${rem(5)} ${rem(19)} ${({ theme }) => theme.colors.inverseShadowColor};
+    box-shadow: ${rem(5)} ${rem(5)} ${rem(19)}
+      ${({ theme }) => theme.colors.inverseShadowColor};
   }
 
   :last-of-type {
@@ -89,7 +89,7 @@ const Project = styled.div`
 
 const ProjectTitleContainer = styled.p`
   display: block;
-  font-size:  ${rem(25)};
+  font-size: ${rem(25)};
   font-weight: bold;
 `;
 
@@ -116,7 +116,7 @@ const ProjectTitle = styled.a`
     bottom: 0;
     left: 0;
     right: 0;
-    height:  ${rem(2)};
+    height: ${rem(2)};
     transform: scaleX(0);
     background-color: ${({ theme }) => theme.colors.duleoneRed};
     transition: transform linear 250ms;
@@ -129,5 +129,5 @@ const ProjectTitle = styled.a`
 `;
 
 const ProjectRepository = styled.p`
-  margin-top:  ${rem(16)};
+  margin-top: ${rem(16)};
 `;

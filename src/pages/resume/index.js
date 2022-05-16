@@ -15,7 +15,9 @@ export const getStaticProps = () => ({
 const Resume = ({ resume }) => (
   <Layout>
     <ScreenFlex>
-      {resume.map((section) => <ResumeSection key={section.id} section={section} />)}
+      {resume.map((section) => (
+        <ResumeSection key={section.id} section={section} />
+      ))}
     </ScreenFlex>
     <PrintHelper />
   </Layout>

@@ -30,10 +30,12 @@ const Analytics = () => {
     }
   }, []);
 
-  return renderAnalytics && (
-    <>
-      <Google />
-    </>
+  return (
+    renderAnalytics && (
+      <>
+        <Google />
+      </>
+    )
   );
 };
 
