@@ -1,0 +1,218 @@
+import { useRef, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+import { rem } from '~/util/style/lengths';
+import colors from '~/util/colors';
+
+const Tooltip = ({ children, show }) => {
+  const popup = useRef(null);
+  const [verticalPosition, setVerticalPosition] = useState('top');
+  const [horizontalPosition, setHorizontalPosition] = useState('center');
+  const [svgDropShadow, setSvgDropShadow] = useState(colors.shadowColor);
+
+  useEffect(() => {
+    const listener = () => {
+      if (
+        window.matchMedia &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches
+      ) {
+        setSvgDropShadow(colors.inverseShadowColor);
+      } else {
+        setSvgDropShadow(colors.shadowColor);
+      }
+    };
+    window.matchMedia &&
+      window
+        .matchMedia('(prefers-color-scheme: dark)')
+        .addEventListener('change', listener);
+
+    listener();
+
+    return () =>
+      window.matchMedia &&
+      window
+        .matchMedia('(prefers-color-scheme: dark)')
+        .removeEventListener('change', listener);
+  }, []);
+
+  const updatePosition = () => {
+    if (!popup.current) {
+      return;
+    }
+
+    const { x, y, width, height } = popup.current.getBoundingClientRect();
+    let newHorizontalPos = 'center';
+    let newVerticalPos = 'top';
+    if (x + width > window.innerWidth) {
+      newHorizontalPos = 'right';
+    } else if (x <= 0) {
+      newHorizontalPos = 'left';
+    }
+    if (y - height - 30 - 76 <= 0) {
+      newVerticalPos = 'bottom';
+    }
+    setHorizontalPosition(newHorizontalPos);
+    setVerticalPosition(newVerticalPos);
+  };
+
+  useEffect(() => {
+    updatePosition();
+  }, [popup.current]);
+
+  useEffect(() => {
+    window.addEventListener('resize', updatePosition);
+    window.addEventListener('scroll', updatePosition);
+
+    return () => {
+      window.removeEventListener('resize', updatePosition);
+      window.removeEventListener('scroll', updatePosition);
+    };
+  }, []);
+
+  return (
+    show && (
+      <>
+        <PopUp
+          $horizontal={horizontalPosition}
+          $vertical={verticalPosition}
+          ref={popup}
+        >
+          {children}
+          <Triangle
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0,0,80,80"
+            $horizontal={horizontalPosition}
+            $vertical={verticalPosition}
+          >
+            <defs>
+              <filter id="shadow">
+                <feDropShadow
+                  dx="0"
+                  dy="0"
+                  stdDeviation="5"
+                  floodColor={svgDropShadow}
+                />
+              </filter>
+            </defs>
+            <polygon
+              points="0,0 40,40 80,0"
+              style={{ filter: 'url(#shadow)' }}
+            />
+          </Triangle>
+        </PopUp>
+      </>
+    )
+  );
+};
+
+Tooltip.propTypes = {
+  children: PropTypes.node.isRequired,
+  show: PropTypes.bool,
+};
+
+export default Tooltip;
+
+const PopUp = styled.div`
+  background-color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.softBlack};
+  border-radius: ${rem(6)};
+  bottom: ${({ $vertical }) =>
+    $vertical === 'top' ? `calc(100% + ${rem(20)})` : 'initial'};
+  top: ${({ $vertical }) =>
+    $vertical === 'top' ? 'initial' : `calc(100% + ${rem(20)})`};
+  box-shadow: 0 0 ${rem(5)} ${({ theme }) => theme.colors.shadowColor};
+  position: absolute;
+  right: ${({ $horizontal }) => {
+    if ($horizontal === 'center') {
+      return 'initial';
+    }
+    if ($horizontal === 'right') {
+      return 0;
+    }
+    return 'initial';
+  }};
+  left: ${({ $horizontal }) => {
+    if ($horizontal === 'left') {
+      return 0;
+    }
+    if ($horizontal === 'center') {
+      return '50%';
+    }
+    return 'initial';
+  }};
+  transform: translateX(
+    ${({ $horizontal }) => {
+      if ($horizontal === 'center') {
+        return '-50%';
+      }
+      return 0;
+    }}
+  );
+  padding: ${rem(19 / 2)};
+  text-align: center;
+  align-items: center;
+  white-space: nowrap;
+  z-index: 1;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: ${({ theme }) => theme.colors.softBlack};
+    color: ${({ theme }) => theme.colors.white};
+    box-shadow: 0 0 ${rem(5)} ${({ theme }) => theme.colors.inverseShadowColor};
+  }
+`;
+
+const Triangle = styled.svg`
+  position: absolute;
+  bottom: ${({ $vertical }) =>
+    $vertical === 'top' ? 'initial' : `calc(100% - ${rem(1)})`};
+  top: ${({ $vertical }) =>
+    $vertical === 'top' ? `calc(100% - ${rem(1)})` : 'initial'};
+  right: ${({ $horizontal }) => {
+    if ($horizontal === 'center') {
+      return 'initial';
+    }
+    if ($horizontal === 'right') {
+      return rem(3);
+    }
+    return 'initial';
+  }};
+  left: ${({ $horizontal }) => {
+    if ($horizontal === 'left') {
+      return rem(3);
+    }
+    if ($horizontal === 'center') {
+      return '50%';
+    }
+    return 'initial';
+  }};
+  transform: translateX(
+      ${({ $horizontal }) => {
+        if ($horizontal === 'center') {
+          return '-50%';
+        }
+        return 0;
+      }}
+    )
+    rotate(
+      ${({ $vertical }) => {
+        if ($vertical === 'bottom') {
+          return '180deg';
+        }
+        return 0;
+      }}
+    );
+  width: ${rem(30)};
+  height: ${rem(30)};
+
+  & > polygon {
+    fill: ${({ theme }) => theme.colors.white};
+    stroke: ${({ theme }) => theme.colors.white};
+    stroke-width: ${rem(2)};
+
+    @media (prefers-color-scheme: dark) {
+      fill: ${({ theme }) => theme.colors.softBlack};
+      stroke: ${({ theme }) => theme.colors.softBlack};
+    }
+  }
+`;

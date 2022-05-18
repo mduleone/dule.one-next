@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import blackjackData from '~/data/blackjack';
 import Layout from '~/components/layout';
+import Tooltip from '~/components/tooltip';
 import { rem } from '~/util/style/lengths';
 
 const transformAction = {
@@ -101,7 +102,7 @@ const Blackjack = ({ blackjack }) => {
             </Lead>
             {Object.entries(hand)
               .sort(entryKeySort)
-              .map(([dealerCard, { action, surrender }]) => {
+              .map(([dealerCard, { action, surrender, tooltip }]) => {
                 const showPlayerKey =
                   (hoveredDealerCard === null &&
                     hoveredPlayerHand === playerHand) ||
@@ -132,20 +133,35 @@ const Blackjack = ({ blackjack }) => {
                     }}
                   >
                     {transformAction[action]}
-                    {surrender ? '*' : ''}
+                    {(surrender || tooltip) && (
+                      <Sup>
+                        {surrender ? '*' : ''}
+                        {tooltip ? '†' : ''}
+                      </Sup>
+                    )}
                     <DealerHandValue $show={showDealerKey}>
                       {playerHand}
                     </DealerHandValue>
                     <PlayerHandValue $show={showPlayerKey}>
                       {dealerCard}
                     </PlayerHandValue>
+                    {tooltip && (
+                      <Tooltip show={showDealerKey && showPlayerKey}>
+                        {tooltip}
+                      </Tooltip>
+                    )}
                   </Hand>
                 );
               })}
           </Row>
         ))}
         <Row>
-          <ColorlessLegend>* Surrender if allowed</ColorlessLegend>
+          <ColorlessLegend>
+            <Sup>*</Sup>Surrender if allowed
+          </ColorlessLegend>
+          <ColorlessLegend>
+            <Sup>†</Sup>has special case, tap/hover
+          </ColorlessLegend>
         </Row>
       </Table>
     </Layout>
@@ -155,6 +171,7 @@ const Blackjack = ({ blackjack }) => {
 const cardProps = PropTypes.shape({
   action: PropTypes.oneOf(['hit', 'double', 'split', 'stand']),
   surrender: PropTypes.bool,
+  tooltip: PropTypes.string,
 });
 
 const handProps = PropTypes.shape({
@@ -300,17 +317,17 @@ const Pairs = styled.div`
 
 const Hard = styled.div`
   text-align: center;
-  width: ${rem(201)};
+  width: ${rem(221)};
   position: absolute;
   /* stylelint-disable-next-line unit-disallowed-list */
-  transform: rotate(-90deg) translate(-430.5px, -77px);
+  transform: rotate(-90deg) translate(-450.5px, -67px);
   transform-origin: left;
   border-left: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
   border-right: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
 
   @media screen and (min-width: ${rem(768)}) {
     /* stylelint-disable-next-line unit-disallowed-list */
-    transform: rotate(-90deg) translate(-430.5px, -177px);
+    transform: rotate(-90deg) translate(-450.5px, -167px);
   }
 
   @media (prefers-color-scheme: dark) {
@@ -323,14 +340,14 @@ const Soft = styled.div`
   width: ${rem(161)};
   position: absolute;
   /* stylelint-disable-next-line unit-disallowed-list */
-  transform: rotate(-90deg) translate(-590.5px, -97px);
+  transform: rotate(-90deg) translate(-610.5px, -97px);
   transform-origin: left;
   border-left: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
   border-right: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
 
   @media screen and (min-width: ${rem(768)}) {
     /* stylelint-disable-next-line unit-disallowed-list */
-    transform: rotate(-90deg) translate(-590.5px, -197px);
+    transform: rotate(-90deg) translate(-610.5px, -197px);
   }
 
   @media (prefers-color-scheme: dark) {
@@ -408,4 +425,11 @@ const Hand = styled.div`
   @media screen and (min-width: ${rem(768)}) {
     min-width: ${rem(50)};
   }
+`;
+
+const Sup = styled.sup`
+  font-size: ${rem(12)};
+  margin-top: ${rem(-4)};
+  display: inline-block;
+  vertical-align: top;
 `;
