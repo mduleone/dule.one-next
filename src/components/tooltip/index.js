@@ -42,15 +42,25 @@ const Tooltip = ({ children, show }) => {
     }
 
     const { x, y, width, height } = popup.current.getBoundingClientRect();
-    let newHorizontalPos = 'center';
-    let newVerticalPos = 'top';
-    if (x + width > window.innerWidth) {
-      newHorizontalPos = 'right';
-    } else if (x <= 0) {
-      newHorizontalPos = 'left';
+    const horizontalOrder = ['left', 'center', 'right'];
+    const verticalOrder = ['top', 'bottom'];
+    const horizontalIdx = horizontalOrder.indexOf(horizontalPosition);
+    const verticalIdx = verticalOrder.indexOf(verticalPosition);
+
+    let newHorizontalPos = horizontalPosition;
+    let newVerticalPos = verticalPosition;
+    if (
+      x + width > window.innerWidth &&
+      horizontalIdx < horizontalOrder.length - 1
+    ) {
+      newHorizontalPos = horizontalOrder[horizontalIdx - 1];
+    } else if (x <= 0 && horizontalIdx > 0) {
+      newHorizontalPos = horizontalOrder[horizontalIdx + 1];
     }
-    if (y - height - 30 - 76 <= 0) {
-      newVerticalPos = 'bottom';
+    if (y - height - 30 - 76 <= 0 && verticalIdx < verticalOrder.length - 1) {
+      newVerticalPos = verticalOrder[verticalIdx + 1];
+    } else if (y + height >= window.innerHeight && verticalIdx > 0) {
+      newVerticalPos = verticalOrder[verticalIdx - 1];
     }
     setHorizontalPosition(newHorizontalPos);
     setVerticalPosition(newVerticalPos);

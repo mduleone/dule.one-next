@@ -337,17 +337,17 @@ const Hard = styled.div`
 
 const Soft = styled.div`
   text-align: center;
-  width: ${rem(161)};
+  width: ${rem(141)};
   position: absolute;
   /* stylelint-disable-next-line unit-disallowed-list */
-  transform: rotate(-90deg) translate(-610.5px, -97px);
+  transform: rotate(-90deg) translate(-590.5px, -107px);
   transform-origin: left;
   border-left: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
   border-right: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
 
   @media screen and (min-width: ${rem(768)}) {
     /* stylelint-disable-next-line unit-disallowed-list */
-    transform: rotate(-90deg) translate(-610.5px, -197px);
+    transform: rotate(-90deg) translate(-590.5px, -207px);
   }
 
   @media (prefers-color-scheme: dark) {
