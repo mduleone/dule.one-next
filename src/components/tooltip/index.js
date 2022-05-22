@@ -156,7 +156,7 @@ const PopUp = styled.div`
   );
   padding: ${rem(19 / 2)};
   z-index: 1;
-  width: 50vw;
+  width: ${rem(200)};
 
   @media (prefers-color-scheme: dark) {
     background-color: ${({ theme }) => theme.colors.softBlack};

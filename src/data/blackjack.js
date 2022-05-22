@@ -9,12 +9,12 @@ const blackjack = {
       6: {
         action: 'split',
         surrender: false,
-        tooltip: 'double if cannot split',
+        tooltip: "double if can't split",
       },
       5: {
         action: 'split',
         surrender: false,
-        tooltip: 'double if cannot split',
+        tooltip: "double if can't split",
       },
       4: { action: 'split', surrender: false },
       3: { action: 'split', surrender: false },
@@ -144,7 +144,11 @@ const blackjack = {
     },
     16: {
       A: { action: 'hit', surrender: true },
-      10: { action: 'hit', surrender: true, tooltip: 'draw 2 cards, stand 3+' },
+      10: {
+        action: 'hit',
+        surrender: true,
+        tooltip: 'draw with 2 cards, stand with 3+',
+      },
       9: { action: 'hit', surrender: true },
       8: { action: 'hit', surrender: false },
       7: { action: 'hit', surrender: false },
