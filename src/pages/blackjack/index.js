@@ -41,6 +41,7 @@ const Blackjack = ({ blackjack }) => {
     ...Object.entries(blackjack.soft).sort(entryKeySort),
   ];
   const headers = Object.entries(hands[0][1])
+    .filter(([key]) => key !== 'key')
     .sort(entryKeySort)
     .map(([el]) => el);
 
@@ -80,17 +81,17 @@ const Blackjack = ({ blackjack }) => {
         <Pairs>Pairs</Pairs>
         <Hard>Hard</Hard>
         <Soft>Soft</Soft>
-        {hands.map(([playerHand, hand]) => (
-          <Row key={playerHand}>
+        {hands.map(([playerHand, { key: handKey, ...hand }]) => (
+          <Row key={handKey}>
             <Lead
-              $hovered={hoveredPlayerHand === playerHand}
+              $hovered={hoveredPlayerHand === handKey}
               role="button"
               onClick={() => {
-                setHoveredPlayerHand(playerHand);
+                setHoveredPlayerHand(handKey);
                 setHoveredDealerCard(null);
               }}
               onMouseEnter={() => {
-                setHoveredPlayerHand(playerHand);
+                setHoveredPlayerHand(handKey);
                 setHoveredDealerCard(null);
               }}
               onMouseLeave={() => {
@@ -105,14 +106,14 @@ const Blackjack = ({ blackjack }) => {
               .map(([dealerCard, { action, surrender, tooltip }]) => {
                 const showPlayerKey =
                   (hoveredDealerCard === null &&
-                    hoveredPlayerHand === playerHand) ||
+                    hoveredPlayerHand === handKey) ||
                   (hoveredDealerCard === dealerCard &&
-                    hoveredPlayerHand === playerHand);
+                    hoveredPlayerHand === handKey);
                 const showDealerKey =
                   (hoveredDealerCard === dealerCard &&
                     hoveredPlayerHand === null) ||
                   (hoveredDealerCard === dealerCard &&
-                    hoveredPlayerHand === playerHand);
+                    hoveredPlayerHand === handKey);
 
                 return (
                   <Hand
@@ -120,11 +121,11 @@ const Blackjack = ({ blackjack }) => {
                     $action={action}
                     role="button"
                     onClick={() => {
-                      setHoveredPlayerHand(playerHand);
+                      setHoveredPlayerHand(handKey);
                       setHoveredDealerCard(dealerCard);
                     }}
                     onMouseEnter={() => {
-                      setHoveredPlayerHand(playerHand);
+                      setHoveredPlayerHand(handKey);
                       setHoveredDealerCard(dealerCard);
                     }}
                     onMouseLeave={() => {
@@ -135,8 +136,8 @@ const Blackjack = ({ blackjack }) => {
                     {transformAction[action]}
                     {(surrender || tooltip) && (
                       <Sup>
-                        {surrender ? '*' : ''}
-                        {tooltip ? '†' : ''}
+                        {surrender && '*'}
+                        {tooltip && '†'}
                       </Sup>
                     )}
                     <DealerHandValue $show={showDealerKey}>
@@ -386,8 +387,8 @@ const Lead = styled.div`
   font-weight: bold;
   white-space: nowrap;
   align-self: flex-end;
-  min-width: ${rem(44)};
-  width: ${rem(44)};
+  min-width: ${rem(40)};
+  width: ${rem(40)};
   border: none;
   text-align: right;
   padding-right: ${rem(8)};

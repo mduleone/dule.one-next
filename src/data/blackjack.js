@@ -1,6 +1,7 @@
 const blackjack = {
   pairs: {
     A: {
+      key: 'A A',
       A: { action: 'split', surrender: false },
       10: { action: 'split', surrender: false },
       9: { action: 'split', surrender: false },
@@ -21,6 +22,7 @@ const blackjack = {
       2: { action: 'split', surrender: false },
     },
     10: {
+      key: '10 10',
       A: { action: 'stand', surrender: false },
       10: { action: 'stand', surrender: false },
       9: { action: 'stand', surrender: false },
@@ -33,6 +35,7 @@ const blackjack = {
       2: { action: 'stand', surrender: false },
     },
     9: {
+      key: '9 9',
       A: { action: 'stand', surrender: false },
       10: { action: 'stand', surrender: false },
       9: { action: 'split', surrender: false },
@@ -45,6 +48,7 @@ const blackjack = {
       2: { action: 'split', surrender: false },
     },
     8: {
+      key: '8 8',
       A: { action: 'split', surrender: false },
       10: { action: 'split', surrender: false },
       9: { action: 'split', surrender: false },
@@ -57,6 +61,7 @@ const blackjack = {
       2: { action: 'split', surrender: false },
     },
     7: {
+      key: '7 7',
       A: { action: 'hit', surrender: false },
       10: { action: 'hit', surrender: false },
       9: { action: 'hit', surrender: false },
@@ -69,6 +74,7 @@ const blackjack = {
       2: { action: 'split', surrender: false },
     },
     6: {
+      key: '6 6',
       A: { action: 'hit', surrender: false },
       10: { action: 'hit', surrender: false },
       9: { action: 'hit', surrender: false },
@@ -81,6 +87,7 @@ const blackjack = {
       2: { action: 'split', surrender: false },
     },
     5: {
+      key: '5 5',
       A: { action: 'hit', surrender: false },
       10: { action: 'hit', surrender: false },
       9: { action: 'double', surrender: false },
@@ -93,6 +100,7 @@ const blackjack = {
       2: { action: 'double', surrender: false },
     },
     4: {
+      key: '4 4',
       A: { action: 'hit', surrender: false },
       10: { action: 'hit', surrender: false },
       9: { action: 'hit', surrender: false },
@@ -105,6 +113,7 @@ const blackjack = {
       2: { action: 'hit', surrender: false },
     },
     3: {
+      key: '3 3',
       A: { action: 'hit', surrender: false },
       10: { action: 'hit', surrender: false },
       9: { action: 'hit', surrender: false },
@@ -117,6 +126,7 @@ const blackjack = {
       2: { action: 'split', surrender: false },
     },
     2: {
+      key: '2 2',
       A: { action: 'hit', surrender: false },
       10: { action: 'hit', surrender: false },
       9: { action: 'hit', surrender: false },
@@ -131,6 +141,7 @@ const blackjack = {
   },
   hard: {
     '17 +': {
+      key: 'h17+',
       A: { action: 'stand', surrender: false },
       10: { action: 'stand', surrender: false },
       9: { action: 'stand', surrender: false },
@@ -143,6 +154,7 @@ const blackjack = {
       2: { action: 'stand', surrender: false },
     },
     16: {
+      key: 'h16',
       A: { action: 'hit', surrender: true },
       10: {
         action: 'hit',
@@ -159,6 +171,7 @@ const blackjack = {
       2: { action: 'stand', surrender: false },
     },
     15: {
+      key: 'h15',
       A: { action: 'hit', surrender: false },
       10: { action: 'hit', surrender: true },
       9: { action: 'hit', surrender: false },
@@ -171,6 +184,7 @@ const blackjack = {
       2: { action: 'stand', surrender: false },
     },
     14: {
+      key: 'h14',
       A: { action: 'hit', surrender: false },
       10: { action: 'hit', surrender: false, tooltip: 'stand holding 7,7' },
       9: { action: 'hit', surrender: false },
@@ -183,6 +197,7 @@ const blackjack = {
       2: { action: 'stand', surrender: false },
     },
     13: {
+      key: 'h13',
       A: { action: 'hit', surrender: false },
       10: { action: 'hit', surrender: false },
       9: { action: 'hit', surrender: false },
@@ -195,6 +210,7 @@ const blackjack = {
       2: { action: 'stand', surrender: false },
     },
     12: {
+      key: 'h12',
       A: { action: 'hit', surrender: false },
       10: { action: 'hit', surrender: false },
       9: { action: 'hit', surrender: false },
@@ -207,6 +223,7 @@ const blackjack = {
       2: { action: 'hit', surrender: false },
     },
     11: {
+      key: 'h11',
       A: { action: 'double', surrender: false },
       10: { action: 'double', surrender: false },
       9: { action: 'double', surrender: false },
@@ -219,6 +236,7 @@ const blackjack = {
       2: { action: 'double', surrender: false },
     },
     10: {
+      key: 'h10',
       A: { action: 'hit', surrender: false },
       10: { action: 'hit', surrender: false },
       9: { action: 'double', surrender: false },
@@ -231,6 +249,7 @@ const blackjack = {
       2: { action: 'double', surrender: false },
     },
     9: {
+      key: 'h9',
       A: { action: 'hit', surrender: false },
       10: { action: 'hit', surrender: false },
       9: { action: 'hit', surrender: false },
@@ -243,6 +262,7 @@ const blackjack = {
       2: { action: 'double', surrender: false },
     },
     8: {
+      key: 'h8',
       A: { action: 'hit', surrender: false },
       10: { action: 'hit', surrender: false },
       9: { action: 'hit', surrender: false },
@@ -255,6 +275,7 @@ const blackjack = {
       2: { action: 'hit', surrender: false },
     },
     '7 -': {
+      key: 'h7-',
       A: { action: 'hit', surrender: false },
       10: { action: 'hit', surrender: false },
       9: { action: 'hit', surrender: false },
@@ -268,7 +289,8 @@ const blackjack = {
     },
   },
   soft: {
-    'A - 8+': {
+    '19+': {
+      key: 's19+',
       A: { action: 'stand', surrender: false },
       10: { action: 'stand', surrender: false },
       9: { action: 'stand', surrender: false },
@@ -280,7 +302,8 @@ const blackjack = {
       3: { action: 'stand', surrender: false },
       2: { action: 'stand', surrender: false },
     },
-    'A - 7': {
+    18: {
+      key: 's18',
       A: { action: 'stand', surrender: false },
       10: { action: 'hit', surrender: false },
       9: { action: 'hit', surrender: false },
@@ -308,7 +331,8 @@ const blackjack = {
       },
       2: { action: 'stand', surrender: false },
     },
-    'A - 6': {
+    17: {
+      key: 's17',
       A: { action: 'hit', surrender: false },
       10: { action: 'hit', surrender: false },
       9: { action: 'hit', surrender: false },
@@ -320,7 +344,8 @@ const blackjack = {
       3: { action: 'double', surrender: false, tooltip: "hit if can't double" },
       2: { action: 'double', surrender: false, tooltip: "hit if can't double" },
     },
-    'A - 5': {
+    16: {
+      key: 's16',
       A: { action: 'hit', surrender: false },
       10: { action: 'hit', surrender: false },
       9: { action: 'hit', surrender: false },
@@ -332,7 +357,8 @@ const blackjack = {
       3: { action: 'hit', surrender: false },
       2: { action: 'hit', surrender: false },
     },
-    'A - 4': {
+    15: {
+      key: 's15',
       A: { action: 'hit', surrender: false },
       10: { action: 'hit', surrender: false },
       9: { action: 'hit', surrender: false },
@@ -344,7 +370,8 @@ const blackjack = {
       3: { action: 'hit', surrender: false },
       2: { action: 'hit', surrender: false },
     },
-    'A - 3': {
+    14: {
+      key: 's14',
       A: { action: 'hit', surrender: false },
       10: { action: 'hit', surrender: false },
       9: { action: 'hit', surrender: false },
@@ -356,7 +383,8 @@ const blackjack = {
       3: { action: 'hit', surrender: false },
       2: { action: 'hit', surrender: false },
     },
-    'A - 2': {
+    13: {
+      key: 's13',
       A: { action: 'hit', surrender: false },
       10: { action: 'hit', surrender: false },
       9: { action: 'hit', surrender: false },
