@@ -386,8 +386,8 @@ const Lead = styled.div`
   font-weight: bold;
   white-space: nowrap;
   align-self: flex-end;
-  min-width: ${rem(40)};
-  width: ${rem(40)};
+  min-width: ${rem(44)};
+  width: ${rem(44)};
   border: none;
   text-align: right;
   padding-right: ${rem(8)};

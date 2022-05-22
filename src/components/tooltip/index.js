@@ -68,7 +68,7 @@ const Tooltip = ({ children, show }) => {
 
   useEffect(() => {
     updatePosition();
-  }, [popup.current]);
+  }, [popup.current, show]);
 
   useEffect(() => {
     window.addEventListener('resize', updatePosition);
@@ -82,36 +82,31 @@ const Tooltip = ({ children, show }) => {
 
   return (
     show && (
-      <>
-        <PopUp
+      <PopUp
+        $horizontal={horizontalPosition}
+        $vertical={verticalPosition}
+        ref={popup}
+      >
+        {children}
+        <Triangle
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0,0,80,80"
           $horizontal={horizontalPosition}
           $vertical={verticalPosition}
-          ref={popup}
         >
-          {children}
-          <Triangle
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0,0,80,80"
-            $horizontal={horizontalPosition}
-            $vertical={verticalPosition}
-          >
-            <defs>
-              <filter id="shadow">
-                <feDropShadow
-                  dx="0"
-                  dy="0"
-                  stdDeviation="5"
-                  floodColor={svgDropShadow}
-                />
-              </filter>
-            </defs>
-            <polygon
-              points="0,0 40,40 80,0"
-              style={{ filter: 'url(#shadow)' }}
-            />
-          </Triangle>
-        </PopUp>
-      </>
+          <defs>
+            <filter id="shadow">
+              <feDropShadow
+                dx="0"
+                dy="0"
+                stdDeviation="5"
+                floodColor={svgDropShadow}
+              />
+            </filter>
+          </defs>
+          <polygon points="0,0 40,40 80,0" style={{ filter: 'url(#shadow)' }} />
+        </Triangle>
+      </PopUp>
     )
   );
 };
@@ -127,27 +122,27 @@ const PopUp = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
   color: ${({ theme }) => theme.colors.softBlack};
   border-radius: ${rem(6)};
-  bottom: ${({ $vertical }) =>
-    $vertical === 'top' ? `calc(100% + ${rem(20)})` : 'initial'};
-  top: ${({ $vertical }) =>
-    $vertical === 'top' ? 'initial' : `calc(100% + ${rem(20)})`};
   box-shadow: 0 0 ${rem(5)} ${({ theme }) => theme.colors.shadowColor};
   position: absolute;
+  top: ${({ $vertical }) =>
+    $vertical === 'top' ? 'initial' : `calc(100% + ${rem(20)})`};
   right: ${({ $horizontal }) => {
     if ($horizontal === 'center') {
       return 'initial';
     }
-    if ($horizontal === 'right') {
+    if ($horizontal === 'left') {
       return 0;
     }
     return 'initial';
   }};
+  bottom: ${({ $vertical }) =>
+    $vertical === 'top' ? `calc(100% + ${rem(20)})` : 'initial'};
   left: ${({ $horizontal }) => {
-    if ($horizontal === 'left') {
-      return 0;
-    }
     if ($horizontal === 'center') {
       return '50%';
+    }
+    if ($horizontal === 'right') {
+      return 0;
     }
     return 'initial';
   }};
@@ -160,10 +155,8 @@ const PopUp = styled.div`
     }}
   );
   padding: ${rem(19 / 2)};
-  text-align: center;
-  align-items: center;
-  white-space: nowrap;
   z-index: 1;
+  width: 50vw;
 
   @media (prefers-color-scheme: dark) {
     background-color: ${({ theme }) => theme.colors.softBlack};
@@ -179,16 +172,16 @@ const Triangle = styled.svg`
   top: ${({ $vertical }) =>
     $vertical === 'top' ? `calc(100% - ${rem(1)})` : 'initial'};
   right: ${({ $horizontal }) => {
+    if ($horizontal === 'left') {
+      return rem(3);
+    }
     if ($horizontal === 'center') {
       return 'initial';
-    }
-    if ($horizontal === 'right') {
-      return rem(3);
     }
     return 'initial';
   }};
   left: ${({ $horizontal }) => {
-    if ($horizontal === 'left') {
+    if ($horizontal === 'right') {
       return rem(3);
     }
     if ($horizontal === 'center') {
