@@ -296,63 +296,49 @@ const Header = styled.div`
   }
 `;
 
-const Pairs = styled.div`
+const HandIdentifiers = styled.div`
   text-align: center;
+  position: absolute;
+  transform-origin: left;
+  border-left: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
+  border-right: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
+  border-bottom: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
+
+  @media (prefers-color-scheme: dark) {
+    border-color: ${({ theme }) => theme.colors.white};
+  }
+`;
+
+const Pairs = styled(HandIdentifiers)`
   width: ${rem(201)};
-  position: absolute;
   /* stylelint-disable-next-line unit-disallowed-list */
-  transform: rotate(-90deg) translate(-230.5px, -77px);
-  transform-origin: left;
-  border-left: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
-  border-right: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
+  transform: rotate(-90deg) translate(-230px, -80px);
 
   @media screen and (min-width: ${rem(768)}) {
     /* stylelint-disable-next-line unit-disallowed-list */
-    transform: rotate(-90deg) translate(-230.5px, -177px);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    border-color: ${({ theme }) => theme.colors.white};
+    transform: rotate(-90deg) translate(-230px, -180px);
   }
 `;
 
-const Hard = styled.div`
-  text-align: center;
+const Hard = styled(HandIdentifiers)`
   width: ${rem(221)};
-  position: absolute;
   /* stylelint-disable-next-line unit-disallowed-list */
-  transform: rotate(-90deg) translate(-450.5px, -67px);
-  transform-origin: left;
-  border-left: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
-  border-right: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
+  transform: rotate(-90deg) translate(-450px, -70px);
 
   @media screen and (min-width: ${rem(768)}) {
     /* stylelint-disable-next-line unit-disallowed-list */
-    transform: rotate(-90deg) translate(-450.5px, -167px);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    border-color: ${({ theme }) => theme.colors.white};
+    transform: rotate(-90deg) translate(-450px, -170px);
   }
 `;
 
-const Soft = styled.div`
-  text-align: center;
+const Soft = styled(HandIdentifiers)`
   width: ${rem(141)};
-  position: absolute;
   /* stylelint-disable-next-line unit-disallowed-list */
-  transform: rotate(-90deg) translate(-590.5px, -107px);
-  transform-origin: left;
-  border-left: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
-  border-right: ${({ theme }) => theme.colors.black} ${rem(1)} solid;
+  transform: rotate(-90deg) translate(-590px, -110px);
 
   @media screen and (min-width: ${rem(768)}) {
     /* stylelint-disable-next-line unit-disallowed-list */
-    transform: rotate(-90deg) translate(-590.5px, -207px);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    border-color: ${({ theme }) => theme.colors.white};
+    transform: rotate(-90deg) translate(-590px, -210px);
   }
 `;
 
