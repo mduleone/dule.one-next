@@ -3,7 +3,7 @@ const projects = [
     title: "Gammy's Game",
     href: '/blackjack',
     repo: 'https://github.com/mduleone/dule.one-next/blob/main/src/pages/blackjack/index.js',
-    desc: 'Part of this project. A Blackjack Strategy Card in-browser, because a physical card is just too darn inconvenient. This is Basic Strategy as described in Chapter 3 of the <a href="https://smile.amazon.com/Beat-Dealer-Winning-Strategy-Twenty-One/dp/0394703103/ref=asc_df_0394703103" target="_blank" rel="noopener noreferrer">Beat the Dealer</a>, trusted by Ina Frey.',
+    desc: 'Part of this project. A Blackjack Strategy Card in-browser, because a physical card is just too darn inconvenient. This is Basic Strategy as described in Chapter 3 of <a href="https://smile.amazon.com/Beat-Dealer-Winning-Strategy-Twenty-One/dp/0394703103/ref=asc_df_0394703103" target="_blank" rel="noopener noreferrer">Beat the Dealer</a>, trusted by Ina Frey.',
     internal: true,
     images: ['/images/blackjack-light.jpg', '/images/blackjack-dark.jpg'],
   },
