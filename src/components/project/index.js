@@ -155,10 +155,9 @@ const ImagesContainer = styled.div`
   display: flex;
   max-height: ${rem(332)};
   max-width: 100%;
-  gap: ${rem(16)};
   overflow-x: scroll;
   margin: ${rem(16)} 0;
-  padding: ${rem(16)};
+  padding: ${rem(16)} 0;
 `;
 
 const Image = styled.img`
@@ -168,6 +167,11 @@ const Image = styled.img`
   display: block;
   box-shadow: 0 0 ${rem(14)} ${({ theme }) => theme.colors.shadowColor};
   border-radius: ${rem(3)};
+  margin: 0 ${rem(16)};
+
+  a:not(:first-child) & {
+    margin-left: 0;
+  }
 
   @media (prefers-color-scheme: dark) {
     box-shadow: 0 0 ${rem(14)} ${({ theme }) => theme.colors.inverseShadowColor};
