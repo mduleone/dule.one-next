@@ -30,20 +30,9 @@ const entryKeySort = ([a], [b]) => {
   return 0;
 };
 
-const Blackjack = ({ blackjack }) => {
+const Blackjack = ({ hands, headers }) => {
   const [hoveredPlayerHand, setHoveredPlayerHand] = useState(null);
   const [hoveredDealerCard, setHoveredDealerCard] = useState(null);
-  const hands = [
-    ...Object.entries(blackjack.pairs)
-      .sort(entryKeySort)
-      .map(([key, hand]) => [`${key} ${key}`, hand]),
-    ...Object.entries(blackjack.hard).sort(entryKeySort),
-    ...Object.entries(blackjack.soft).sort(entryKeySort),
-  ];
-  const headers = Object.entries(hands[0][1])
-    .filter(([key]) => key !== 'key')
-    .sort(entryKeySort)
-    .map(([el]) => el);
 
   return (
     <Layout>
@@ -189,20 +178,32 @@ const handProps = PropTypes.shape({
 });
 
 Blackjack.propTypes = {
-  blackjack: PropTypes.shape({
-    pairs: PropTypes.objectOf(handProps),
-    hard: PropTypes.objectOf(handProps),
-    soft: PropTypes.objectOf(handProps),
-  }),
+  hands: PropTypes.arrayOf(
+    PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, handProps])),
+  ),
+  headers: PropTypes.arrayOf(PropTypes.string),
 };
 
-Blackjack.defaultProps = {};
+export const getStaticProps = () => {
+  const hands = [
+    ...Object.entries(blackjackData.pairs)
+      .sort(entryKeySort)
+      .map(([key, hand]) => [`${key} ${key}`, hand]),
+    ...Object.entries(blackjackData.hard).sort(entryKeySort),
+    ...Object.entries(blackjackData.soft).sort(entryKeySort),
+  ];
+  const headers = Object.entries(hands[0][1])
+    .filter(([key]) => key !== 'key')
+    .sort(entryKeySort)
+    .map(([el]) => el);
 
-export const getStaticProps = () => ({
-  props: {
-    blackjack: blackjackData,
-  },
-});
+  return {
+    props: {
+      hands,
+      headers,
+    },
+  };
+};
 
 export default Blackjack;
 
