@@ -69,13 +69,14 @@ const Container = styled.span`
 
 const Image = styled.div`
   position: absolute;
+  border: ${rem(1)} solid ${({ theme }) => theme.colors.black};
+  border-radius: 50%;
   height: ${({ $width }) => rem($width)};
   width: ${({ $width }) => rem($width)};
   left: -${({ $width }) => rem($width + imageMargin)};
   top: 0;
 
   img {
-    border: ${rem(1)} solid ${({ theme }) => theme.colors.black};
     border-radius: 50%;
   }
 
