@@ -289,7 +289,7 @@ const blackjack = {
     },
   },
   soft: {
-    '19+': {
+    '19 +': {
       key: 's19+',
       A: { action: 'stand', surrender: false },
       10: { action: 'stand', surrender: false },

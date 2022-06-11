@@ -1,12 +1,25 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import NextImage from 'next-image-export-optimizer';
 
 import { rem } from '~/util/style/lengths';
 
 const Name = ({ imageWidth, header = false }) => (
   <Container $header={header} $width={imageWidth}>
-    <Image $header={header} $width={imageWidth} src="/me-square-draw.png" />
-    <TopImage $header={header} $width={imageWidth} src="/me-square-real.png" />
+    <Image $header={header} $width={imageWidth}>
+      <NextImage
+        layout="fill"
+        src="/images/me-square-draw.png"
+        alt="Image of me, illustrated"
+      />
+    </Image>
+    <TopImage $header={header} $width={imageWidth}>
+      <NextImage
+        layout="fill"
+        src="/images/me-square-real.png"
+        alt="Image of me, real"
+      />
+    </TopImage>
     Matt DuLeone
   </Container>
 );
@@ -54,14 +67,17 @@ const Container = styled.span`
   }
 `;
 
-const Image = styled.img`
-  border-radius: 50%;
+const Image = styled.div`
   position: absolute;
   border: ${rem(1)} solid ${({ theme }) => theme.colors.black};
   height: ${({ $width }) => rem($width)};
   width: ${({ $width }) => rem($width)};
   left: -${({ $width }) => rem($width + imageMargin)};
   top: 0;
+
+  img {
+    border-radius: 50%;
+  }
 
   @media only screen and (min-width: ${rem(363)}) {
     height: ${rem(40)};

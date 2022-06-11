@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import NextImage from 'next-image-export-optimizer';
 
 import Layout from '~/components/layout';
 import Name from '~/components/name';
@@ -14,7 +15,15 @@ const Home = () => (
       <AboutLine>Mathematician.</AboutLine>
       <AboutLine>Problem Solver.</AboutLine>
     </About>
-    <CoatOfArms alt="DuLeone Coat of Arms" src="/images/duleone.jpg" />
+    <CoatOfArms>
+      <NextImage
+        layout="responsive"
+        alt="DuLeone Coat of Arms"
+        src="/images/duleone-big.jpg"
+        width={1970}
+        height={1650}
+      />
+    </CoatOfArms>
   </Layout>
 );
 
@@ -47,12 +56,15 @@ const AboutLine = styled.span`
   }
 `;
 
-const CoatOfArms = styled.img`
+const CoatOfArms = styled.div`
   display: block;
   margin: ${rem(48)} auto 0;
   max-width: ${rem(540)};
   width: 100%;
-  border-radius: 35%;
+
+  img {
+    border-radius: 35%;
+  }
 
   @media only screen and (min-width: ${rem(768)}) {
     margin: ${rem(32)} auto 0;

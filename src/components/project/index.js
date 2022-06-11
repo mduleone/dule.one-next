@@ -1,11 +1,21 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Link from 'next/link';
+import NextImage from 'next-image-export-optimizer';
 
 import { rem } from '~/util/style/lengths';
 
 const Project = ({
-  project: { title, href, repo, desc, internal, images = [] },
+  project: {
+    title,
+    href,
+    repo,
+    desc,
+    internal,
+    imageWidth,
+    imageHeight,
+    images = [],
+  },
 }) => {
   let ExternalLinkTag = 'span';
   let projectLinkProps = {};
@@ -37,23 +47,32 @@ const Project = ({
           {images.map(
             (src, i) =>
               internal ? (
-                <Link key={src} href={href}>
-                  {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                  <a>
-                    <Image
+                <Link key={src} href={href} passHref>
+                  <ImageLink
+                    $imageWidth={imageWidth}
+                    $imageHeight={imageHeight}
+                  >
+                    <NextImage
+                      layout="fill"
                       src={src}
                       alt={`Screenshot of ${title}${i > 0 ? `-${i}` : ''}`}
                     />
-                  </a>
+                  </ImageLink>
                 </Link>
               ) : (
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                <a key={src} {...projectLinkProps}>
-                  <Image
+                <ImageLink
+                  key={src}
+                  $imageWidth={imageWidth}
+                  $imageHeight={imageHeight}
+                  // eslint-disable-next-line react/jsx-props-no-spreading
+                  {...projectLinkProps}
+                >
+                  <NextImage
+                    layout="fill"
                     src={src}
                     alt={`Screenshot of ${title}${i > 0 ? `-${i}` : ''}`}
                   />
-                </a>
+                </ImageLink>
               ),
             // eslint-disable-next-line function-paren-newline
           )}
@@ -79,6 +98,8 @@ Project.propTypes = {
     repo: PropTypes.string,
     desc: PropTypes.string,
     internal: PropTypes.bool,
+    imageWidth: PropTypes.number,
+    imageHeight: PropTypes.number,
     images: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
 };
@@ -160,16 +181,20 @@ const ImagesContainer = styled.div`
   padding: ${rem(16)} 0;
 `;
 
-const Image = styled.img`
+const ImageLink = styled.a`
+  position: relative;
   max-height: ${rem(300)};
+  height: ${rem(300)};
   width: auto;
   object-fit: contain;
   display: block;
   box-shadow: 0 0 ${rem(14)} ${({ theme }) => theme.colors.shadowColor};
   border-radius: ${rem(3)};
   margin: 0 ${rem(16)};
+  aspect-ratio: ${({ $imageHeight, $imageWidth }) =>
+    `${$imageWidth} / ${$imageHeight}`};
 
-  a:not(:first-child) & {
+  &:not(:first-child) {
     margin-left: 0;
   }
 
