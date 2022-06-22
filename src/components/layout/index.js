@@ -28,6 +28,12 @@ const Layout = ({ children }) => {
           Matt DuLeone
           {activeLink?.name ? ` - ${activeLink.name}` : ''}
         </title>
+        <meta
+          property="og:title"
+          content={`Matt DuLeone${
+            activeLink?.name ? ` - ${activeLink.name}` : ''
+          }`}
+        />
       </Head>
       <Header activeLink={activeLink} />
       <PrintAddress />

@@ -12,8 +12,14 @@ const App = ({ Component, pageProps }) => (
   <>
     <Head>
       <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no"
+        property="og:description"
+        content="Software Engineer. Mathematician. Problem Solver. Ferrum Ferro Exacuitur."
+      />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://matt.dule.one" />
+      <meta
+        property="og:image"
+        content="https://matt.dule.one/images/duleone-big.jpg"
       />
     </Head>
     <ThemeProvider theme={providedTheme}>
