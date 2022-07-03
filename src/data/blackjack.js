@@ -63,7 +63,7 @@ const blackjack = {
     7: {
       key: '7 7',
       A: { action: 'hit', surrender: false },
-      10: { action: 'hit', surrender: false },
+      10: { action: 'stand', surrender: false },
       9: { action: 'hit', surrender: false },
       8: { action: 'split', surrender: false },
       7: { action: 'split', surrender: false },
