@@ -11,10 +11,10 @@ export const getCountValue = (rank) => {
 export const getCardValue = (card) => {
   const [rank] = card.split('');
 
-  const numeralRank = Number(rank);
+  const numericRank = Number(rank);
 
-  if (!Number.isNaN(numeralRank)) {
-    return numeralRank;
+  if (!Number.isNaN(numericRank)) {
+    return numericRank;
   }
 
   if (rank.toUpperCase() === 'A') {
@@ -91,13 +91,25 @@ export const getCorrectAction = (playerHand, dealerCard) => {
     return STAND;
   }
 
-  if ([13, 14, 15, 16].includes(total)) {
+  if ([13, 15, 16].includes(total)) {
     if (dealerCardValue <= 6) {
       return STAND;
     }
 
     return HIT;
   }
+
+  if (total === 14) {
+    if (
+      dealerCardValue <= 6 ||
+      (hand.length === 2 && hand.includes(7) && dealerCardValue === 10)
+    ) {
+      return STAND;
+    }
+
+    return HIT;
+  }
+
   if (total === 12) {
     if ([4, 5, 6].includes(dealerCardValue)) {
       return STAND;
