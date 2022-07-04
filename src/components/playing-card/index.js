@@ -57,7 +57,7 @@ import SpadesK from './faces/spades/K';
 import SpadesA from './faces/spades/A';
 
 const Card = ({ card }) => {
-  let CardToRender = SpadesQ;
+  let CardToRender;
 
   switch (card) {
     case 'As':
@@ -217,7 +217,7 @@ const Card = ({ card }) => {
       CardToRender = HeartsK;
       break;
     default:
-      CardToRender = HeartsQ;
+      CardToRender = SpadesA;
   }
 
   return (
