@@ -47,6 +47,7 @@ const Indicator = styled.div`
   position: relative;
 
   &::after {
+    color: ${({ theme }) => theme.colors.black};
     content: '${({ $isOn }) => ($isOn ? 'ON' : 'OFF')}';
     font-size: ${rem(8)};
     position: absolute;
