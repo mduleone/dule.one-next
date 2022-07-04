@@ -81,3 +81,33 @@ export const newShoe = () =>
     ...newDeck(),
     ...newDeck(),
   ]);
+
+export const randomSuit = () => {
+  const rand = randNaturalNumber(4);
+  switch (rand) {
+    case 0:
+      return 's';
+    case 1:
+      return 'd';
+    case 2:
+      return 'c';
+    case 3:
+    default:
+      return 'h';
+  }
+};
+
+export const randomTen = () => {
+  const rand = randNaturalNumber(4);
+  switch (rand) {
+    case 0:
+      return 'T';
+    case 1:
+      return 'J';
+    case 2:
+      return 'Q';
+    case 3:
+    default:
+      return 'K';
+  }
+};

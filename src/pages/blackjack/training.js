@@ -7,7 +7,7 @@ import blackjackData from '~/data/blackjack';
 import Layout from '~/components/layout';
 import PlayingCard from '~/components/playing-card';
 import { rem } from '~/util/style/lengths';
-import { newShoe, DECK } from '~/util/playing-cards';
+import { newShoe, DECK, randomSuit, randomTen } from '~/util/playing-cards';
 import {
   getHandValue,
   getCountValue,
@@ -24,6 +24,7 @@ import BlackjackTable, {
   computeActionColor,
 } from '~/components/blackjack-table';
 import Tooltip from '~/components/tooltip';
+import Toggle from '~/components/toggle';
 
 const entryKeySort = ([a], [b]) => {
   const parsedIntA = parseInt(a, 10);
@@ -53,6 +54,10 @@ const Training = ({ hands, headers }) => {
   const [showSettings, setShowSettings] = useState(false);
   const [showChart, setShowChart] = useState(false);
   const [wrongAction, setWrongAction] = useState(false);
+  const [doublesOnly, setDoublesOnly] = useState(false);
+  const [softOnly, setSoftOnly] = useState(false);
+  const [resetCountOnLoss, setResetCountOnLoss] = useState(true);
+  const [forceReset, setForceReset] = useState(false);
   const [playerAction, setPlayerAction] = useState('');
 
   const resetHands = () => {
@@ -64,7 +69,18 @@ const Training = ({ hands, headers }) => {
 
     let nextPlayerHand = [];
     do {
-      nextPlayerHand = [tempShoe.shift(), tempShoe.shift()];
+      if (doublesOnly) {
+        const nextCard = tempShoe.shift();
+        let [nextRank] = nextCard.split('');
+        if (['T', 'J', 'Q', 'K'].includes(nextRank)) {
+          nextRank = randomTen();
+        }
+        nextPlayerHand = [nextCard, `${nextRank}${randomSuit()}`];
+      } else if (softOnly) {
+        nextPlayerHand = [`A${randomSuit()}`, tempShoe.shift()];
+      } else {
+        nextPlayerHand = [tempShoe.shift(), tempShoe.shift()];
+      }
     } while (getHandValue(nextPlayerHand).total === 21);
 
     const nextDealerCard = tempShoe.shift();
@@ -82,7 +98,7 @@ const Training = ({ hands, headers }) => {
 
   useEffect(() => {
     resetHands();
-  }, []);
+  }, [forceReset]);
 
   const act = (action) => {
     if (action === correctAction) {
@@ -104,6 +120,28 @@ const Training = ({ hands, headers }) => {
 
   const resetCount = () => {
     setCount(0);
+  };
+
+  const toggleDoublesOnly = () => {
+    const nextDoubleOnly = !doublesOnly;
+    setDoublesOnly(nextDoubleOnly);
+    if (nextDoubleOnly) {
+      setSoftOnly(false);
+    }
+    if (nextDoubleOnly) {
+      setForceReset((p) => !p);
+    }
+  };
+
+  const toggleSoftOnly = () => {
+    const nextSoftOnly = !softOnly;
+    setSoftOnly(nextSoftOnly);
+    if (nextSoftOnly) {
+      setDoublesOnly(false);
+    }
+    if (nextSoftOnly) {
+      setForceReset((p) => !p);
+    }
   };
 
   const handValue = getHandValue(playerHand);
@@ -223,9 +261,34 @@ const Training = ({ hands, headers }) => {
       <OpenSettingsButtonContainer>
         <Tooltip show={showSettings}>
           <SettingsTitle>Settings</SettingsTitle>
-          <SettingsButton type="button" onClick={() => setShowCount((p) => !p)}>
-            {showCount ? 'Hide' : 'Show'} Count
-          </SettingsButton>
+          <SettingsRow>
+            <div>Doubles only?</div>
+            <Toggle
+              cbId="doubles-only"
+              isOn={doublesOnly}
+              onClick={toggleDoublesOnly}
+            />
+          </SettingsRow>
+          <SettingsRow>
+            <div>Soft only?</div>
+            <Toggle cbId="soft-only" isOn={softOnly} onClick={toggleSoftOnly} />
+          </SettingsRow>
+          <SettingsRow>
+            <div>Reset count on loss?</div>
+            <Toggle
+              cbId="reset-count"
+              isOn={resetCountOnLoss}
+              onClick={() => setResetCountOnLoss((p) => !p)}
+            />
+          </SettingsRow>
+          <SettingsRow>
+            <div>Show count?</div>
+            <Toggle
+              cbId="show-count"
+              isOn={showCount}
+              onClick={() => setShowCount((p) => !p)}
+            />
+          </SettingsRow>
           <SettingsButton type="button" onClick={resetCount}>
             Reset Count
           </SettingsButton>
@@ -398,7 +461,7 @@ const OpenSettingsButtonContainer = styled.div`
   position: fixed;
   right: ${rem(19)};
   bottom: ${rem(19 + 23.75)};
-  z-index: 901;
+  z-index: 900;
 
   @media only screen and (min-width: ${rem(966)}) {
     transform: translateX(
@@ -416,7 +479,6 @@ const OpenChartButtonContainer = styled.div`
   position: fixed;
   right: ${rem(19 + 40)};
   bottom: ${rem(19 + 23.75)};
-  z-index: 901;
 
   @media only screen and (min-width: ${rem(966)}) {
     transform: translateX(
@@ -508,4 +570,12 @@ const SettingsButton = styled.button`
   @media screen and (min-width: ${rem(768)}) {
     font-size: ${rem(19)};
   }
+`;
+
+const SettingsRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: ${rem(4)};
 `;

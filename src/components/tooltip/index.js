@@ -155,7 +155,7 @@ const PopUp = styled.div`
     }}
   );
   padding: ${rem(19 / 2)};
-  z-index: 1;
+  z-index: 901;
   width: ${rem(200)};
 
   @media (prefers-color-scheme: dark) {
