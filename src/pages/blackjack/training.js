@@ -114,7 +114,9 @@ const Training = ({ hands, headers }) => {
   const clearWrongAction = () => {
     setWrongAction(false);
     setStreak(0);
-    setCount(0);
+    if (resetCountOnLoss) {
+      setCount(0);
+    }
     resetHands();
   };
 
@@ -208,7 +210,9 @@ const Training = ({ hands, headers }) => {
               The correct play was{' '}
               <Action $action={correctAction}>{correctAction}</Action>
             </WrongContent>
-            <WrongCountReset>Resetting the count to 0</WrongCountReset>
+            {resetCountOnLoss && (
+              <WrongContent>Resetting the count to 0</WrongContent>
+            )}
             <SettingsButton type="button" onClick={clearWrongAction}>
               Got it
             </SettingsButton>
@@ -400,10 +404,10 @@ const Action = styled.span`
 
 const WrongContent = styled.div`
   line-height: 1.5;
-`;
 
-const WrongCountReset = styled.div`
-  flex: 1 1 auto;
+  :last-of-type {
+    flex: 1 1 auto;
+  }
 `;
 
 const Actions = styled.div`
