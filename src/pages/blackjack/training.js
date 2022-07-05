@@ -9,10 +9,11 @@ import WrongAction from '~/components/blackjack-training/wrong-action';
 import { rem } from '~/util/style/lengths';
 import { newShoe, DECK, randomSuit, randomTen } from '~/util/playing-cards';
 import {
-  getHandValue,
-  getCountValue,
+  getCardRank,
   getCardValue,
   getCorrectAction,
+  getCountValue,
+  getHandValue,
   HIT,
   STAND,
   DOUBLE,
@@ -22,10 +23,43 @@ import { getItem, setItem } from '~/util/local-storage';
 import Modal from '~/components/modal';
 import BlackjackTable, {
   blackjackDataProps,
+  computeActionColor,
+  entryKeySort,
 } from '~/components/blackjack-table';
 import Tooltip from '~/components/tooltip';
 import Toggle from '~/components/toggle';
 import { round } from '~/util/number';
+
+const defaultStatData = {
+  longestStreak: 0,
+  streaks: 0,
+  streakTotals: 0,
+  doublesOnlyTotals: 0,
+  doublesOnlyStreaks: 0,
+  softOnlyTotals: 0,
+  softOnlyStreaks: 0,
+  losses: {},
+};
+
+const lossesDefault = {
+  stand: 0,
+  hit: 0,
+  double: 0,
+  split: 0,
+};
+
+const getLossKey = (playerHand, dealerCard) =>
+  `${playerHand.map(getCardValue).sort().join(',')}:${getCardValue(
+    dealerCard,
+  )}`;
+
+const parseLossKey = (lossKey) => {
+  const [playerString, dealerString] = lossKey.split(':');
+  const playerHand = playerString.split(',').map(getCardRank);
+  const dealerCard = getCardRank(dealerString);
+
+  return { playerHand, dealerCard };
+};
 
 const Training = ({ blackjackData }) => {
   const [streak, setStreak] = useState(0);
@@ -37,6 +71,7 @@ const Training = ({ blackjackData }) => {
     doublesOnlyStreaks: 0,
     softOnlyTotals: 0,
     softOnlyStreaks: 0,
+    losses: {},
   });
   const [initiallyLoaded, setInitiallyLoaded] = useState(false);
   const [count, setCount] = useState(0);
@@ -103,7 +138,10 @@ const Training = ({ blackjackData }) => {
         setStreak(possibleStreak);
       }
       if (possibleStatData) {
-        setStatData(possibleStatData);
+        setStatData({
+          ...defaultStatData,
+          ...possibleStatData,
+        });
       }
 
       setInitiallyLoaded(true);
@@ -152,9 +190,11 @@ const Training = ({ blackjackData }) => {
     setWrongAction(false);
     setStreak(0);
 
+    const lossKey = getLossKey(playerHand, dealerCard);
+
     const nextLongestStreak =
       streak > statData.longestStreak ? streak : statData.longestStreak;
-    const nextStreakData = {
+    const nextStatData = {
       ...statData,
       longestStreak: nextLongestStreak,
       streaks: statData.streaks + 1,
@@ -165,10 +205,19 @@ const Training = ({ blackjackData }) => {
         (statData.doublesOnlyStreaks || 0) + (doublesOnly ? 1 : 0),
       softOnlyTotals: (statData.softOnlyTotals || 0) + (softOnly ? streak : 0),
       softOnlyStreaks: (statData.softOnlyStreaks || 0) + (softOnly ? 1 : 0),
+      losses: {
+        ...statData.losses,
+        [`${lossKey}`]: {
+          ...lossesDefault,
+          ...(statData.losses[lossKey] ?? {}),
+          [playerAction]:
+            ((statData.losses[lossKey] ?? {})[playerAction] ?? 0) + 1,
+        },
+      },
     };
-    setItem('bjt-stat-data', nextStreakData);
     setItem('bjt-streak', 0);
-    setStatData(nextStreakData);
+    setItem('bjt-stat-data', nextStatData);
+    setStatData(nextStatData);
     if (resetCountOnLoss) {
       setCount(0);
     }
@@ -397,6 +446,90 @@ const Training = ({ blackjackData }) => {
             </FlexRow>
           </>
         )}
+        <LossTable>
+          <LossTableActionsHeader>
+            <Legend $action="hit">Hit</Legend>
+            <Legend $action="stand">Stand</Legend>
+            <Legend $action="split">Split</Legend>
+            <Legend $action="double">Double</Legend>
+          </LossTableActionsHeader>
+          <TableWrapper>
+            <Table>
+              <thead>
+                <tr>
+                  <Th>Player Hand</Th>
+                  <Th>Dealer Shows</Th>
+                  <Th>Correct Play</Th>
+                  <Th>Incorrect plays</Th>
+                </tr>
+              </thead>
+              <Tbody>
+                {Object.entries(statData.losses)
+                  .sort(([keyA], [keyB]) => {
+                    const { playerHand: playerHandA, dealerCard: dealerA } =
+                      parseLossKey(keyA);
+                    const { playerHand: playerHandB, dealerCard: dealerB } =
+                      parseLossKey(keyB);
+
+                    const handValA = getHandValue(playerHandA);
+                    const handValB = getHandValue(playerHandB);
+
+                    if (handValA.total !== handValB.total) {
+                      return handValB.total - handValA.total;
+                    }
+
+                    const sortedHandA = handValA.hand.sort();
+                    const sortedHandB = handValB.hand.sort();
+
+                    if (sortedHandA[0] !== sortedHandB[0]) {
+                      return sortedHandA[0] - sortedHandB[0];
+                    }
+
+                    if (sortedHandA[1] !== sortedHandB[1]) {
+                      return sortedHandA[1] - sortedHandB[1];
+                    }
+
+                    return dealerB - dealerA;
+                  })
+                  .map(([lossKey, lossData]) => {
+                    const {
+                      playerHand: lossPlayerHand,
+                      dealerCard: lossDealerCard,
+                    } = parseLossKey(lossKey);
+
+                    const correctPlay = getCorrectAction(
+                      lossPlayerHand,
+                      lossDealerCard,
+                    );
+                    const { [correctPlay]: _, ...wrongActions } = lossData;
+
+                    return (
+                      <Tr key={lossKey}>
+                        <Td>{lossPlayerHand.join('-')}</Td>
+                        <Td>{lossDealerCard}</Td>
+                        <Td>
+                          <Action $action={correctPlay}>{correctPlay}</Action>
+                        </Td>
+                        <Td>
+                          {Object.entries(wrongActions)
+                            .sort(entryKeySort)
+                            .map(
+                              ([key, value]) =>
+                                value > 0 && (
+                                  <IncorrectPlay key={key}>
+                                    <Action $action={key}>{key}</Action>:{' '}
+                                    {value}
+                                  </IncorrectPlay>
+                                ),
+                            )}
+                        </Td>
+                      </Tr>
+                    );
+                  })}
+              </Tbody>
+            </Table>
+          </TableWrapper>
+        </LossTable>
       </Modal>
       <Modal isOpen={showChart} onClose={() => setShowChart(false)}>
         <ChartTitle>Basic Strategy</ChartTitle>
@@ -603,4 +736,94 @@ const FlexRow = styled.div`
   align-items: center;
   margin-bottom: ${rem(4)};
   text-align: left;
+`;
+
+const LossTable = styled.div`
+  line-height: ${rem(20)};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+`;
+
+const LossTableActionsHeader = styled.div`
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  min-width: 100%;
+`;
+
+const Legend = styled.div`
+  font-size: ${rem(14)};
+  font-weight: bold;
+  min-width: ${rem(30)};
+  text-align: center;
+  background-color: ${({ theme, $action }) =>
+    computeActionColor($action, theme.colors)};
+  color: ${({ theme, $action }) =>
+    $action === 'stand' ? theme.colors.white : theme.colors.black};
+  flex: 1 1 auto;
+
+  @media screen and (min-width: ${rem(768)}) {
+    min-width: ${rem(50)};
+  }
+
+  &:first-child {
+    border-top-left-radius: ${rem(3)};
+    border-bottom-left-radius: ${rem(3)};
+  }
+
+  &:last-child {
+    border-top-right-radius: ${rem(3)};
+    border-bottom-right-radius: ${rem(3)};
+  }
+`;
+
+const TableWrapper = styled.div`
+  max-height: ${rem(180)};
+  overflow-y: auto;
+  width: 100%;
+`;
+
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+`;
+
+const Th = styled.th`
+  position: sticky;
+  top: 0;
+  background-color: ${({ theme }) => theme.colors.white};
+
+  @media (prefers-color-scheme: dark) {
+    background-color: ${({ theme }) => theme.colors.softBlack};
+  }
+`;
+
+const Tbody = styled.tbody`
+  width: 100%;
+`;
+
+const Tr = styled.tr`
+  width: 100%;
+`;
+
+const Td = styled.td`
+  height: ${rem(30)};
+  text-align: center;
+`;
+
+const Action = styled.span`
+  background-color: ${({ theme, $action }) =>
+    computeActionColor($action, theme.colors)};
+  color: ${({ theme, $action }) =>
+    $action === 'stand' ? theme.colors.white : theme.colors.black};
+  padding: ${rem(3)};
+  border-radius: ${rem(3)};
+`;
+
+const IncorrectPlay = styled.span`
+  display: inline-block;
 `;

@@ -23,6 +23,19 @@ export const getCardValue = (card) => {
   return 10;
 };
 
+export const getCardRank = (cardValue) => {
+  const numericCard = Number(cardValue);
+  if (cardValue < 10) {
+    return `${cardValue}`;
+  }
+
+  if (numericCard === 10) {
+    return 'T';
+  }
+
+  return 'A';
+};
+
 export const getHandValue = (hand) => {
   const cards = hand.map(getCardValue);
 

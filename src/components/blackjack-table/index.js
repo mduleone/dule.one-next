@@ -12,7 +12,7 @@ const transformAction = {
   hit: 'H',
 };
 
-const entryKeySort = ([a], [b]) => {
+export const entryKeySort = ([a], [b]) => {
   const parsedIntA = parseInt(a, 10);
   const parsedIntB = parseInt(b, 10);
   if (!Number.isNaN(parsedIntA) && !Number.isNaN(parsedIntB)) {
