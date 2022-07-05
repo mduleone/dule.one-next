@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import blackjackData from '~/data/blackjack';
+import blackjackDataSource from '~/data/blackjack';
 import Layout from '~/components/layout';
 import PlayingCard from '~/components/playing-card';
 import { rem } from '~/util/style/lengths';
@@ -21,34 +20,22 @@ import {
 import { getItem, setItem } from '~/util/local-storage';
 import Modal from '~/components/modal';
 import BlackjackTable, {
-  handProps,
   computeActionColor,
+  blackjackDataProps,
 } from '~/components/blackjack-table';
 import Tooltip from '~/components/tooltip';
 import Toggle from '~/components/toggle';
 
-const entryKeySort = ([a], [b]) => {
-  const parsedIntA = parseInt(a, 10);
-  const parsedIntB = parseInt(b, 10);
-  if (!Number.isNaN(parsedIntA) && !Number.isNaN(parsedIntB)) {
-    return parsedIntB - parsedIntA;
-  }
-
-  if (b > a) {
-    return 1;
-  }
-  if (b < a) {
-    return -1;
-  }
-  return 0;
-};
-
-const Training = ({ hands, headers }) => {
+const Training = ({ blackjackData }) => {
   const [streak, setStreak] = useState(0);
   const [statData, setStatData] = useState({
     longestStreak: 0,
     streaks: 0,
     streakTotals: 0,
+    doublesOnlyTotals: 0,
+    doublesOnlyStreaks: 0,
+    softOnlyTotals: 0,
+    softOnlyStreaks: 0,
   });
   const [initiallyLoaded, setInitiallyLoaded] = useState(false);
   const [count, setCount] = useState(0);
@@ -171,6 +158,12 @@ const Training = ({ hands, headers }) => {
       longestStreak: nextLongestStreak,
       streaks: statData.streaks + 1,
       streakTotals: statData.streakTotals + streak,
+      doublesOnlyTotals:
+        (statData.doublesOnlyTotals || 0) + doublesOnly ? streak : 0,
+      doublesOnlyStreaks:
+        (statData.doublesOnlyStreaks || 0) + doublesOnly ? 1 : 0,
+      softOnlyTotals: (statData.softOnlyTotals || 0) + softOnly ? streak : 0,
+      softOnlyStreaks: (statData.softOnlyStreaks || 0) + softOnly ? 1 : 0,
     };
     setItem('bjt-stat-data', nextStreakData);
     setItem('bjt-streak', 0);
@@ -190,6 +183,8 @@ const Training = ({ hands, headers }) => {
     if (nextDoubleOnly) {
       setForceReset((p) => !p);
     }
+    setStreak(0);
+    setItem('bjt-streak', 0);
   };
 
   const toggleSoftOnly = () => {
@@ -201,11 +196,29 @@ const Training = ({ hands, headers }) => {
     if (nextSoftOnly) {
       setForceReset((p) => !p);
     }
+    setStreak(0);
+    setItem('bjt-streak', 0);
   };
 
   const handValue = getHandValue(playerHand);
   const isPair =
     handValue.hand.length === 2 && handValue.hand[0] === handValue.hand[1];
+
+  const average = statData.streakTotals / statData.streaks;
+  const doublesOnlyAverage =
+    statData.doublesOnlyTotals / statData.doublesOnlyStreaks;
+  const softOnlyAverage = statData.softOnlyTotals / statData.softOnlyStreaks;
+
+  const renderedAverage =
+    Math.floor(average) === average ? average : average.toFixed(5);
+  const renderedDoublesAverage =
+    Math.floor(doublesOnlyAverage) === doublesOnlyAverage
+      ? doublesOnlyAverage
+      : average.toFixed(5);
+  const renderedSoftAverage =
+    Math.floor(softOnlyAverage) === softOnlyAverage
+      ? softOnlyAverage
+      : average.toFixed(5);
 
   return (
     <Layout>
@@ -325,38 +338,38 @@ const Training = ({ hands, headers }) => {
         <FloatingButtonContainer ref={settingsButton}>
           <Tooltip show={showSettings}>
             <SettingsTitle>Settings</SettingsTitle>
-            <SettingsRow>
+            <FlexRow>
               <div>Doubles only?</div>
               <Toggle
                 cbId="doubles-only"
                 isOn={doublesOnly}
                 onClick={toggleDoublesOnly}
               />
-            </SettingsRow>
-            <SettingsRow>
+            </FlexRow>
+            <FlexRow>
               <div>Soft only?</div>
               <Toggle
                 cbId="soft-only"
                 isOn={softOnly}
                 onClick={toggleSoftOnly}
               />
-            </SettingsRow>
-            <SettingsRow>
+            </FlexRow>
+            <FlexRow>
               <div>Reset count on loss?</div>
               <Toggle
                 cbId="reset-count"
                 isOn={resetCountOnLoss}
                 onClick={() => setResetCountOnLoss((p) => !p)}
               />
-            </SettingsRow>
-            <SettingsRow>
+            </FlexRow>
+            <FlexRow>
               <div>Show count?</div>
               <Toggle
                 cbId="show-count"
                 isOn={showCount}
                 onClick={() => setShowCount((p) => !p)}
               />
-            </SettingsRow>
+            </FlexRow>
             <SettingsButton type="button" onClick={() => setCount(0)}>
               Reset Count
             </SettingsButton>
@@ -374,58 +387,66 @@ const Training = ({ hands, headers }) => {
       </SettingsButtonsContainer>
       <Modal isOpen={showStats} onClose={() => setShowStats(false)}>
         <ChartTitle>Statistics</ChartTitle>
-        <SettingsRow>
+        <FlexRow>
           <div>Longest Streak</div>
           <div>{statData.longestStreak || 0}</div>
-        </SettingsRow>
-        <SettingsRow>
+        </FlexRow>
+        <FlexRow>
           <div>Average Streak</div>
-          <div>
-            {statData.streaks > 0
-              ? statData.streakTotals / statData.streaks
-              : '--'}
-          </div>
-        </SettingsRow>
-        <SettingsRow>
+          <div>{statData.streaks > 0 ? renderedAverage : '--'}</div>
+        </FlexRow>
+        <FlexRow>
           <div>Streaks lost</div>
           <div>{statData.streaks}</div>
-        </SettingsRow>
+        </FlexRow>
+        {statData.doublesOnlyStreaks > 0 && (
+          <>
+            <FlexRow>
+              <div>Average Doubles Only Streak</div>
+              <div>
+                {statData.doublesOnlyStreaks > 0
+                  ? renderedDoublesAverage
+                  : '--'}
+              </div>
+            </FlexRow>
+            <FlexRow>
+              <div>Doubles Only Streaks lost</div>
+              <div>{statData.doublesOnlyStreaks}</div>
+            </FlexRow>
+          </>
+        )}
+        {statData.softOnlyStreaks > 0 && (
+          <>
+            <FlexRow>
+              <div>Soft Only Average Streak</div>
+              <div>
+                {statData.softOnlyStreaks > 0 ? renderedSoftAverage : '--'}
+              </div>
+            </FlexRow>
+            <FlexRow>
+              <div>Soft Only Streaks lost</div>
+              <div>{statData.softOnlyStreaks}</div>
+            </FlexRow>
+          </>
+        )}
       </Modal>
       <Modal isOpen={showChart} onClose={() => setShowChart(false)}>
         <ChartTitle>Basic Strategy</ChartTitle>
-        <BlackjackTable hands={hands} headers={headers} />
+        <BlackjackTable blackjackData={blackjackData} />
       </Modal>
     </Layout>
   );
 };
 
 Training.propTypes = {
-  hands: PropTypes.arrayOf(
-    PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, handProps])),
-  ),
-  headers: PropTypes.arrayOf(PropTypes.string),
+  blackjackData: blackjackDataProps,
 };
 
-export const getStaticProps = () => {
-  const hands = [
-    ...Object.entries(blackjackData.pairs)
-      .sort(entryKeySort)
-      .map(([key, hand]) => [`${key} ${key}`, hand]),
-    ...Object.entries(blackjackData.hard).sort(entryKeySort),
-    ...Object.entries(blackjackData.soft).sort(entryKeySort),
-  ];
-  const headers = Object.entries(hands[0][1])
-    .filter(([key]) => key !== 'key')
-    .sort(entryKeySort)
-    .map(([el]) => el);
-
-  return {
-    props: {
-      hands,
-      headers,
-    },
-  };
-};
+export const getStaticProps = () => ({
+  props: {
+    blackjackData: blackjackDataSource,
+  },
+});
 export default Training;
 
 const HandContainer = styled.div`
@@ -658,7 +679,7 @@ const SettingsButton = styled.button`
   }
 `;
 
-const SettingsRow = styled.div`
+const FlexRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;

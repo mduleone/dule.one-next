@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -28,9 +28,25 @@ const entryKeySort = ([a], [b]) => {
   return 0;
 };
 
-const BlackjackTable = ({ hands, headers }) => {
+const BlackjackTable = ({ blackjackData }) => {
   const [hoveredPlayerHand, setHoveredPlayerHand] = useState(null);
   const [hoveredDealerCard, setHoveredDealerCard] = useState(null);
+
+  const { hands, headers } = useMemo(() => {
+    const handsArray = [
+      ...Object.entries(blackjackData.pairs)
+        .sort(entryKeySort)
+        .map(([key, hand]) => [`${key} ${key}`, hand]),
+      ...Object.entries(blackjackData.hard).sort(entryKeySort),
+      ...Object.entries(blackjackData.soft).sort(entryKeySort),
+    ];
+    const headersArray = Object.entries(handsArray[0][1])
+      .filter(([key]) => key !== 'key')
+      .sort(entryKeySort)
+      .map(([el]) => el);
+
+    return { hands: handsArray, headers: headersArray };
+  }, [JSON.stringify(blackjackData)]);
 
   return (
     <Table>
@@ -160,6 +176,7 @@ export const cardProps = PropTypes.shape({
 });
 
 export const handProps = PropTypes.shape({
+  key: PropTypes.string,
   A: cardProps,
   10: cardProps,
   9: cardProps,
@@ -172,11 +189,14 @@ export const handProps = PropTypes.shape({
   2: cardProps,
 });
 
+export const blackjackDataProps = PropTypes.shape({
+  pairs: PropTypes.objectOf(handProps),
+  hard: PropTypes.objectOf(handProps),
+  soft: PropTypes.objectOf(handProps),
+});
+
 BlackjackTable.propTypes = {
-  hands: PropTypes.arrayOf(
-    PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, handProps])),
-  ),
-  headers: PropTypes.arrayOf(PropTypes.string),
+  blackjackData: blackjackDataProps,
 };
 
 export default BlackjackTable;
