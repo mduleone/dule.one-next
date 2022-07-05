@@ -6,7 +6,7 @@ import { rem } from '~/util/style/lengths';
 const Toggle = ({ cbId, isOn, onClick, disabled }) => (
   <Container htmlFor={cbId} $isOn={isOn} disabled={disabled}>
     <Indicator $isOn={isOn}>
-      <Input id={cbId} type="checkbox" checked={isOn} onClick={onClick} />
+      <Input id={cbId} type="checkbox" checked={isOn} onChange={onClick} />
     </Indicator>
   </Container>
 );

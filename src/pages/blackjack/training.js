@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,6 +18,7 @@ import {
   DOUBLE,
   SPLIT,
 } from '~/util/blackjack';
+import { getItem, setItem } from '~/util/local-storage';
 import Modal from '~/components/modal';
 import BlackjackTable, {
   handProps,
@@ -43,8 +44,13 @@ const entryKeySort = ([a], [b]) => {
 };
 
 const Training = ({ hands, headers }) => {
-  // @TODO: use local storage to track streak
   const [streak, setStreak] = useState(0);
+  const [statData, setStatData] = useState({
+    longestStreak: 0,
+    streaks: 0,
+    streakTotals: 0,
+  });
+  const [initiallyLoaded, setInitiallyLoaded] = useState(false);
   const [count, setCount] = useState(0);
   const [shoe, setShoe] = useState(newShoe());
   const [playerHand, setPlayerHand] = useState([]);
@@ -53,12 +59,14 @@ const Training = ({ hands, headers }) => {
   const [showCount, setShowCount] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
   const [showChart, setShowChart] = useState(false);
+  const [showStats, setShowStats] = useState(false);
   const [wrongAction, setWrongAction] = useState(false);
   const [doublesOnly, setDoublesOnly] = useState(false);
   const [softOnly, setSoftOnly] = useState(false);
   const [resetCountOnLoss, setResetCountOnLoss] = useState(true);
   const [forceReset, setForceReset] = useState(false);
   const [playerAction, setPlayerAction] = useState('');
+  const settingsButton = useRef(null);
 
   const resetHands = () => {
     let tempShoe = [...shoe];
@@ -98,11 +106,52 @@ const Training = ({ hands, headers }) => {
 
   useEffect(() => {
     resetHands();
+
+    if (!initiallyLoaded) {
+      const possibleStreak = getItem('bjt-streak');
+      const possibleStatData = getItem('bjt-stat-data');
+
+      if (typeof possibleStreak === 'number') {
+        setStreak(possibleStreak);
+      }
+      if (possibleStatData) {
+        setStatData(possibleStatData);
+      }
+
+      setInitiallyLoaded(true);
+    }
   }, [forceReset]);
+
+  useEffect(() => {
+    if (showSettings) {
+      const onClickOutside = (e) => {
+        if (!settingsButton.current.contains(e.target)) {
+          e.stopPropagation();
+          e.preventDefault();
+          setShowSettings(false);
+        }
+      };
+
+      window.addEventListener('click', onClickOutside);
+
+      return () => window.removeEventListener('click', onClickOutside);
+    }
+
+    return () => {};
+  }, [showSettings, settingsButton.current]);
 
   const act = (action) => {
     if (action === correctAction) {
-      setStreak((s) => s + 1);
+      setStreak((s) => {
+        const nextStreak = s + 1;
+        setItem('bjt-streak', nextStreak);
+        if (nextStreak > statData.longestStreak) {
+          setStatData({ ...statData, longestStreak: nextStreak });
+          setItem('bjt-stat-data', { ...statData, longestStreak: nextStreak });
+        }
+
+        return nextStreak;
+      });
       resetHands();
       return;
     }
@@ -114,14 +163,22 @@ const Training = ({ hands, headers }) => {
   const clearWrongAction = () => {
     setWrongAction(false);
     setStreak(0);
+
+    const nextLongestStreak =
+      streak > statData.longestStreak ? streak : statData.longestStreak;
+    const nextStreakData = {
+      ...statData,
+      longestStreak: nextLongestStreak,
+      streaks: statData.streaks + 1,
+      streakTotals: statData.streakTotals + streak,
+    };
+    setItem('bjt-stat-data', nextStreakData);
+    setItem('bjt-streak', 0);
+    setStatData(nextStreakData);
     if (resetCountOnLoss) {
       setCount(0);
     }
     resetHands();
-  };
-
-  const resetCount = () => {
-    setCount(0);
   };
 
   const toggleDoublesOnly = () => {
@@ -153,22 +210,18 @@ const Training = ({ hands, headers }) => {
   return (
     <Layout>
       <HandContainer>
-        <Info>
-          <div>Streak: {streak}</div>
-          {showCount && <div>Running Count: {count}</div>}
-        </Info>
-        {dealerCard && (
+        {initiallyLoaded && (
           <>
+            <Info>
+              <div>Streak: {streak}</div>
+              {showCount && <div>Running Count: {count}</div>}
+            </Info>
             <HandLabel>Dealer Shows</HandLabel>
             <Hand>
               <CardContainer>
                 <PlayingCard card={dealerCard} />
               </CardContainer>
             </Hand>
-          </>
-        )}
-        {playerHand.length > 0 && (
-          <>
             <HandLabel>Player Hand</HandLabel>
             <Hand>
               {playerHand.map((card, idx) => (
@@ -181,65 +234,76 @@ const Training = ({ hands, headers }) => {
           </>
         )}
         {wrongAction && (
-          <TransparentScreenOverlay role="button" onClick={clearWrongAction} />
-        )}
-        {wrongAction && (
-          <WrongAction>
-            <WrongTitle>Not the play</WrongTitle>
-            {streak > 0 && (
-              <WrongContent>You had a {streak}-hand long streak</WrongContent>
-            )}
-            <WrongContent>
-              Dealer showed{' '}
-              {[dealerCard]
-                .map(getCardValue)
-                .map((c) => (c === 11 ? 'A' : c))
-                .join()}
-            </WrongContent>
-            <WrongContent>
-              Your hand was{' '}
-              {playerHand
-                .map(getCardValue)
-                .map((c) => (c === 11 ? 'A' : c))
-                .join('-')}
-            </WrongContent>
-            <WrongContent>
-              You played <Action $action={playerAction}>{playerAction}</Action>
-            </WrongContent>
-            <WrongContent>
-              The correct play was{' '}
-              <Action $action={correctAction}>{correctAction}</Action>
-            </WrongContent>
-            {resetCountOnLoss && (
-              <WrongContent>Resetting the count to 0</WrongContent>
-            )}
-            <SettingsButton type="button" onClick={clearWrongAction}>
-              Got it
-            </SettingsButton>
-          </WrongAction>
+          <>
+            <TransparentScreenOverlay
+              role="button"
+              onClick={clearWrongAction}
+            />
+            <WrongAction>
+              <WrongTitle>Not the play</WrongTitle>
+              {streak > 0 && (
+                <WrongContent>You had a {streak}-hand long streak</WrongContent>
+              )}
+              <WrongContent>
+                Dealer showed{' '}
+                {[dealerCard]
+                  .map(getCardValue)
+                  .map((c) => (c === 11 ? 'A' : c))
+                  .join()}
+              </WrongContent>
+              <WrongContent>
+                Your hand was{' '}
+                {playerHand
+                  .map(getCardValue)
+                  .map((c) => (c === 11 ? 'A' : c))
+                  .join('-')}
+              </WrongContent>
+              <WrongContent>
+                You played{' '}
+                <Action $action={playerAction}>{playerAction}</Action>
+              </WrongContent>
+              <WrongContent>
+                The correct play was{' '}
+                <Action $action={correctAction}>{correctAction}</Action>
+              </WrongContent>
+              {resetCountOnLoss && (
+                <>
+                  <WrongContent>The count was {count}</WrongContent>
+                  <WrongContent>Resetting the count to 0</WrongContent>
+                </>
+              )}
+              <SettingsButton type="button" onClick={clearWrongAction}>
+                Got it
+              </SettingsButton>
+            </WrongAction>
+          </>
         )}
       </HandContainer>
-      {dealerCard && (
+      {initiallyLoaded && (
         <Actions>
-          <Hit disabled={wrongAction} type="button" onClick={() => act(HIT)}>
+          <Hit
+            disabled={showSettings || wrongAction}
+            type="button"
+            onClick={() => act(HIT)}
+          >
             Hit
           </Hit>
           <Stand
-            disabled={wrongAction}
+            disabled={showSettings || wrongAction}
             type="button"
             onClick={() => act(STAND)}
           >
             Stand
           </Stand>
           <Double
-            disabled={wrongAction}
+            disabled={showSettings || wrongAction}
             type="button"
             onClick={() => act(DOUBLE)}
           >
             Double
           </Double>
           <Split
-            disabled={!isPair || wrongAction}
+            disabled={showSettings || !isPair || wrongAction}
             type="button"
             onClick={() => act(SPLIT)}
           >
@@ -247,63 +311,90 @@ const Training = ({ hands, headers }) => {
           </Split>
         </Actions>
       )}
-      <OpenChartButtonContainer>
-        <FloatingButton onClick={() => setShowChart((p) => !p)} type="button">
-          <Icon icon={['fas', 'table']} />
-        </FloatingButton>
-      </OpenChartButtonContainer>
+      <SettingsButtonsContainer>
+        <FloatingButtonContainer>
+          <FloatingButton onClick={() => setShowStats((p) => !p)} type="button">
+            <Icon icon={['fas', 'chart-bar']} />
+          </FloatingButton>
+        </FloatingButtonContainer>
+        <FloatingButtonContainer>
+          <FloatingButton onClick={() => setShowChart((p) => !p)} type="button">
+            <Icon icon={['fas', 'table']} />
+          </FloatingButton>
+        </FloatingButtonContainer>
+        <FloatingButtonContainer ref={settingsButton}>
+          <Tooltip show={showSettings}>
+            <SettingsTitle>Settings</SettingsTitle>
+            <SettingsRow>
+              <div>Doubles only?</div>
+              <Toggle
+                cbId="doubles-only"
+                isOn={doublesOnly}
+                onClick={toggleDoublesOnly}
+              />
+            </SettingsRow>
+            <SettingsRow>
+              <div>Soft only?</div>
+              <Toggle
+                cbId="soft-only"
+                isOn={softOnly}
+                onClick={toggleSoftOnly}
+              />
+            </SettingsRow>
+            <SettingsRow>
+              <div>Reset count on loss?</div>
+              <Toggle
+                cbId="reset-count"
+                isOn={resetCountOnLoss}
+                onClick={() => setResetCountOnLoss((p) => !p)}
+              />
+            </SettingsRow>
+            <SettingsRow>
+              <div>Show count?</div>
+              <Toggle
+                cbId="show-count"
+                isOn={showCount}
+                onClick={() => setShowCount((p) => !p)}
+              />
+            </SettingsRow>
+            <SettingsButton type="button" onClick={() => setCount(0)}>
+              Reset Count
+            </SettingsButton>
+            <SettingsButton type="button" onClick={() => setStreak(0)}>
+              Reset Streak
+            </SettingsButton>
+          </Tooltip>
+          <FloatingButton
+            onClick={() => setShowSettings((p) => !p)}
+            type="button"
+          >
+            <Icon icon={['fas', 'cog']} />
+          </FloatingButton>
+        </FloatingButtonContainer>
+      </SettingsButtonsContainer>
+      <Modal isOpen={showStats} onClose={() => setShowStats(false)}>
+        <ChartTitle>Statistics</ChartTitle>
+        <SettingsRow>
+          <div>Longest Streak</div>
+          <div>{statData.longestStreak || 0}</div>
+        </SettingsRow>
+        <SettingsRow>
+          <div>Average Streak</div>
+          <div>
+            {statData.streaks > 0
+              ? statData.streakTotals / statData.streaks
+              : '--'}
+          </div>
+        </SettingsRow>
+        <SettingsRow>
+          <div>Streaks lost</div>
+          <div>{statData.streaks}</div>
+        </SettingsRow>
+      </Modal>
       <Modal isOpen={showChart} onClose={() => setShowChart(false)}>
         <ChartTitle>Basic Strategy</ChartTitle>
         <BlackjackTable hands={hands} headers={headers} />
       </Modal>
-      {showSettings && (
-        <TransparentScreenOverlay
-          role="button"
-          onClick={() => setShowSettings(false)}
-        />
-      )}
-      <OpenSettingsButtonContainer>
-        <Tooltip show={showSettings}>
-          <SettingsTitle>Settings</SettingsTitle>
-          <SettingsRow>
-            <div>Doubles only?</div>
-            <Toggle
-              cbId="doubles-only"
-              isOn={doublesOnly}
-              onClick={toggleDoublesOnly}
-            />
-          </SettingsRow>
-          <SettingsRow>
-            <div>Soft only?</div>
-            <Toggle cbId="soft-only" isOn={softOnly} onClick={toggleSoftOnly} />
-          </SettingsRow>
-          <SettingsRow>
-            <div>Reset count on loss?</div>
-            <Toggle
-              cbId="reset-count"
-              isOn={resetCountOnLoss}
-              onClick={() => setResetCountOnLoss((p) => !p)}
-            />
-          </SettingsRow>
-          <SettingsRow>
-            <div>Show count?</div>
-            <Toggle
-              cbId="show-count"
-              isOn={showCount}
-              onClick={() => setShowCount((p) => !p)}
-            />
-          </SettingsRow>
-          <SettingsButton type="button" onClick={resetCount}>
-            Reset Count
-          </SettingsButton>
-        </Tooltip>
-        <FloatingButton
-          onClick={() => setShowSettings((p) => !p)}
-          type="button"
-        >
-          <Icon icon={['fas', 'cog']} />
-        </FloatingButton>
-      </OpenSettingsButtonContainer>
     </Layout>
   );
 };
@@ -461,7 +552,7 @@ const Double = styled(ActionButton)`
   color: ${({ theme }) => theme.colors.black};
 `;
 
-const OpenSettingsButtonContainer = styled.div`
+const SettingsButtonsContainer = styled.div`
   position: fixed;
   right: ${rem(19)};
   bottom: ${rem(19 + 23.75)};
@@ -479,20 +570,11 @@ const OpenSettingsButtonContainer = styled.div`
   }
 `;
 
-const OpenChartButtonContainer = styled.div`
-  position: fixed;
-  right: ${rem(19 + 40)};
-  bottom: ${rem(19 + 23.75)};
+const FloatingButtonContainer = styled.span`
+  display: inline-block;
 
-  @media only screen and (min-width: ${rem(966)}) {
-    transform: translateX(
-      calc(-50% + (${rem(768)} / 2) + ${rem(19 * 2)} + ${rem(83)} - ${rem(40)})
-    );
-    right: 50%;
-  }
-
-  @media only print {
-    display: none;
+  & + & {
+    margin-left: ${rem(8)};
   }
 `;
 
@@ -582,4 +664,5 @@ const SettingsRow = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: ${rem(4)};
+  text-align: left;
 `;

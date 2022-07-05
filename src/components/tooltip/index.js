@@ -83,6 +83,7 @@ const Tooltip = ({ children, show }) => {
   return (
     show && (
       <PopUp
+        onClick={(e) => e.stopPropagation()}
         $horizontal={horizontalPosition}
         $vertical={verticalPosition}
         ref={popup}
@@ -157,6 +158,7 @@ const PopUp = styled.div`
   padding: ${rem(19 / 2)};
   z-index: 901;
   width: ${rem(200)};
+  cursor: default;
 
   @media (prefers-color-scheme: dark) {
     background-color: ${({ theme }) => theme.colors.softBlack};
