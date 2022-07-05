@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import blackjackDataSource from '~/data/blackjack';
 import Layout from '~/components/layout';
 import PlayingCard from '~/components/playing-card';
+import WrongAction from '~/components/blackjack-training/wrong-action';
 import { rem } from '~/util/style/lengths';
 import { newShoe, DECK, randomSuit, randomTen } from '~/util/playing-cards';
 import {
@@ -20,11 +21,11 @@ import {
 import { getItem, setItem } from '~/util/local-storage';
 import Modal from '~/components/modal';
 import BlackjackTable, {
-  computeActionColor,
   blackjackDataProps,
 } from '~/components/blackjack-table';
 import Tooltip from '~/components/tooltip';
 import Toggle from '~/components/toggle';
+import { round } from '~/util/number';
 
 const Training = ({ blackjackData }) => {
   const [streak, setStreak] = useState(0);
@@ -159,11 +160,11 @@ const Training = ({ blackjackData }) => {
       streaks: statData.streaks + 1,
       streakTotals: statData.streakTotals + streak,
       doublesOnlyTotals:
-        (statData.doublesOnlyTotals || 0) + doublesOnly ? streak : 0,
+        (statData.doublesOnlyTotals || 0) + (doublesOnly ? streak : 0),
       doublesOnlyStreaks:
-        (statData.doublesOnlyStreaks || 0) + doublesOnly ? 1 : 0,
-      softOnlyTotals: (statData.softOnlyTotals || 0) + softOnly ? streak : 0,
-      softOnlyStreaks: (statData.softOnlyStreaks || 0) + softOnly ? 1 : 0,
+        (statData.doublesOnlyStreaks || 0) + (doublesOnly ? 1 : 0),
+      softOnlyTotals: (statData.softOnlyTotals || 0) + (softOnly ? streak : 0),
+      softOnlyStreaks: (statData.softOnlyStreaks || 0) + (softOnly ? 1 : 0),
     };
     setItem('bjt-stat-data', nextStreakData);
     setItem('bjt-streak', 0);
@@ -210,15 +211,15 @@ const Training = ({ blackjackData }) => {
   const softOnlyAverage = statData.softOnlyTotals / statData.softOnlyStreaks;
 
   const renderedAverage =
-    Math.floor(average) === average ? average : average.toFixed(5);
+    Math.floor(average) === average ? average : round(average, 0, 5);
   const renderedDoublesAverage =
     Math.floor(doublesOnlyAverage) === doublesOnlyAverage
       ? doublesOnlyAverage
-      : average.toFixed(5);
+      : round(doublesOnlyAverage, 0, 5);
   const renderedSoftAverage =
     Math.floor(softOnlyAverage) === softOnlyAverage
       ? softOnlyAverage
-      : average.toFixed(5);
+      : round(softOnlyAverage, 0, 5);
 
   return (
     <Layout>
@@ -247,49 +248,16 @@ const Training = ({ blackjackData }) => {
           </>
         )}
         {wrongAction && (
-          <>
-            <TransparentScreenOverlay
-              role="button"
-              onClick={clearWrongAction}
-            />
-            <WrongAction>
-              <WrongTitle>Not the play</WrongTitle>
-              {streak > 0 && (
-                <WrongContent>You had a {streak}-hand long streak</WrongContent>
-              )}
-              <WrongContent>
-                Dealer showed{' '}
-                {[dealerCard]
-                  .map(getCardValue)
-                  .map((c) => (c === 11 ? 'A' : c))
-                  .join()}
-              </WrongContent>
-              <WrongContent>
-                Your hand was{' '}
-                {playerHand
-                  .map(getCardValue)
-                  .map((c) => (c === 11 ? 'A' : c))
-                  .join('-')}
-              </WrongContent>
-              <WrongContent>
-                You played{' '}
-                <Action $action={playerAction}>{playerAction}</Action>
-              </WrongContent>
-              <WrongContent>
-                The correct play was{' '}
-                <Action $action={correctAction}>{correctAction}</Action>
-              </WrongContent>
-              {resetCountOnLoss && (
-                <>
-                  <WrongContent>The count was {count}</WrongContent>
-                  <WrongContent>Resetting the count to 0</WrongContent>
-                </>
-              )}
-              <SettingsButton type="button" onClick={clearWrongAction}>
-                Got it
-              </SettingsButton>
-            </WrongAction>
-          </>
+          <WrongAction
+            clearWrongAction={clearWrongAction}
+            streak={streak}
+            dealerCard={dealerCard}
+            playerHand={playerHand}
+            playerAction={playerAction}
+            correctAction={correctAction}
+            resetCountOnLoss={resetCountOnLoss}
+            count={count}
+          />
         )}
       </HandContainer>
       {initiallyLoaded && (
@@ -480,48 +448,6 @@ const Info = styled.div`
   justify-content: space-between;
 `;
 
-const WrongAction = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border-radius: ${rem(6)};
-  border: ${rem(1)} solid ${({ theme }) => theme.colors.softBlack};
-  background-color: ${({ theme }) => theme.colors.white};
-  padding: ${rem(16)};
-  display: flex;
-  flex-direction: column;
-  z-index: 901;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: ${({ theme }) => theme.colors.softBlack};
-    border-color: ${({ theme }) => theme.colors.softWhite};
-  }
-`;
-
-const WrongTitle = styled.h1`
-  color: ${({ theme }) => theme.colors.duleoneRed};
-  text-align: center;
-`;
-
-const Action = styled.span`
-  background-color: ${({ theme, $action }) =>
-    computeActionColor($action, theme.colors)};
-  color: ${({ theme, $action }) =>
-    $action === 'stand' ? theme.colors.white : theme.colors.black};
-  padding: ${rem(3)};
-  border-radius: ${rem(3)};
-`;
-
-const WrongContent = styled.div`
-  line-height: 1.5;
-
-  :last-of-type {
-    flex: 1 1 auto;
-  }
-`;
-
 const Actions = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -635,15 +561,6 @@ const ChartTitle = styled.h1`
   font-size: ${rem(24)};
   font-family: ${({ theme }) => theme.fonts.screenFont};
   text-align: center;
-`;
-
-const TransparentScreenOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 900;
 `;
 
 const SettingsTitle = styled.h1`
