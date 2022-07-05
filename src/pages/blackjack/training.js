@@ -811,7 +811,7 @@ const Tr = styled.tr`
 `;
 
 const Td = styled.td`
-  height: ${rem(30)};
+  line-height: ${rem(30)};
   text-align: center;
 `;
 
