@@ -356,15 +356,17 @@ const Training = ({ blackjackData }) => {
           <Tooltip show={showSettings}>
             <SettingsTitle>Settings</SettingsTitle>
             <FlexRow>
-              <div>Doubles only?</div>
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+              <label htmlFor="pairs-only">Pairs only?</label>
               <Toggle
-                cbId="doubles-only"
+                cbId="pairs-only"
                 isOn={doublesOnly}
                 onClick={toggleDoublesOnly}
               />
             </FlexRow>
             <FlexRow>
-              <div>Soft only?</div>
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+              <label htmlFor="soft-only">Soft only?</label>
               <Toggle
                 cbId="soft-only"
                 isOn={softOnly}
@@ -372,7 +374,8 @@ const Training = ({ blackjackData }) => {
               />
             </FlexRow>
             <FlexRow>
-              <div>Reset count on loss?</div>
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+              <label htmlFor="reset-count">Reset count on loss?</label>
               <Toggle
                 cbId="reset-count"
                 isOn={resetCountOnLoss}
@@ -380,7 +383,8 @@ const Training = ({ blackjackData }) => {
               />
             </FlexRow>
             <FlexRow>
-              <div>Show count?</div>
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+              <label htmlFor="show-count">Show count?</label>
               <Toggle
                 cbId="show-count"
                 isOn={showCount}
@@ -419,7 +423,7 @@ const Training = ({ blackjackData }) => {
         {statData.doublesOnlyStreaks > 0 && (
           <>
             <FlexRow>
-              <div>Average Doubles Only Streak</div>
+              <div>Average Pairs Only Streak</div>
               <div>
                 {statData.doublesOnlyStreaks > 0
                   ? renderedDoublesAverage
@@ -427,7 +431,7 @@ const Training = ({ blackjackData }) => {
               </div>
             </FlexRow>
             <FlexRow>
-              <div>Doubles Only Streaks lost</div>
+              <div>Pairs Only Streaks lost</div>
               <div>{statData.doublesOnlyStreaks}</div>
             </FlexRow>
           </>
