@@ -79,6 +79,7 @@ const Training = ({ blackjackData }) => {
   const [playerHand, setPlayerHand] = useState([]);
   const [dealerCard, setDealerCard] = useState(null);
   const [correctAction, setCorrectAction] = useState('');
+  const [showShoe, setShowShoe] = useState(true);
   const [showCount, setShowCount] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
   const [showChart, setShowChart] = useState(false);
@@ -94,8 +95,12 @@ const Training = ({ blackjackData }) => {
   const resetHands = () => {
     let tempShoe = [...shoe];
 
-    if (tempShoe.length < DECK.length * 2) {
+    if (
+      (wrongAction && resetCountOnLoss && !(doublesOnly || softOnly)) ||
+      tempShoe.length < DECK.length * 2
+    ) {
       tempShoe = newShoe();
+      setCount(0);
     }
 
     let nextPlayerHand = [];
@@ -187,9 +192,6 @@ const Training = ({ blackjackData }) => {
   };
 
   const clearWrongAction = () => {
-    setWrongAction(false);
-    setStreak(0);
-
     const lossKey = getLossKey(playerHand, dealerCard);
 
     const nextLongestStreak =
@@ -222,6 +224,8 @@ const Training = ({ blackjackData }) => {
       setCount(0);
     }
     resetHands();
+    setWrongAction(false);
+    setStreak(0);
   };
 
   const toggleDoublesOnly = () => {
@@ -229,8 +233,7 @@ const Training = ({ blackjackData }) => {
     setDoublesOnly(nextDoubleOnly);
     if (nextDoubleOnly) {
       setSoftOnly(false);
-    }
-    if (nextDoubleOnly) {
+      setShoe(newShoe());
       setForceReset((p) => !p);
     }
     setStreak(0);
@@ -242,8 +245,7 @@ const Training = ({ blackjackData }) => {
     setSoftOnly(nextSoftOnly);
     if (nextSoftOnly) {
       setDoublesOnly(false);
-    }
-    if (nextSoftOnly) {
+      setShoe(newShoe());
       setForceReset((p) => !p);
     }
     setStreak(0);
@@ -277,7 +279,17 @@ const Training = ({ blackjackData }) => {
           <>
             <Info>
               <div>Streak: {streak}</div>
-              {showCount && <div>Running Count: {count}</div>}
+              <RightAlign>
+                {showCount && <div>Running Count: {count}</div>}
+                {!(doublesOnly || softOnly) && showShoe && (
+                  <>
+                    Shoe: {shoe.length}{' '}
+                    <InlineBlock>
+                      ({round(shoe.length / DECK.length, 0, 2)} decks)
+                    </InlineBlock>
+                  </>
+                )}
+              </RightAlign>
             </Info>
             <HandLabel>Dealer Shows</HandLabel>
             <Hand>
@@ -389,6 +401,15 @@ const Training = ({ blackjackData }) => {
                 cbId="show-count"
                 isOn={showCount}
                 onClick={() => setShowCount((p) => !p)}
+              />
+            </FlexRow>
+            <FlexRow>
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+              <label htmlFor="show-shoe">Show shoe?</label>
+              <Toggle
+                cbId="show-shoe"
+                isOn={showShoe}
+                onClick={() => setShowShoe((p) => !p)}
               />
             </FlexRow>
             <SettingsButton type="button" onClick={() => setCount(0)}>
@@ -520,10 +541,10 @@ const Training = ({ blackjackData }) => {
                             .map(
                               ([key, value]) =>
                                 value > 0 && (
-                                  <IncorrectPlay key={key}>
+                                  <InlineBlock key={key}>
                                     <Action $action={key}>{key}</Action>:{' '}
                                     {value}
-                                  </IncorrectPlay>
+                                  </InlineBlock>
                                 ),
                             )}
                         </Td>
@@ -583,6 +604,10 @@ const CardContainer = styled.div`
 const Info = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+const RightAlign = styled.div`
+  text-align: right;
 `;
 
 const Actions = styled.div`
@@ -834,6 +859,6 @@ const Action = styled.span`
   border-radius: ${rem(3)};
 `;
 
-const IncorrectPlay = styled.span`
+const InlineBlock = styled.span`
   display: inline-block;
 `;

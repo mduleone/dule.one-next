@@ -5,9 +5,8 @@ import { rem } from '~/util/style/lengths';
 
 const Toggle = ({ cbId, isOn, onClick, disabled }) => (
   <Container htmlFor={cbId} $isOn={isOn} disabled={disabled}>
-    <Indicator $isOn={isOn}>
-      <Input id={cbId} type="checkbox" checked={isOn} onChange={onClick} />
-    </Indicator>
+    <Indicator $isOn={isOn} />
+    <Input id={cbId} type="checkbox" checked={isOn} onChange={onClick} />
   </Container>
 );
 
@@ -35,6 +34,14 @@ const Container = styled.label`
   cursor: pointer;
   padding: ${rem(3)};
   transition: background-color 0.2s;
+  position: relative;
+
+  :focus-within {
+    box-shadow: 0 0 ${rem(1)} ${rem(3)} rgba(59, 153, 252, 0.7);
+    box-shadow: 0 0 0 ${rem(3)} activeborder; /* Blink, Chrome */
+    box-shadow: 0 0 0 ${rem(3)} -moz-mac-focusring; /* Firefox */
+    outline: -webkit-focus-ring-color auto ${rem(1)};
+  }
 `;
 
 const Indicator = styled.div`
@@ -62,4 +69,10 @@ const Input = styled.input`
   width: ${rem(1)};
   left: ${rem(10)};
   top: ${rem(10)};
+  position: absolute;
+  appearance: none;
+
+  :focus-visible {
+    outline: none;
+  }
 `;
