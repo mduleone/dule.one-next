@@ -744,6 +744,8 @@ const LossTable = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
+  flex: 1 1 auto;
+  overflow-y: auto;
 `;
 
 const LossTableActionsHeader = styled.div`
@@ -782,9 +784,13 @@ const Legend = styled.div`
 `;
 
 const TableWrapper = styled.div`
-  max-height: ${rem(180)};
+  min-height: ${rem(180)};
   overflow-y: auto;
   width: 100%;
+
+  @media screen and (min-width: ${rem(768)}) {
+    max-height: ${rem(300)};
+  }
 `;
 
 const Table = styled.table`
