@@ -21,18 +21,21 @@ const Layout = ({ children }) => {
     setHostname(window.location.hostname);
   }, []);
 
+  let activeName = activeLink?.name ? ` - ${activeLink.name}` : '';
+  if (router.pathname === '/blackjack/training') {
+    activeName = 'Blackjack Training';
+  }
+
   return (
     <>
       <Head>
         <title>
           Matt DuLeone
-          {activeLink?.name ? ` - ${activeLink.name}` : ''}
+          {activeName ? ` - ${activeName}` : ''}
         </title>
         <meta
           property="og:title"
-          content={`Matt DuLeone${
-            activeLink?.name ? ` - ${activeLink.name}` : ''
-          }`}
+          content={`Matt DuLeone${activeName ? ` - ${activeName}` : ''}`}
         />
       </Head>
       <Header activeLink={activeLink} />

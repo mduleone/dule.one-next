@@ -1,5 +1,22 @@
 const projects = [
   {
+    title: 'Blackjack Training',
+    href: '/blackjack/training',
+    repo: 'https://github.com/mduleone/dule.one-next/blob/main/src/pages/blackjack/training.js',
+    desc: 'Part of this project. Still evolving. A training tool for playing "Perfect Blackjack". Several training modes, including pairs-only and soft-hands-only, with more still being worked on and added soon. Contains a strategy card as well as tracks statistics.',
+    internal: true,
+    imageHeight: 1930,
+    imageWidth: 1284,
+    images: [
+      '/images/blackjack-training-0.png',
+      '/images/blackjack-training-1.png',
+      '/images/blackjack-training-2.png',
+      '/images/blackjack-training-3.png',
+      '/images/blackjack-training-4.png',
+      '/images/blackjack-training-5.png',
+    ],
+  },
+  {
     title: "Gammy's Game",
     href: '/blackjack',
     repo: 'https://github.com/mduleone/dule.one-next/blob/main/src/pages/blackjack/index.js',

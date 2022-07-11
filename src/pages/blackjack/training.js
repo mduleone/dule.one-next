@@ -29,6 +29,10 @@ import BlackjackTable, {
 import Tooltip from '~/components/tooltip';
 import Toggle from '~/components/toggle';
 import { round } from '~/util/number';
+import trackRaw from '~/util/track';
+
+const track = (event, data = {}) =>
+  trackRaw(`[Blackjack Training] - ${event}`, data);
 
 const defaultStatData = {
   longestStreak: 0,
@@ -65,6 +69,7 @@ const Training = ({ blackjackData }) => {
   const [streak, setStreak] = useState(0);
   const [statData, setStatData] = useState({
     longestStreak: 0,
+    lastStreak: 0,
     streaks: 0,
     streakTotals: 0,
     doublesOnlyTotals: 0,
@@ -154,6 +159,10 @@ const Training = ({ blackjackData }) => {
   }, [forceReset]);
 
   useEffect(() => {
+    track('page load');
+  }, []);
+
+  useEffect(() => {
     if (showSettings) {
       const onClickOutside = (e) => {
         if (!settingsButton.current.contains(e.target)) {
@@ -172,7 +181,9 @@ const Training = ({ blackjackData }) => {
   }, [showSettings, settingsButton.current]);
 
   const act = (action) => {
+    track('act', { action, correctAction });
     if (action === correctAction) {
+      track('correct action');
       setStreak((s) => {
         const nextStreak = s + 1;
         setItem('bjt-streak', nextStreak);
@@ -186,6 +197,7 @@ const Training = ({ blackjackData }) => {
       resetHands();
       return;
     }
+    track('incorrect action');
 
     setPlayerAction(action);
     setWrongAction(true);
@@ -199,6 +211,7 @@ const Training = ({ blackjackData }) => {
     const nextStatData = {
       ...statData,
       longestStreak: nextLongestStreak,
+      lastStreak: streak,
       streaks: statData.streaks + 1,
       streakTotals: statData.streakTotals + streak,
       doublesOnlyTotals:
@@ -209,7 +222,7 @@ const Training = ({ blackjackData }) => {
       softOnlyStreaks: (statData.softOnlyStreaks || 0) + (softOnly ? 1 : 0),
       losses: {
         ...statData.losses,
-        [`${lossKey}`]: {
+        [lossKey]: {
           ...lossesDefault,
           ...(statData.losses[lossKey] ?? {}),
           [playerAction]:
@@ -229,6 +242,7 @@ const Training = ({ blackjackData }) => {
   };
 
   const toggleDoublesOnly = () => {
+    track('play pairs only');
     const nextDoubleOnly = !doublesOnly;
     setDoublesOnly(nextDoubleOnly);
     if (nextDoubleOnly) {
@@ -241,6 +255,7 @@ const Training = ({ blackjackData }) => {
   };
 
   const toggleSoftOnly = () => {
+    track('play soft only');
     const nextSoftOnly = !softOnly;
     setSoftOnly(nextSoftOnly);
     if (nextSoftOnly) {
@@ -429,6 +444,10 @@ const Training = ({ blackjackData }) => {
       </SettingsButtonsContainer>
       <Modal isOpen={showStats} onClose={() => setShowStats(false)}>
         <ChartTitle>Statistics</ChartTitle>
+        <FlexRow>
+          <div>Last Streak</div>
+          <div>{statData.lastStreak || '--'}</div>
+        </FlexRow>
         <FlexRow>
           <div>Longest Streak</div>
           <div>{statData.longestStreak || 0}</div>
