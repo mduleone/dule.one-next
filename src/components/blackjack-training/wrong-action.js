@@ -81,7 +81,7 @@ const Container = styled.div`
   padding: ${rem(16)};
   display: flex;
   flex-direction: column;
-  z-index: 901;
+  z-index: 900;
 
   @media (prefers-color-scheme: dark) {
     background-color: ${({ theme }) => theme.colors.softBlack};
