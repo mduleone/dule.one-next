@@ -69,6 +69,7 @@ const Content = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow: auto;
 
   @media (prefers-color-scheme: dark) {
     background-color: ${({ theme }) => theme.colors.softBlack};

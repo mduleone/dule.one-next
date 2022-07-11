@@ -5,10 +5,12 @@ import styled from 'styled-components';
 import { rem } from '~/util/style/lengths';
 import colors from '~/util/colors';
 
-const Tooltip = ({ children, show }) => {
+const Tooltip = ({ children, show, horizontal, vertical }) => {
   const popup = useRef(null);
-  const [verticalPosition, setVerticalPosition] = useState('top');
-  const [horizontalPosition, setHorizontalPosition] = useState('center');
+  const [verticalPosition, setVerticalPosition] = useState(vertical || 'top');
+  const [horizontalPosition, setHorizontalPosition] = useState(
+    horizontal || 'center',
+  );
   const [svgDropShadow, setSvgDropShadow] = useState(colors.shadowColor);
 
   useEffect(() => {
@@ -62,8 +64,13 @@ const Tooltip = ({ children, show }) => {
     } else if (y + height >= window.innerHeight && verticalIdx > 0) {
       newVerticalPos = verticalOrder[verticalIdx - 1];
     }
-    setHorizontalPosition(newHorizontalPos);
-    setVerticalPosition(newVerticalPos);
+
+    if (!horizontal) {
+      setHorizontalPosition(newHorizontalPos);
+    }
+    if (!vertical) {
+      setVerticalPosition(newVerticalPos);
+    }
   };
 
   useEffect(() => {
@@ -115,6 +122,8 @@ const Tooltip = ({ children, show }) => {
 Tooltip.propTypes = {
   children: PropTypes.node.isRequired,
   show: PropTypes.bool,
+  horizontal: PropTypes.string,
+  vertical: PropTypes.string,
 };
 
 export default Tooltip;

@@ -11,7 +11,7 @@ import Header, { navLinks } from './header';
 import PrintAddress from './print-address';
 import PrintCoa from './print-coa';
 
-const Layout = ({ children }) => {
+const Layout = ({ children, header = true }) => {
   const router = useRouter();
   const [hostname, setHostname] = useState('matt.dule.one');
   const [date] = useState(new Date().getFullYear().toString());
@@ -38,10 +38,10 @@ const Layout = ({ children }) => {
           content={`Matt DuLeone${activeName ? ` - ${activeName}` : ''}`}
         />
       </Head>
-      <Header activeLink={activeLink} />
+      {header && <Header activeLink={activeLink} />}
       <PrintAddress />
       <PrintCoa />
-      <Main>{children}</Main>
+      <Main $header={header}>{children}</Main>
       <Footer>
         &copy;
         {date} Matt DuLeone |{' '}
@@ -56,25 +56,29 @@ const Layout = ({ children }) => {
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
+  header: PropTypes.bool,
 };
 
 export default Layout;
 
 const Main = styled.main`
   max-width: ${rem(768 - 19 * 2)};
-  margin: ${rem(19 * 3)} ${rem(19)} ${rem(23.75)};
+  margin: ${({ $header }) => ($header ? rem(19 * 3) : 0)} ${rem(19)}
+    ${rem(23.75)};
   padding-top: ${rem(19)};
 
   @media only screen and (min-width: ${rem(363)}) {
-    margin: ${rem(19 * 4)} ${rem(19)} ${rem(23.75)};
+    margin: ${({ $header }) => ($header ? rem(19 * 4) : 0)} ${rem(19)}
+      ${rem(23.75)};
   }
 
   @media only screen and (min-width: ${rem(590)}) {
-    margin: ${rem(19 * 2)} ${rem(19)} ${rem(23.75)};
+    margin: ${({ $header }) => ($header ? rem(19 * 2) : 0)} ${rem(19)}
+      ${rem(23.75)};
   }
 
   @media only screen and (min-width: ${rem(768)}) {
-    margin: ${rem(19 * 2)} auto ${rem(23.75)};
+    margin: ${({ $header }) => ($header ? rem(19 * 2) : 0)} auto ${rem(23.75)};
   }
 
   @media only print {

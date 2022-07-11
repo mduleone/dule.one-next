@@ -288,12 +288,15 @@ const Training = ({ blackjackData }) => {
       : round(softOnlyAverage, 0, 5);
 
   return (
-    <Layout>
+    <Layout header={false}>
       <HandContainer>
         {initiallyLoaded && (
           <>
             <Info>
-              <div>Streak: {streak}</div>
+              <div>
+                Streak: {streak}
+                <div>Dealer hits soft 17</div>
+              </div>
               <RightAlign>
                 {showCount && <div>Running Count: {count}</div>}
                 {!(doublesOnly || softOnly) && showShoe && (
@@ -380,7 +383,7 @@ const Training = ({ blackjackData }) => {
           </FloatingButton>
         </FloatingButtonContainer>
         <FloatingButtonContainer ref={settingsButton}>
-          <Tooltip show={showSettings}>
+          <Tooltip show={showSettings} horizontal="left" vertical="top">
             <SettingsTitle>Settings</SettingsTitle>
             <FlexRow>
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
