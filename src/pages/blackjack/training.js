@@ -427,7 +427,13 @@ const Training = ({ blackjackData }) => {
                 onClick={() => setShowShoe((p) => !p)}
               />
             </FlexRow>
-            <SettingsButton type="button" onClick={() => setCount(0)}>
+            <SettingsButton
+              type="button"
+              onClick={() => {
+                setCount(0);
+                setShoe(newShoe());
+              }}
+            >
               Reset Count
             </SettingsButton>
             <SettingsButton type="button" onClick={() => setStreak(0)}>
@@ -719,7 +725,7 @@ const FloatingButton = styled.button`
   line-height: 1.15;
   margin: 0;
   cursor: pointer;
-  max-width: ${rem(100)};
+  height: ${rem(37)};
   padding: ${rem(8)};
 
   @media (prefers-color-scheme: dark) {
