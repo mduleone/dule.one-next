@@ -700,11 +700,14 @@ const Info = styled.div`
 `;
 
 const DealerButton = styled.span`
-  display: inline-block;
-  padding: 0 ${rem(3.5)} 0 ${rem(4.5)};
+  display: inline-flex;
+  padding: ${rem(2)} ${rem(4)};
   border-radius: 100%;
   border: ${({ theme }) => theme.colors.black} ${rem(2)} solid;
   font-weight: bold;
+  line-height: 1;
+  align-items: center;
+  justify-content: center;
 
   @media (prefers-color-scheme: dark) {
     border-color: ${({ theme }) => theme.colors.white};
