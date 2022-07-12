@@ -1,23 +1,11 @@
-import blackjackDataSource from '~/data/blackjack';
+import { hitSoft17 } from '~/data/blackjack';
 import Layout from '~/components/layout';
-import BlackjackTable, {
-  blackjackDataProps,
-} from '~/components/blackjack-table';
+import BlackjackTable from '~/components/blackjack-table';
 
-const Blackjack = ({ blackjackData }) => (
+const Blackjack = () => (
   <Layout>
-    <BlackjackTable blackjackData={blackjackData} />
+    <BlackjackTable blackjackData={hitSoft17} />
   </Layout>
 );
-
-Blackjack.propTypes = {
-  blackjackData: blackjackDataProps,
-};
-
-export const getStaticProps = () => ({
-  props: {
-    blackjackData: blackjackDataSource,
-  },
-});
 
 export default Blackjack;

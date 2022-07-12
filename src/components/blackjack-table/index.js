@@ -105,56 +105,66 @@ const BlackjackTable = ({ blackjackData }) => {
           </Lead>
           {Object.entries(hand)
             .sort(entryKeySort)
-            .map(([dealerCard, { action, surrender, tooltip }]) => {
-              const showPlayerKey =
-                (hoveredDealerCard === null && hoveredPlayerHand === handKey) ||
-                (hoveredDealerCard === dealerCard &&
-                  hoveredPlayerHand === handKey);
-              const showDealerKey =
-                (hoveredDealerCard === dealerCard &&
-                  hoveredPlayerHand === null) ||
-                (hoveredDealerCard === dealerCard &&
-                  hoveredPlayerHand === handKey);
+            .map(
+              ([
+                dealerCard,
+                { action, surrender, tooltip, tooltipForceRight },
+              ]) => {
+                const showPlayerKey =
+                  (hoveredDealerCard === null &&
+                    hoveredPlayerHand === handKey) ||
+                  (hoveredDealerCard === dealerCard &&
+                    hoveredPlayerHand === handKey);
+                const showDealerKey =
+                  (hoveredDealerCard === dealerCard &&
+                    hoveredPlayerHand === null) ||
+                  (hoveredDealerCard === dealerCard &&
+                    hoveredPlayerHand === handKey);
 
-              return (
-                <Hand
-                  key={dealerCard}
-                  $action={action}
-                  role="button"
-                  onClick={() => {
-                    setHoveredPlayerHand(handKey);
-                    setHoveredDealerCard(dealerCard);
-                  }}
-                  onMouseEnter={() => {
-                    setHoveredPlayerHand(handKey);
-                    setHoveredDealerCard(dealerCard);
-                  }}
-                  onMouseLeave={() => {
-                    setHoveredPlayerHand(null);
-                    setHoveredDealerCard(null);
-                  }}
-                >
-                  {transformAction[action]}
-                  {(surrender || tooltip) && (
-                    <Sup>
-                      {surrender && '*'}
-                      {tooltip && '†'}
-                    </Sup>
-                  )}
-                  <DealerHandValue $show={showDealerKey}>
-                    {playerHand}
-                  </DealerHandValue>
-                  <PlayerHandValue $show={showPlayerKey}>
-                    {dealerCard}
-                  </PlayerHandValue>
-                  {tooltip && (
-                    <Tooltip show={showDealerKey && showPlayerKey}>
-                      {tooltip}
-                    </Tooltip>
-                  )}
-                </Hand>
-              );
-            })}
+                return (
+                  <Hand
+                    key={dealerCard}
+                    $action={action}
+                    role="button"
+                    onClick={() => {
+                      setHoveredPlayerHand(handKey);
+                      setHoveredDealerCard(dealerCard);
+                    }}
+                    onMouseEnter={() => {
+                      setHoveredPlayerHand(handKey);
+                      setHoveredDealerCard(dealerCard);
+                    }}
+                    onMouseLeave={() => {
+                      setHoveredPlayerHand(null);
+                      setHoveredDealerCard(null);
+                    }}
+                  >
+                    {transformAction[action]}
+                    {(surrender || tooltip) && (
+                      <Sup>
+                        {surrender && '*'}
+                        {tooltip && '†'}
+                      </Sup>
+                    )}
+                    <DealerHandValue $show={showDealerKey}>
+                      {playerHand}
+                    </DealerHandValue>
+                    <PlayerHandValue $show={showPlayerKey}>
+                      {dealerCard}
+                    </PlayerHandValue>
+                    {tooltip && (
+                      <Tooltip
+                        show={showDealerKey && showPlayerKey}
+                        // eslint-disable-next-line no-undefined
+                        horizontal={tooltipForceRight ? 'left' : undefined}
+                      >
+                        {tooltip}
+                      </Tooltip>
+                    )}
+                  </Hand>
+                );
+              },
+            )}
         </Row>
       ))}
       <Row>
@@ -173,6 +183,7 @@ export const cardProps = PropTypes.shape({
   action: PropTypes.oneOf(['hit', 'double', 'split', 'stand']),
   surrender: PropTypes.bool,
   tooltip: PropTypes.string,
+  tooltipForceRight: PropTypes.bool,
 });
 
 export const handProps = PropTypes.shape({

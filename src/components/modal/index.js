@@ -79,6 +79,7 @@ const Content = styled.div`
     padding: ${rem(48)};
     width: ${({ $width }) => rem($width)};
     height: auto;
+    max-height: 100vh;
     border-radius: ${rem(6)};
     margin: 0 auto;
     align-self: center;

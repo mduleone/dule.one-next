@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import blackjackDataSource from '~/data/blackjack';
+import { hitSoft17, standSoft17 } from '~/data/blackjack';
 import Layout from '~/components/layout';
 import PlayingCard from '~/components/playing-card';
 import WrongAction from '~/components/blackjack-training/wrong-action';
@@ -11,7 +11,8 @@ import { newShoe, DECK, randomSuit, randomTen } from '~/util/playing-cards';
 import {
   getCardRank,
   getCardValue,
-  getCorrectAction,
+  getCorrectActionHitSoft17,
+  getCorrectActionStandSoft17,
   getCountValue,
   getHandValue,
   HIT,
@@ -22,7 +23,6 @@ import {
 import { getItem, setItem } from '~/util/local-storage';
 import Modal from '~/components/modal';
 import BlackjackTable, {
-  blackjackDataProps,
   computeActionColor,
   entryKeySort,
 } from '~/components/blackjack-table';
@@ -52,20 +52,20 @@ const lossesDefault = {
   split: 0,
 };
 
-const getLossKey = (playerHand, dealerCard) =>
+const getLossKey = (playerHand, dealerCard, action) =>
   `${playerHand.map(getCardValue).sort().join(',')}:${getCardValue(
     dealerCard,
-  )}`;
+  )}:${action}`;
 
 const parseLossKey = (lossKey) => {
-  const [playerString, dealerString] = lossKey.split(':');
+  const [playerString, dealerString, action] = lossKey.split(':');
   const playerHand = playerString.split(',').map(getCardRank);
   const dealerCard = getCardRank(dealerString);
 
-  return { playerHand, dealerCard };
+  return { playerHand, dealerCard, action };
 };
 
-const Training = ({ blackjackData }) => {
+const Training = () => {
   const [streak, setStreak] = useState(0);
   const [statData, setStatData] = useState({
     longestStreak: 0,
@@ -92,6 +92,7 @@ const Training = ({ blackjackData }) => {
   const [wrongAction, setWrongAction] = useState(false);
   const [doublesOnly, setDoublesOnly] = useState(false);
   const [softOnly, setSoftOnly] = useState(false);
+  const [dealerHitSoft17, setDealerHitSoft17] = useState(true);
   const [resetCountOnLoss, setResetCountOnLoss] = useState(true);
   const [forceReset, setForceReset] = useState(false);
   const [playerAction, setPlayerAction] = useState('');
@@ -133,7 +134,11 @@ const Training = ({ blackjackData }) => {
     setPlayerHand(nextPlayerHand);
     setDealerCard(nextDealerCard);
     setCount((c) => c + countChange);
-    setCorrectAction(getCorrectAction(nextPlayerHand, nextDealerCard));
+    setCorrectAction(
+      (dealerHitSoft17
+        ? getCorrectActionHitSoft17
+        : getCorrectActionStandSoft17)(nextPlayerHand, nextDealerCard),
+    );
     setShoe(tempShoe);
   };
 
@@ -161,6 +166,16 @@ const Training = ({ blackjackData }) => {
   useEffect(() => {
     track('page load');
   }, []);
+
+  useEffect(() => {
+    if (playerHand && dealerCard) {
+      setCorrectAction(
+        (dealerHitSoft17
+          ? getCorrectActionHitSoft17
+          : getCorrectActionStandSoft17)(playerHand, dealerCard),
+      );
+    }
+  }, [dealerHitSoft17, playerHand, dealerCard]);
 
   useEffect(() => {
     if (showSettings) {
@@ -204,7 +219,11 @@ const Training = ({ blackjackData }) => {
   };
 
   const clearWrongAction = () => {
-    const lossKey = getLossKey(playerHand, dealerCard);
+    const lossKey = getLossKey(
+      playerHand,
+      dealerCard,
+      dealerHitSoft17 ? HIT : STAND,
+    );
 
     const nextLongestStreak =
       streak > statData.longestStreak ? streak : statData.longestStreak;
@@ -242,8 +261,8 @@ const Training = ({ blackjackData }) => {
   };
 
   const toggleDoublesOnly = () => {
-    track('play pairs only');
     const nextDoubleOnly = !doublesOnly;
+    track(`turn ${nextDoubleOnly ? 'on' : 'off'} pairs only`);
     setDoublesOnly(nextDoubleOnly);
     if (nextDoubleOnly) {
       setSoftOnly(false);
@@ -255,8 +274,8 @@ const Training = ({ blackjackData }) => {
   };
 
   const toggleSoftOnly = () => {
-    track('play soft only');
     const nextSoftOnly = !softOnly;
+    track(`turn ${nextSoftOnly ? 'on' : 'off'} soft only`);
     setSoftOnly(nextSoftOnly);
     if (nextSoftOnly) {
       setDoublesOnly(false);
@@ -265,6 +284,12 @@ const Training = ({ blackjackData }) => {
     }
     setStreak(0);
     setItem('bjt-streak', 0);
+  };
+
+  const toggleDealerHitsSoft17 = () => {
+    const nextDealerHitsSoft17 = !dealerHitSoft17;
+    track(`set ${nextDealerHitsSoft17 ? 'hit' : 'stand'} on soft 17`);
+    setDealerHitSoft17(nextDealerHitsSoft17);
   };
 
   const handValue = getHandValue(playerHand);
@@ -295,7 +320,9 @@ const Training = ({ blackjackData }) => {
             <Info>
               <div>
                 Streak: {streak}
-                <div>Dealer hits soft 17</div>
+                <div>
+                  Dealer {dealerHitSoft17 ? 'hits' : 'stands on'} soft 17
+                </div>
               </div>
               <RightAlign>
                 {showCount && <div>Running Count: {count}</div>}
@@ -328,6 +355,7 @@ const Training = ({ blackjackData }) => {
         )}
         {wrongAction && (
           <WrongAction
+            dealerHitSoft17={dealerHitSoft17}
             clearWrongAction={clearWrongAction}
             streak={streak}
             dealerCard={dealerCard}
@@ -386,8 +414,7 @@ const Training = ({ blackjackData }) => {
           <Tooltip show={showSettings} horizontal="left" vertical="top">
             <SettingsTitle>Settings</SettingsTitle>
             <FlexRow>
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <label htmlFor="pairs-only">Pairs only?</label>
+              <ToggleLabel htmlFor="pairs-only">Pairs only?</ToggleLabel>
               <Toggle
                 cbId="pairs-only"
                 isOn={doublesOnly}
@@ -395,8 +422,7 @@ const Training = ({ blackjackData }) => {
               />
             </FlexRow>
             <FlexRow>
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <label htmlFor="soft-only">Soft only?</label>
+              <ToggleLabel htmlFor="soft-only">Soft only?</ToggleLabel>
               <Toggle
                 cbId="soft-only"
                 isOn={softOnly}
@@ -404,42 +430,70 @@ const Training = ({ blackjackData }) => {
               />
             </FlexRow>
             <FlexRow>
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <label htmlFor="reset-count">Reset count on loss?</label>
+              <ToggleLabel htmlFor="hit-soft-17">
+                Dealer Hits Soft 17?
+              </ToggleLabel>
+              <Toggle
+                cbId="hit-soft-17"
+                isOn={dealerHitSoft17}
+                onClick={toggleDealerHitsSoft17}
+              />
+            </FlexRow>
+            <FlexRow>
+              <ToggleLabel htmlFor="reset-count">
+                Reset count on loss?
+              </ToggleLabel>
               <Toggle
                 cbId="reset-count"
                 isOn={resetCountOnLoss}
-                onClick={() => setResetCountOnLoss((p) => !p)}
+                onClick={() => {
+                  const next = !resetCountOnLoss;
+                  track(`turn ${next ? 'on' : 'off'} reset count on loss`);
+                  setResetCountOnLoss(next);
+                }}
               />
             </FlexRow>
             <FlexRow>
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <label htmlFor="show-count">Show count?</label>
+              <ToggleLabel htmlFor="show-count">Show count?</ToggleLabel>
               <Toggle
                 cbId="show-count"
                 isOn={showCount}
-                onClick={() => setShowCount((p) => !p)}
+                onClick={() => {
+                  const next = !showCount;
+                  track(`${next ? 'show' : 'hide'} count`);
+                  setShowCount(next);
+                }}
               />
             </FlexRow>
             <FlexRow>
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <label htmlFor="show-shoe">Show shoe?</label>
+              <ToggleLabel htmlFor="show-shoe">Show shoe?</ToggleLabel>
               <Toggle
                 cbId="show-shoe"
                 isOn={showShoe}
-                onClick={() => setShowShoe((p) => !p)}
+                onClick={() => {
+                  const next = !showShoe;
+                  track(`${next ? 'show' : 'hide'} shoe`);
+                  setShowShoe(next);
+                }}
               />
             </FlexRow>
             <SettingsButton
               type="button"
               onClick={() => {
+                track('reset count');
                 setCount(0);
                 setShoe(newShoe());
               }}
             >
               Reset Count
             </SettingsButton>
-            <SettingsButton type="button" onClick={() => setStreak(0)}>
+            <SettingsButton
+              type="button"
+              onClick={() => {
+                track('reset streak');
+                setStreak(0);
+              }}
+            >
               Reset Streak
             </SettingsButton>
           </Tooltip>
@@ -499,20 +553,32 @@ const Training = ({ blackjackData }) => {
             </FlexRow>
           </>
         )}
+        <ChartTitle>Errant Plays</ChartTitle>
         <LossTable>
-          <LossTableActionsHeader>
-            <Legend $action="hit">Hit</Legend>
-            <Legend $action="stand">Stand</Legend>
-            <Legend $action="split">Split</Legend>
-            <Legend $action="double">Double</Legend>
-          </LossTableActionsHeader>
           <TableWrapper>
             <Table>
               <thead>
                 <tr>
-                  <Th>Player Hand</Th>
-                  <Th>Dealer Shows</Th>
-                  <Th>Correct Play</Th>
+                  <Th>
+                    Soft 17
+                    <br />
+                    Action
+                  </Th>
+                  <Th>
+                    Player
+                    <br />
+                    Hand
+                  </Th>
+                  <Th>
+                    Dealer
+                    <br />
+                    Shows
+                  </Th>
+                  <Th>
+                    Correct
+                    <br />
+                    Play
+                  </Th>
                   <Th>Incorrect plays</Th>
                 </tr>
               </thead>
@@ -548,16 +614,19 @@ const Training = ({ blackjackData }) => {
                     const {
                       playerHand: lossPlayerHand,
                       dealerCard: lossDealerCard,
+                      action,
                     } = parseLossKey(lossKey);
 
-                    const correctPlay = getCorrectAction(
-                      lossPlayerHand,
-                      lossDealerCard,
-                    );
+                    const correctPlay = (
+                      (action || HIT) === HIT
+                        ? getCorrectActionHitSoft17
+                        : getCorrectActionStandSoft17
+                    )(lossPlayerHand, lossDealerCard);
                     const { [correctPlay]: _, ...wrongActions } = lossData;
 
                     return (
                       <Tr key={lossKey}>
+                        <Td>{action || HIT}</Td>
                         <Td>{lossPlayerHand.join('-')}</Td>
                         <Td>{lossDealerCard}</Td>
                         <Td>
@@ -585,22 +654,17 @@ const Training = ({ blackjackData }) => {
         </LossTable>
       </Modal>
       <Modal isOpen={showChart} onClose={() => setShowChart(false)}>
-        <ChartTitle>Basic Strategy</ChartTitle>
-        <BlackjackTable blackjackData={blackjackData} />
+        <ChartTitle>
+          Basic Strategy - {dealerHitSoft17 ? 'Hit' : 'Stand'} Soft 17
+        </ChartTitle>
+        <BlackjackTable
+          blackjackData={dealerHitSoft17 ? hitSoft17 : standSoft17}
+        />
       </Modal>
     </Layout>
   );
 };
 
-Training.propTypes = {
-  blackjackData: blackjackDataProps,
-};
-
-export const getStaticProps = () => ({
-  props: {
-    blackjackData: blackjackDataSource,
-  },
-});
 export default Training;
 
 const HandContainer = styled.div`
@@ -795,6 +859,10 @@ const FlexRow = styled.div`
   text-align: left;
 `;
 
+const ToggleLabel = styled.label`
+  margin-right: ${rem(8)};
+`;
+
 const LossTable = styled.div`
   line-height: ${rem(20)};
   display: flex;
@@ -803,41 +871,6 @@ const LossTable = styled.div`
   position: relative;
   flex: 1 1 auto;
   overflow-y: auto;
-`;
-
-const LossTableActionsHeader = styled.div`
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  min-width: 100%;
-`;
-
-const Legend = styled.div`
-  font-size: ${rem(14)};
-  font-weight: bold;
-  min-width: ${rem(30)};
-  text-align: center;
-  background-color: ${({ theme, $action }) =>
-    computeActionColor($action, theme.colors)};
-  color: ${({ theme, $action }) =>
-    $action === 'stand' ? theme.colors.white : theme.colors.black};
-  flex: 1 1 auto;
-
-  @media screen and (min-width: ${rem(768)}) {
-    min-width: ${rem(50)};
-  }
-
-  &:first-child {
-    border-top-left-radius: ${rem(3)};
-    border-bottom-left-radius: ${rem(3)};
-  }
-
-  &:last-child {
-    border-top-right-radius: ${rem(3)};
-    border-bottom-right-radius: ${rem(3)};
-  }
 `;
 
 const TableWrapper = styled.div`
@@ -871,6 +904,16 @@ const Tbody = styled.tbody`
 
 const Tr = styled.tr`
   width: 100%;
+
+  &:nth-child(odd) {
+    background-color: #00000088;
+    color: ${({ theme }) => theme.colors.white};
+
+    @media (prefers-color-scheme: dark) {
+      background-color: #ffffff88;
+      color: ${({ theme }) => theme.colors.black};
+    }
+  }
 `;
 
 const Td = styled.td`
@@ -882,7 +925,7 @@ const Action = styled.span`
   background-color: ${({ theme, $action }) =>
     computeActionColor($action, theme.colors)};
   color: ${({ theme, $action }) =>
-    $action === 'stand' ? theme.colors.white : theme.colors.black};
+    $action === STAND ? theme.colors.white : theme.colors.black};
   padding: ${rem(3)};
   border-radius: ${rem(3)};
 `;

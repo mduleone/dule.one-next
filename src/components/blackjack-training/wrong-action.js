@@ -14,11 +14,15 @@ const WrongAction = ({
   correctAction,
   resetCountOnLoss,
   count,
+  dealerHitSoft17,
 }) => (
   <>
     <TransparentScreenOverlay role="button" onClick={clearWrongAction} />
     <Container>
       <WrongTitle>Not the play</WrongTitle>
+      <WrongContent>
+        Dealer {dealerHitSoft17 ? 'hits' : 'stands on'} soft 17
+      </WrongContent>
       {streak > 0 && (
         <WrongContent>You had a {streak}-hand long streak</WrongContent>
       )}
@@ -61,12 +65,13 @@ export default WrongAction;
 WrongAction.propTypes = {
   clearWrongAction: PropTypes.func.isRequired,
   streak: PropTypes.number.isRequired,
-  dealerCard: PropTypes.shape({}).isRequired,
-  playerHand: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  dealerCard: PropTypes.string.isRequired,
+  playerHand: PropTypes.arrayOf(PropTypes.string).isRequired,
   playerAction: PropTypes.string.isRequired,
   correctAction: PropTypes.string.isRequired,
   resetCountOnLoss: PropTypes.bool.isRequired,
   count: PropTypes.number.isRequired,
+  dealerHitSoft17: PropTypes.bool.isRequired,
 };
 
 const Container = styled.div`
