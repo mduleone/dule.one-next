@@ -321,18 +321,19 @@ const Training = () => {
               <div>
                 Streak: {streak}
                 <div>
-                  Dealer {dealerHitSoft17 ? 'hits' : 'stands on'} soft 17
+                  <DealerButton>D</DealerButton> soft 17:{' '}
+                  {dealerHitSoft17 ? 'hit' : 'stand'}
                 </div>
               </div>
               <RightAlign>
                 {showCount && <div>Running Count: {count}</div>}
                 {!(doublesOnly || softOnly) && showShoe && (
-                  <>
+                  <ShoeCount>
                     Shoe: {shoe.length}{' '}
                     <InlineBlock>
                       ({round(shoe.length / DECK.length, 0, 2)} decks)
                     </InlineBlock>
-                  </>
+                  </ShoeCount>
                 )}
               </RightAlign>
             </Info>
@@ -698,8 +699,24 @@ const Info = styled.div`
   justify-content: space-between;
 `;
 
+const DealerButton = styled.span`
+  display: inline-block;
+  padding: 0 ${rem(3.5)} 0 ${rem(4.5)};
+  border-radius: 100%;
+  border: ${({ theme }) => theme.colors.black} ${rem(2)} solid;
+  font-weight: bold;
+
+  @media (prefers-color-scheme: dark) {
+    border-color: ${({ theme }) => theme.colors.white};
+  }
+`;
+
 const RightAlign = styled.div`
   text-align: right;
+`;
+
+const ShoeCount = styled.div`
+  margin-top: ${rem(2)};
 `;
 
 const Actions = styled.div`
