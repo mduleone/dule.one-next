@@ -857,6 +857,8 @@ const QuestionButtonContainer = styled.button`
   display: inline-block;
   position: relative;
   background: transparent;
+  padding: 0;
+  margin-right: ${rem(4)};
   outline: none;
   appearance: none;
   border: none;
