@@ -598,7 +598,7 @@ const Training = () => {
             </FlexRow>
             <FlexRow>
               <ToggleLabel htmlFor="hit-soft-17">
-                Dealer Hits Soft 17?
+                Dealer hits soft 17?
               </ToggleLabel>
               <Toggle
                 cbId="hit-soft-17"
@@ -863,6 +863,7 @@ const QuestionButtonContainer = styled.button`
   appearance: none;
   border: none;
   cursor: pointer;
+  line-height: 1;
 `;
 
 const DealerButton = styled.span`
