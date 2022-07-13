@@ -84,19 +84,23 @@ const Training = () => {
   const [playerHand, setPlayerHand] = useState([]);
   const [dealerCard, setDealerCard] = useState(null);
   const [correctAction, setCorrectAction] = useState('');
-  const [showShoe, setShowShoe] = useState(true);
-  const [showCount, setShowCount] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
   const [showChart, setShowChart] = useState(false);
   const [showStats, setShowStats] = useState(false);
+  const [showCountTooltip, setShowCountTooltip] = useState(false);
   const [wrongAction, setWrongAction] = useState(false);
+  const [showShoe, setShowShoe] = useState(true);
+  const [showCount, setShowCount] = useState(true);
   const [doublesOnly, setDoublesOnly] = useState(false);
   const [softOnly, setSoftOnly] = useState(false);
   const [dealerHitSoft17, setDealerHitSoft17] = useState(true);
   const [resetCountOnLoss, setResetCountOnLoss] = useState(true);
   const [forceReset, setForceReset] = useState(false);
   const [playerAction, setPlayerAction] = useState('');
+  const [lastWrongAction, setLastWrongAction] = useState(null);
+  const [showLastWrongAction, setShowLastWrongAction] = useState(null);
   const settingsButton = useRef(null);
+  const countTooltipButton = useRef(null);
 
   const resetHands = () => {
     let tempShoe = [...shoe];
@@ -134,13 +138,12 @@ const Training = () => {
     setPlayerHand(nextPlayerHand);
     setDealerCard(nextDealerCard);
     setCount((c) => c + countChange);
-    setCorrectAction(
-      (dealerHitSoft17
-        ? getCorrectActionHitSoft17
-        : getCorrectActionStandSoft17)(nextPlayerHand, nextDealerCard),
-    );
     setShoe(tempShoe);
   };
+
+  useEffect(() => {
+    track('page load');
+  }, []);
 
   useEffect(() => {
     resetHands();
@@ -148,6 +151,7 @@ const Training = () => {
     if (!initiallyLoaded) {
       const possibleStreak = getItem('bjt-streak');
       const possibleStatData = getItem('bjt-stat-data');
+      const possibleSettings = getItem('bjt-settings');
 
       if (typeof possibleStreak === 'number') {
         setStreak(possibleStreak);
@@ -158,14 +162,26 @@ const Training = () => {
           ...possibleStatData,
         });
       }
+      if (possibleSettings) {
+        const {
+          showShoe: showShoeSetting,
+          showCount: showCountSetting,
+          doublesOnly: doublesOnlySetting,
+          softOnly: softOnlySetting,
+          dealerHitSoft17: dealerHitSoft17Setting,
+          resetCountOnLoss: resetCountOnLossSetting,
+        } = possibleSettings;
+        setShowShoe(showShoeSetting);
+        setShowCount(showCountSetting);
+        setDoublesOnly(doublesOnlySetting);
+        setSoftOnly(softOnlySetting);
+        setDealerHitSoft17(dealerHitSoft17Setting);
+        setResetCountOnLoss(resetCountOnLossSetting);
+      }
 
       setInitiallyLoaded(true);
     }
   }, [forceReset]);
-
-  useEffect(() => {
-    track('page load');
-  }, []);
 
   useEffect(() => {
     if (playerHand && dealerCard) {
@@ -194,6 +210,24 @@ const Training = () => {
 
     return () => {};
   }, [showSettings, settingsButton.current]);
+
+  useEffect(() => {
+    if (showCountTooltip) {
+      const onClickOutside = (e) => {
+        if (!countTooltipButton.current.contains(e.target)) {
+          e.stopPropagation();
+          e.preventDefault();
+          setShowCountTooltip(false);
+        }
+      };
+
+      window.addEventListener('click', onClickOutside);
+
+      return () => window.removeEventListener('click', onClickOutside);
+    }
+
+    return () => {};
+  }, [showCountTooltip, countTooltipButton.current]);
 
   const act = (action) => {
     track('act', { action, correctAction });
@@ -252,6 +286,18 @@ const Training = () => {
     setItem('bjt-streak', 0);
     setItem('bjt-stat-data', nextStatData);
     setStatData(nextStatData);
+
+    const lastWrongActionData = {
+      dealerHitSoft17,
+      streak,
+      dealerCard,
+      playerHand,
+      playerAction,
+      correctAction,
+      count,
+    };
+    setLastWrongAction(lastWrongActionData);
+
     if (resetCountOnLoss) {
       setCount(0);
     }
@@ -261,14 +307,22 @@ const Training = () => {
   };
 
   const toggleDoublesOnly = () => {
-    const nextDoubleOnly = !doublesOnly;
-    track(`turn ${nextDoubleOnly ? 'on' : 'off'} pairs only`);
-    setDoublesOnly(nextDoubleOnly);
-    if (nextDoubleOnly) {
+    const nextDoublesOnly = !doublesOnly;
+    track(`turn ${nextDoublesOnly ? 'on' : 'off'} pairs only`);
+    setDoublesOnly(nextDoublesOnly);
+    if (nextDoublesOnly) {
       setSoftOnly(false);
       setShoe(newShoe());
       setForceReset((p) => !p);
     }
+    setItem('bjt-settings', {
+      doublesOnly: nextDoublesOnly,
+      softOnly,
+      dealerHitSoft17,
+      resetCountOnLoss,
+      showCount,
+      showShoe,
+    });
     setStreak(0);
     setItem('bjt-streak', 0);
   };
@@ -282,14 +336,73 @@ const Training = () => {
       setShoe(newShoe());
       setForceReset((p) => !p);
     }
+    setItem('bjt-settings', {
+      doublesOnly,
+      softOnly: nextSoftOnly,
+      dealerHitSoft17,
+      resetCountOnLoss,
+      showCount,
+      showShoe,
+    });
     setStreak(0);
     setItem('bjt-streak', 0);
   };
 
   const toggleDealerHitsSoft17 = () => {
-    const nextDealerHitsSoft17 = !dealerHitSoft17;
-    track(`set ${nextDealerHitsSoft17 ? 'hit' : 'stand'} on soft 17`);
-    setDealerHitSoft17(nextDealerHitsSoft17);
+    const next = !dealerHitSoft17;
+    setItem('bjt-settings', {
+      doublesOnly,
+      softOnly,
+      dealerHitSoft17: next,
+      resetCountOnLoss,
+      showCount,
+      showShoe,
+    });
+    track(`set ${next ? 'hit' : 'stand'} on soft 17`);
+    setDealerHitSoft17(next);
+  };
+
+  const toggleResetCountOnLoss = () => {
+    const next = !resetCountOnLoss;
+    setItem('bjt-settings', {
+      doublesOnly,
+      softOnly,
+      dealerHitSoft17,
+      resetCountOnLoss: next,
+      showCount,
+      showShoe,
+    });
+    track(`turn ${next ? 'on' : 'off'} reset count on loss`);
+    setResetCountOnLoss(next);
+  };
+
+  const toggleShowCount = () => {
+    const next = !showCount;
+    setItem('bjt-settings', {
+      doublesOnly,
+      softOnly,
+      dealerHitSoft17,
+      resetCountOnLoss,
+      showCount: next,
+      showShoe,
+    });
+    track(`${next ? 'show' : 'hide'} count`);
+    setShowCount(next);
+  };
+
+  const toggleShowShoe = () => {
+    const next = !showShoe;
+
+    setItem('bjt-settings', {
+      doublesOnly,
+      softOnly,
+      dealerHitSoft17,
+      resetCountOnLoss,
+      showCount,
+      showShoe: next,
+    });
+    track(`${next ? 'show' : 'hide'} shoe`);
+    setShowShoe(next);
   };
 
   const handValue = getHandValue(playerHand);
@@ -326,7 +439,32 @@ const Training = () => {
                 </div>
               </div>
               <RightAlign>
-                {showCount && <div>Running Count: {count}</div>}
+                {showCount && (
+                  <div>
+                    <QuestionButtonContainer
+                      ref={countTooltipButton}
+                      onClick={() => setShowCountTooltip((p) => !p)}
+                    >
+                      <Tooltip show={showCountTooltip} vertical="bottom">
+                        <CenterRow>Count Cards</CenterRow>
+                        <FlexRow>
+                          <div>Tens &amp; Aces</div>
+                          <div>- 1</div>
+                        </FlexRow>
+                        <FlexRow>
+                          <div>7 - 9</div>
+                          <div>+ 0</div>
+                        </FlexRow>
+                        <FlexRow>
+                          <div>2 - 6</div>
+                          <div>+ 1</div>
+                        </FlexRow>
+                      </Tooltip>
+                      <FontAwesomeIcon icon={['far', 'question-circle']} />
+                    </QuestionButtonContainer>
+                    Running Count: {count}
+                  </div>
+                )}
                 {!(doublesOnly || softOnly) && showShoe && (
                   <ShoeCount>
                     Shoe: {shoe.length}{' '}
@@ -367,32 +505,47 @@ const Training = () => {
             count={count}
           />
         )}
+        {showLastWrongAction && (
+          <WrongAction
+            lastWrongAction
+            dealerHitSoft17={lastWrongAction.dealerHitSoft17}
+            clearWrongAction={() => setShowLastWrongAction(false)}
+            streak={lastWrongAction.streak}
+            dealerCard={lastWrongAction.dealerCard}
+            playerHand={lastWrongAction.playerHand}
+            playerAction={lastWrongAction.playerAction}
+            correctAction={lastWrongAction.correctAction}
+            count={lastWrongAction.count}
+          />
+        )}
       </HandContainer>
       {initiallyLoaded && (
         <Actions>
           <Hit
-            disabled={showSettings || wrongAction}
+            disabled={showSettings || wrongAction || showLastWrongAction}
             type="button"
             onClick={() => act(HIT)}
           >
             Hit
           </Hit>
           <Stand
-            disabled={showSettings || wrongAction}
+            disabled={showSettings || wrongAction || showLastWrongAction}
             type="button"
             onClick={() => act(STAND)}
           >
             Stand
           </Stand>
           <Double
-            disabled={showSettings || wrongAction}
+            disabled={showSettings || wrongAction || showLastWrongAction}
             type="button"
             onClick={() => act(DOUBLE)}
           >
             Double
           </Double>
           <Split
-            disabled={showSettings || !isPair || wrongAction}
+            disabled={
+              !isPair || showSettings || wrongAction || showLastWrongAction
+            }
             type="button"
             onClick={() => act(SPLIT)}
           >
@@ -400,7 +553,20 @@ const Training = () => {
           </Split>
         </Actions>
       )}
-      <SettingsButtonsContainer>
+      <SettingsButtonsContainer $showLastWrongButton={Boolean(lastWrongAction)}>
+        {Boolean(lastWrongAction) && (
+          <FloatingButtonContainer>
+            <FloatingButton
+              onClick={() => {
+                track('see last wrong action');
+                setShowLastWrongAction((p) => !p);
+              }}
+              type="button"
+            >
+              <Icon icon={['fas', 'undo']} />
+            </FloatingButton>
+          </FloatingButtonContainer>
+        )}
         <FloatingButtonContainer>
           <FloatingButton onClick={() => setShowStats((p) => !p)} type="button">
             <Icon icon={['fas', 'chart-bar']} />
@@ -447,11 +613,7 @@ const Training = () => {
               <Toggle
                 cbId="reset-count"
                 isOn={resetCountOnLoss}
-                onClick={() => {
-                  const next = !resetCountOnLoss;
-                  track(`turn ${next ? 'on' : 'off'} reset count on loss`);
-                  setResetCountOnLoss(next);
-                }}
+                onClick={toggleResetCountOnLoss}
               />
             </FlexRow>
             <FlexRow>
@@ -459,11 +621,7 @@ const Training = () => {
               <Toggle
                 cbId="show-count"
                 isOn={showCount}
-                onClick={() => {
-                  const next = !showCount;
-                  track(`${next ? 'show' : 'hide'} count`);
-                  setShowCount(next);
-                }}
+                onClick={toggleShowCount}
               />
             </FlexRow>
             <FlexRow>
@@ -471,11 +629,7 @@ const Training = () => {
               <Toggle
                 cbId="show-shoe"
                 isOn={showShoe}
-                onClick={() => {
-                  const next = !showShoe;
-                  track(`${next ? 'show' : 'hide'} shoe`);
-                  setShowShoe(next);
-                }}
+                onClick={toggleShowShoe}
               />
             </FlexRow>
             <SettingsButton
@@ -699,6 +853,16 @@ const Info = styled.div`
   justify-content: space-between;
 `;
 
+const QuestionButtonContainer = styled.button`
+  display: inline-block;
+  position: relative;
+  background: transparent;
+  outline: none;
+  appearance: none;
+  border: none;
+  cursor: pointer;
+`;
+
 const DealerButton = styled.span`
   display: inline-flex;
   padding: ${rem(2)} ${rem(4)};
@@ -779,9 +943,12 @@ const SettingsButtonsContainer = styled.div`
   bottom: ${rem(19 + 23.75)};
   z-index: 900;
 
-  @media only screen and (min-width: ${rem(966)}) {
+  @media only screen and (min-width: ${({ $showLastWrongButton }) =>
+      rem($showLastWrongButton ? 1046 : 1034)}) {
     transform: translateX(
-      calc(-50% + (${rem(768)} / 2) + ${rem(19 * 2)} + ${rem(83)})
+      calc(
+        -50% + (${rem(768)} / 2) + ${rem(19 * 2)} + ${({ $showLastWrongButton }) => rem($showLastWrongButton ? 172 : 150)}
+      )
     );
     right: 50%;
   }
@@ -877,6 +1044,11 @@ const FlexRow = styled.div`
   align-items: center;
   margin-bottom: ${rem(4)};
   text-align: left;
+  font-family: ${({ theme }) => theme.fonts.screenFont};
+`;
+
+const CenterRow = styled(FlexRow)`
+  justify-content: center;
 `;
 
 const ToggleLabel = styled.label`

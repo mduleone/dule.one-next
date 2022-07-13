@@ -6,6 +6,7 @@ import { getCardValue } from '~/util/blackjack';
 import { rem } from '~/util/style/lengths';
 
 const WrongAction = ({
+  lastWrongAction = false,
   clearWrongAction,
   streak,
   dealerCard,
@@ -19,7 +20,9 @@ const WrongAction = ({
   <>
     <TransparentScreenOverlay role="button" onClick={clearWrongAction} />
     <Container>
-      <WrongTitle>Not the play</WrongTitle>
+      <WrongTitle>
+        {lastWrongAction ? 'Last wrong play' : 'Not the play'}
+      </WrongTitle>
       <WrongContent>
         Dealer {dealerHitSoft17 ? 'hits' : 'stands on'} soft 17
       </WrongContent>
@@ -47,9 +50,9 @@ const WrongAction = ({
         The correct play was{' '}
         <Action $action={correctAction}>{correctAction}</Action>
       </WrongContent>
+      <WrongContent>The count was {count}</WrongContent>
       {resetCountOnLoss && (
         <>
-          <WrongContent>The count was {count}</WrongContent>
           <WrongContent>Resetting the count to 0</WrongContent>
         </>
       )}
@@ -63,6 +66,7 @@ const WrongAction = ({
 export default WrongAction;
 
 WrongAction.propTypes = {
+  lastWrongAction: PropTypes.bool,
   clearWrongAction: PropTypes.func.isRequired,
   streak: PropTypes.number.isRequired,
   dealerCard: PropTypes.string.isRequired,

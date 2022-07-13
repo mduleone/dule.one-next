@@ -1,6 +1,6 @@
 export const getItem = (key) => {
   if (!window || !window.localStorage) {
-    return {};
+    return null;
   }
 
   const rawValue = window.localStorage.getItem(key);

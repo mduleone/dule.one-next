@@ -1,6 +1,6 @@
-const track = (event, data = {}) => {
-  if (typeof window === 'undefined' || !window.gtag) {
-    setTimeout(() => track(event, data), 5000);
+const track = (event, data = {}, depth = 0) => {
+  if ((typeof window === 'undefined' || !window.gtag) && depth < 5) {
+    setTimeout(() => track(event, data, depth + 1), 5000);
     return;
   }
 

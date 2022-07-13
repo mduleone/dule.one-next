@@ -7,8 +7,12 @@ import {
   faPrint,
   faTable,
   faTimes,
+  faUndo,
 } from '@fortawesome/free-solid-svg-icons';
-import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import {
+  faEnvelope,
+  faQuestionCircle,
+} from '@fortawesome/free-regular-svg-icons';
 
 const fontAwesomeLibrary = [
   fab,
@@ -17,8 +21,10 @@ const fontAwesomeLibrary = [
   faEnvelope,
   faGlobeAmericas,
   faPrint,
+  faQuestionCircle,
   faTable,
   faTimes,
+  faUndo,
 ];
 
 library.add(...fontAwesomeLibrary);
