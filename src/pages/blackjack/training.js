@@ -446,7 +446,8 @@ const Training = () => {
                       onClick={() => setShowCountTooltip((p) => !p)}
                     >
                       <Tooltip show={showCountTooltip} vertical="bottom">
-                        <CenterRow>Count Cards</CenterRow>
+                        <CenterRow>Counting Cards</CenterRow>
+                        <CenterRow>Reset to 0 on shuffle</CenterRow>
                         <FlexRow>
                           <div>Tens &amp; Aces</div>
                           <div>- 1</div>
