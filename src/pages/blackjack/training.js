@@ -297,6 +297,8 @@ const Training = () => {
       playerAction,
       correctAction,
       count,
+      playerHandKey: getHandKey(playerHand),
+      dealerCardKey: getDealerKey(dealerCard),
     };
     setLastWrongAction(lastWrongActionData);
 
@@ -506,6 +508,8 @@ const Training = () => {
             correctAction={correctAction}
             resetCountOnLoss={resetCountOnLoss}
             count={count}
+            playerHandKey={getHandKey(playerHand)}
+            dealerCardKey={getDealerKey(dealerCard)}
           />
         )}
         {showLastWrongAction && (
@@ -519,6 +523,8 @@ const Training = () => {
             playerAction={lastWrongAction.playerAction}
             correctAction={lastWrongAction.correctAction}
             count={lastWrongAction.count}
+            playerHandKey={lastWrongAction.playerHandKey}
+            dealerCardKey={lastWrongAction.dealerCardKey}
           />
         )}
       </HandContainer>

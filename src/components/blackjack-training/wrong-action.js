@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import { computeActionColor } from '~/components/blackjack-table';
 import { getCardValue } from '~/util/blackjack';
 import { rem } from '~/util/style/lengths';
+import {
+  hitSoft17Explanations,
+  standSoft17Explanations,
+} from '~/data/blackjack';
 
 const WrongAction = ({
   lastWrongAction = false,
@@ -16,52 +20,64 @@ const WrongAction = ({
   resetCountOnLoss,
   count,
   dealerHitSoft17,
-}) => (
-  <>
-    <TransparentScreenOverlay role="button" onClick={clearWrongAction} />
-    <Container>
-      <WrongTitle>
-        {lastWrongAction ? 'Last wrong play' : 'Not the play'}
-      </WrongTitle>
-      <WrongContent>
-        Dealer {dealerHitSoft17 ? 'hits' : 'stands on'} soft 17
-      </WrongContent>
-      {streak > 0 && (
-        <WrongContent>You had a {streak}-hand long streak</WrongContent>
-      )}
-      <WrongContent>
-        Dealer showed{' '}
-        {[dealerCard]
-          .map(getCardValue)
-          .map((c) => (c === 11 ? 'A' : c))
-          .join()}
-      </WrongContent>
-      <WrongContent>
-        Your hand was{' '}
-        {playerHand
-          .map(getCardValue)
-          .map((c) => (c === 11 ? 'A' : c))
-          .join('-')}
-      </WrongContent>
-      <WrongContent>
-        You played <Action $action={playerAction}>{playerAction}</Action>
-      </WrongContent>
-      <WrongContent>
-        The correct play was{' '}
-        <Action $action={correctAction}>{correctAction}</Action>
-      </WrongContent>
-      <WrongContent>The count was {count}</WrongContent>
-      {resetCountOnLoss && (
-        <>
-          <WrongContent>Resetting the count to 0</WrongContent>
-        </>
-      )}
-      <SettingsButton type="button" onClick={clearWrongAction}>
-        Got it
-      </SettingsButton>
-    </Container>
-  </>
-);
+  playerHandKey,
+  dealerCardKey,
+}) => {
+  const explanationObject = dealerHitSoft17
+    ? hitSoft17Explanations
+    : standSoft17Explanations;
+  return (
+    <>
+      <TransparentScreenOverlay role="button" onClick={clearWrongAction} />
+      <Container>
+        <WrongTitle>
+          {lastWrongAction ? 'Last wrong play' : 'Not the play'}
+        </WrongTitle>
+        <WrongContent>
+          Dealer {dealerHitSoft17 ? 'hits' : 'stands on'} soft 17
+        </WrongContent>
+        {streak > 0 && (
+          <WrongContent>You had a {streak}-hand long streak</WrongContent>
+        )}
+        <WrongContent>
+          Dealer showed{' '}
+          {[dealerCard]
+            .map(getCardValue)
+            .map((c) => (c === 11 ? 'A' : c))
+            .join()}
+        </WrongContent>
+        <WrongContent>
+          Your hand was{' '}
+          {playerHand
+            .map(getCardValue)
+            .map((c) => (c === 11 ? 'A' : c))
+            .join('-')}
+        </WrongContent>
+        <WrongContent>
+          You played <Action $action={playerAction}>{playerAction}</Action>
+        </WrongContent>
+        <WrongContent>
+          The correct play was{' '}
+          <Action $action={correctAction}>{correctAction}</Action>
+        </WrongContent>
+        {playerHandKey && dealerCardKey && (
+          <WrongContent>
+            {explanationObject[playerHandKey][dealerCardKey]}
+          </WrongContent>
+        )}
+        <WrongContent>The count was {count}</WrongContent>
+        {resetCountOnLoss && (
+          <>
+            <WrongContent>Resetting the count to 0</WrongContent>
+          </>
+        )}
+        <SettingsButton type="button" onClick={clearWrongAction}>
+          Got it
+        </SettingsButton>
+      </Container>
+    </>
+  );
+};
 
 export default WrongAction;
 
@@ -73,9 +89,11 @@ WrongAction.propTypes = {
   playerHand: PropTypes.arrayOf(PropTypes.string).isRequired,
   playerAction: PropTypes.string.isRequired,
   correctAction: PropTypes.string.isRequired,
-  resetCountOnLoss: PropTypes.bool.isRequired,
+  resetCountOnLoss: PropTypes.bool,
   count: PropTypes.number.isRequired,
   dealerHitSoft17: PropTypes.bool.isRequired,
+  playerHandKey: PropTypes.string,
+  dealerCardKey: PropTypes.string,
 };
 
 const Container = styled.div`
