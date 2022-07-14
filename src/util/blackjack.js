@@ -1,3 +1,5 @@
+import { clamp } from './number';
+
 export const getCountValue = (rank) => {
   if (rank >= 10) {
     return -1;
@@ -44,6 +46,41 @@ export const getHandValue = (hand) => {
     soft: cards.some((x) => x === 11),
     hand: cards,
   };
+};
+
+export const getHandKey = (playerHand) => {
+  const { total, soft, hand } = getHandValue(playerHand);
+  const [card0, card1] = hand;
+  if (hand.length === 2 && card0 === card1) {
+    if (total === 22) {
+      return 'A A';
+    }
+
+    return `${card0} ${card0}`;
+  }
+
+  if (soft) {
+    return `s${clamp(total, 13, 19)}${total >= 19 ? '+' : ''}`;
+  }
+
+  let modifier = '';
+  if (total >= 17) {
+    modifier = '+';
+  } else if (total <= 7) {
+    modifier = '-';
+  }
+
+  return `h${clamp(total, 7, 17)}${modifier}`;
+};
+
+export const getDealerKey = (dealerCard) => {
+  const cardValue = getCardValue(dealerCard);
+
+  if (cardValue === 11) {
+    return 'A';
+  }
+
+  return cardValue;
 };
 
 export const HIT = 'hit';

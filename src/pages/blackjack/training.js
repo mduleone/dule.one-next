@@ -19,6 +19,8 @@ import {
   STAND,
   DOUBLE,
   SPLIT,
+  getHandKey,
+  getDealerKey,
 } from '~/util/blackjack';
 import { getItem, setItem } from '~/util/local-storage';
 import Modal from '~/components/modal';
@@ -815,6 +817,11 @@ const Training = () => {
         </ChartTitle>
         <BlackjackTable
           blackjackData={dealerHitSoft17 ? hitSoft17 : standSoft17}
+          highlight={
+            initiallyLoaded
+              ? `${getHandKey(playerHand)}:${getDealerKey(dealerCard)}`
+              : null
+          }
         />
       </Modal>
     </Layout>

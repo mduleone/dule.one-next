@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import Tooltip from '~/components/tooltip';
 import { rem } from '~/util/style/lengths';
@@ -28,9 +28,15 @@ export const entryKeySort = ([a], [b]) => {
   return 0;
 };
 
-const BlackjackTable = ({ blackjackData }) => {
+const BlackjackTable = ({ blackjackData, highlight }) => {
   const [hoveredPlayerHand, setHoveredPlayerHand] = useState(null);
   const [hoveredDealerCard, setHoveredDealerCard] = useState(null);
+
+  let highlightPlayerKey;
+  let highlightDealerKey;
+  if (highlight) {
+    [highlightPlayerKey, highlightDealerKey] = highlight.split(':');
+  }
 
   const { hands, headers } = useMemo(() => {
     const handsArray = [
@@ -138,6 +144,10 @@ const BlackjackTable = ({ blackjackData }) => {
                       setHoveredPlayerHand(null);
                       setHoveredDealerCard(null);
                     }}
+                    $highlighted={
+                      highlightPlayerKey === handKey &&
+                      highlightDealerKey === dealerCard
+                    }
                   >
                     {transformAction[action]}
                     {(surrender || tooltip) && (
@@ -208,6 +218,7 @@ export const blackjackDataProps = PropTypes.shape({
 
 BlackjackTable.propTypes = {
   blackjackData: blackjackDataProps,
+  highlight: PropTypes.string,
 };
 
 export default BlackjackTable;
@@ -414,6 +425,14 @@ const Hand = styled.div`
   :focus {
     outline: none;
   }
+
+  ${({ $highlighted }) =>
+    $highlighted &&
+    css`
+      box-shadow: inset ${rem(3)} ${rem(3)} 0
+          ${({ theme }) => theme.colors.softBlack},
+        inset ${rem(-3)} ${rem(-3)} 0 ${({ theme }) => theme.colors.softBlack};
+    `}
 
   @media screen and (min-width: ${rem(768)}) {
     min-width: ${rem(50)};
