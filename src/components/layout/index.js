@@ -21,7 +21,7 @@ const Layout = ({ children, header = true }) => {
     setHostname(window.location.hostname);
   }, []);
 
-  let activeName = activeLink?.name ? ` - ${activeLink.name}` : '';
+  let activeName = activeLink?.name ? activeLink.name : '';
   if (router.pathname === '/blackjack/training') {
     activeName = 'Blackjack Training';
   }
