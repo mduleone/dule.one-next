@@ -30,7 +30,7 @@ const Container = styled.label`
   background-color: ${({ theme, $isOn }) =>
     $isOn ? theme.colors.duleoneRed : theme.colors.white};
   border: ${rem(1)} solid ${({ theme }) => theme.colors.softBlack};
-  border-radius: ${rem(32)};
+  border-radius: ${rem(10000)};
   cursor: pointer;
   padding: ${rem(3)};
   transition: background-color 0.2s;

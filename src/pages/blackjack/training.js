@@ -533,21 +533,30 @@ const Training = () => {
           <Hit
             disabled={showSettings || wrongAction || showLastWrongAction}
             type="button"
-            onClick={() => act(HIT)}
+            onClick={(e) => {
+              e.target.blur();
+              act(HIT);
+            }}
           >
             Hit
           </Hit>
           <Stand
             disabled={showSettings || wrongAction || showLastWrongAction}
             type="button"
-            onClick={() => act(STAND)}
+            onClick={(e) => {
+              e.target.blur();
+              act(STAND);
+            }}
           >
             Stand
           </Stand>
           <Double
             disabled={showSettings || wrongAction || showLastWrongAction}
             type="button"
-            onClick={() => act(DOUBLE)}
+            onClick={(e) => {
+              e.target.blur();
+              act(DOUBLE);
+            }}
           >
             Double
           </Double>
@@ -556,7 +565,10 @@ const Training = () => {
               !isPair || showSettings || wrongAction || showLastWrongAction
             }
             type="button"
-            onClick={() => act(SPLIT)}
+            onClick={(e) => {
+              e.target.blur();
+              act(SPLIT);
+            }}
           >
             Split
           </Split>
@@ -878,6 +890,14 @@ const QuestionButtonContainer = styled.button`
   border: none;
   cursor: pointer;
   line-height: 1;
+  border-radius: 100%;
+
+  :focus {
+    box-shadow: 0 0 ${rem(1)} ${rem(3)} rgba(59, 153, 252, 0.7);
+    box-shadow: 0 0 0 ${rem(3)} activeborder; /* Blink, Chrome */
+    box-shadow: 0 0 0 ${rem(3)} -moz-mac-focusring; /* Firefox */
+    outline: -webkit-focus-ring-color auto ${rem(1)};
+  }
 `;
 
 const DealerButton = styled.span`
@@ -926,6 +946,13 @@ const ActionButton = styled.button`
   :disabled {
     opacity: 40%;
     cursor: not-allowed;
+  }
+
+  :focus {
+    box-shadow: 0 0 ${rem(1)} ${rem(3)} rgba(59, 153, 252, 0.7);
+    box-shadow: 0 0 0 ${rem(3)} activeborder; /* Blink, Chrome */
+    box-shadow: 0 0 0 ${rem(3)} -moz-mac-focusring; /* Firefox */
+    outline: -webkit-focus-ring-color auto ${rem(1)};
   }
 
   @media screen and (min-width: ${rem(768)}) {
