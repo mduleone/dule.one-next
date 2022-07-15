@@ -587,6 +587,12 @@ const Training = () => {
           </FloatingButton>
         </FloatingButtonContainer>
         <FloatingButtonContainer ref={settingsButton}>
+          <FloatingButton
+            onClick={() => setShowSettings((p) => !p)}
+            type="button"
+          >
+            <Icon icon={['fas', 'cog']} />
+          </FloatingButton>
           <Tooltip show={showSettings} horizontal="left" vertical="top">
             <SettingsTitle>Settings</SettingsTitle>
             <FlexRow>
@@ -661,12 +667,6 @@ const Training = () => {
               Reset Streak
             </SettingsButton>
           </Tooltip>
-          <FloatingButton
-            onClick={() => setShowSettings((p) => !p)}
-            type="button"
-          >
-            <Icon icon={['fas', 'cog']} />
-          </FloatingButton>
         </FloatingButtonContainer>
       </SettingsButtonsContainer>
       <Modal isOpen={showStats} onClose={() => setShowStats(false)}>
