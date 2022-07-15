@@ -533,30 +533,21 @@ const Training = () => {
           <Hit
             disabled={showSettings || wrongAction || showLastWrongAction}
             type="button"
-            onClick={(e) => {
-              e.target.blur();
-              act(HIT);
-            }}
+            onClick={() => act(HIT)}
           >
             Hit
           </Hit>
           <Stand
             disabled={showSettings || wrongAction || showLastWrongAction}
             type="button"
-            onClick={(e) => {
-              e.target.blur();
-              act(STAND);
-            }}
+            onClick={() => act(STAND)}
           >
             Stand
           </Stand>
           <Double
             disabled={showSettings || wrongAction || showLastWrongAction}
             type="button"
-            onClick={(e) => {
-              e.target.blur();
-              act(DOUBLE);
-            }}
+            onClick={() => act(DOUBLE)}
           >
             Double
           </Double>
@@ -565,10 +556,7 @@ const Training = () => {
               !isPair || showSettings || wrongAction || showLastWrongAction
             }
             type="button"
-            onClick={(e) => {
-              e.target.blur();
-              act(SPLIT);
-            }}
+            onClick={() => act(SPLIT)}
           >
             Split
           </Split>

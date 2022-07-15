@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { useRef, useEffect } from 'react';
 
 import { computeActionColor } from '~/components/blackjack-table';
 import { getCardValue } from '~/util/blackjack';
@@ -26,6 +27,14 @@ const WrongAction = ({
   const explanationObject = dealerHitSoft17
     ? hitSoft17Explanations
     : standSoft17Explanations;
+  const settingsButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (settingsButtonRef.current) {
+      settingsButtonRef.current.focus();
+    }
+  }, [settingsButtonRef.current]);
+
   return (
     <>
       <TransparentScreenOverlay role="button" onClick={clearWrongAction} />
@@ -71,7 +80,11 @@ const WrongAction = ({
             <WrongContent>Resetting the count to 0</WrongContent>
           </>
         )}
-        <SettingsButton type="button" onClick={clearWrongAction}>
+        <SettingsButton
+          ref={settingsButtonRef}
+          type="button"
+          onClick={clearWrongAction}
+        >
           Got it
         </SettingsButton>
       </Container>
