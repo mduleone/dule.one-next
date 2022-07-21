@@ -121,7 +121,7 @@ const StatisticsModal = ({ showInfo, onClose }) => {
             </Paragraph>
             <Paragraph>
               If the player cannot or chooses not to split, their next decision
-              is wether to <Action $action={DOUBLE}>Double Down</Action>, or
+              is whether to <Action $action={DOUBLE}>Double Down</Action>, or
               double their bet in exchange to draw only one more card. In most
               games, the hand totals a player is allowed to double down on are
               restricted, but in some games the total is not restricted.
