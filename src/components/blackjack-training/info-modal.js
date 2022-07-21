@@ -98,10 +98,10 @@ const StatisticsModal = ({ showInfo, onClose }) => {
             <Paragraph>
               The rules of Blackjack are simple. The goal is to get a point
               total of 21 without going over (busting). Cards are worth their
-              face value, with face cards being worth 10, and Aces being able
-              worth either 11 or 1. Each hand, the goal is to get beat the
-              dealer without going over 21, or to have the dealer bust by going
-              over 21 themselves.
+              face value, with face cards being worth 10, and Aces being worth
+              either 11 or 1 (whichever provides for a better, un-busted total).
+              Each hand, the goal is to get beat the dealer without going over
+              21, or to have the dealer bust by going over 21 themselves.
             </Paragraph>
             <Paragraph>
               Each player, including the dealer, is dealt two cards. Both of the
