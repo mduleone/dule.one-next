@@ -100,15 +100,15 @@ const StatisticsModal = ({ showInfo, onClose }) => {
               total of 21 without going over (busting). Cards are worth their
               face value, with face cards being worth 10, and Aces being worth
               either 11 or 1 (whichever provides for a better, un-busted,
-              total). Each hand, the goal is to beat the dealer without busting,
-              or to have the dealer bust by going over 21 themselves.
+              total). Each hand, the goal is to beat the Dealer without busting,
+              or to have the Dealer bust by going over 21 themselves.
             </Paragraph>
             <Paragraph>
               Each Player, including the Dealer, is dealt two cards. Both of the
               Player&rsquo;s cards, and one of the Dealer&rsquo;s cards, are
               dealt face up. If a Player&rsquo;s first two cards are an Ace and
               a 10, that Player has a &rdquo;natural,&ldquo; or a
-              &ldquo;blackjack&rdquo;, and in the event that the dealer is dealt
+              &ldquo;blackjack&rdquo;, and in the event that the Dealer is dealt
               a natural, they automatically win, beating every hand except
               Player naturals (against which they draw, or &ldquo;push&rdquo;).
               If a Player gets a natural and the Dealer does not, the Player
@@ -154,7 +154,7 @@ const StatisticsModal = ({ showInfo, onClose }) => {
               You can train against a mix of all hands, <em>only pairs</em>, or{' '}
               <em>only soft-hands</em> (<Cards>A-x</Cards>). It also allows you
               to toggle the rules you&rsquo;re training against, as the optimal
-              strategy changes based on whether the dealer hits or stands on
+              strategy changes based on whether the Dealer hits or stands on
               Soft 17.
             </Paragraph>
             <Subheading>Card Counting</Subheading>
