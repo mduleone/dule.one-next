@@ -80,13 +80,19 @@ const StatisticsModal = ({ showInfo, onClose }) => {
               >
                 the Wizard of Odds
               </a>
-              . In an honest single-deck Blackjack game against Standard Rules,
+              .
+            </Paragraph>
+            <Paragraph>
+              In an honest single-deck Blackjack game against Standard Rules,
               playing according to Basic Strategy gives the Player a very slight
               edge against the House (specifically, the statistical breakdown
               is: 0.13% Player edge in a single-deck game, 0.25% and 0.41% House
-              edge in two- or four-deck games respectively). This tool hopes to
-              make it easier to learn and apply Basic Strategy, so you can
-              always be sure to make the right play at the tables.
+              edge in two- or four-deck games respectively).
+            </Paragraph>
+            <Paragraph>
+              This tool hopes to make it easier to learn and apply Basic
+              Strategy, so you can always be sure to make the right play at the
+              tables.
             </Paragraph>
           </>
         )}
@@ -107,7 +113,7 @@ const StatisticsModal = ({ showInfo, onClose }) => {
               Player&rsquo;s cards, and one of the Dealer&rsquo;s cards, are
               dealt face up. If a Player&rsquo;s first two cards are an Ace and
               a 10, that Player has a &rdquo;natural,&ldquo; or a
-              &ldquo;blackjack&rdquo;, and in the event that the Dealer is dealt
+              &ldquo;blackjack,&rdquo; and in the event that the Dealer is dealt
               a natural, they automatically win, beating every hand except
               Player naturals (against which they draw, or &ldquo;push&rdquo;).
               If a Player gets a natural and the Dealer does not, the Player
@@ -132,12 +138,12 @@ const StatisticsModal = ({ showInfo, onClose }) => {
               restricted, but in some games the total is not restricted.
             </Paragraph>
             <Paragraph>
-              If the Player chooses not to split or double down, their options
-              are to <Action $action={HIT}>Hit</Action> -- draw a card,
-              attempting to improve their total to closer to 21 -- or{' '}
-              <Action $action={STAND}>Stand</Action> -- which ends their turn
-              with their current total. If the Player hits and their total goes
-              over 21, they bust and immediately lose.
+              If the Player cannot or chooses not to split or double down, their
+              remaining options are to <Action $action={HIT}>Hit</Action> — draw
+              a card, attempting to improve their total but potentially busting
+              — or <Action $action={STAND}>Stand</Action> — which ends their
+              turn with their current total. If the Player hits and their total
+              goes over 21, they bust and immediately lose.
             </Paragraph>
             <Subheading>Dealer Play</Subheading>
             <Paragraph>
@@ -161,8 +167,8 @@ const StatisticsModal = ({ showInfo, onClose }) => {
           <>
             <SectionTitle>Training Modes</SectionTitle>
             <Paragraph>
-              You can train specifically against different hand mixes or Dealer
-              strategy.
+              You can train specifically against different Hand Mixes or Dealer
+              Strategy.
             </Paragraph>
             <Subheading>Hand Mix</Subheading>
             <Ul>
@@ -174,12 +180,12 @@ const StatisticsModal = ({ showInfo, onClose }) => {
             </Ul>
             <Subheading>Dealer Strategy</Subheading>
             <Ul>
-              <li>Hit Soft 17</li>
-              <li>Stand Soft 17</li>
+              <li>Hit on Soft 17</li>
+              <li>Stand on Soft 17</li>
             </Ul>
             <SectionTitle>Statistics</SectionTitle>
             <Paragraph>
-              Track your statistics, so you can observe your strengths and focus
+              Track your statistics so you can observe your strengths and focus
               on training your weaknesses!
             </Paragraph>
           </>
@@ -198,9 +204,9 @@ const StatisticsModal = ({ showInfo, onClose }) => {
             <Paragraph>
               Conceptually, when a deck is &ldquo;rich&rdquo; in high cards
               (Tens and Aces) and &ldquo;poor&rdquo; in low cards (
-              <Cards>2-6</Cards>) -- that is, it contains more high cards than
-              low cards -- the Player&rsquo;s advantage is higher. The richer
-              the deck is in high cards, the better for the Player.
+              <Cards>2-6</Cards>) — that is, it contains more high cards than
+              low cards — the Player&rsquo;s advantage is higher. The richer the
+              deck is in high cards, the better for the Player.
             </Paragraph>
             <Paragraph>
               Players can win substantial sums at Blackjack by waiting for these
@@ -247,7 +253,7 @@ const StatisticsModal = ({ showInfo, onClose }) => {
             </Paragraph>
             <Paragraph>
               Armed with this, the remaining information we need to guide our
-              bet sizing is how many deck remain in the given shoe. This allows
+              bet sizing is how many decks remain in the given shoe. This allows
               us to come up with a ratio of the Player&rsquo;s advantage.
             </Paragraph>
             <Paragraph>
