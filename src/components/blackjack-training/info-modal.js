@@ -281,6 +281,7 @@ const Tabs = styled.div`
 `;
 
 const Tab = styled.button`
+  font-family: ${({ theme }) => theme.fonts.screenFont};
   background-color: transparent;
   outline: none;
   border: none;
