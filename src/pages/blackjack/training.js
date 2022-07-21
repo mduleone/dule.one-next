@@ -98,7 +98,6 @@ const Training = () => {
   const countTooltipButton = useRef(null);
 
   const resetHands = () => {
-    console.log('reset hands');
     let tempShoe = [...shoe];
 
     if (
