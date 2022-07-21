@@ -8,13 +8,18 @@ import { HIT, STAND, SPLIT, DOUBLE } from '~/util/blackjack';
 import { computeActionColor } from '~/components/blackjack-table';
 import Blackjack from '~/components/blackjack-training/blackjack';
 
-const HOW = 'how';
-const WHAT = 'what';
-const WHY = 'why';
+const RULES = 'rules';
+const ABOUT = 'about';
+const TRAINING = 'training';
+const COUNTING = 'counting';
 
 const StatisticsModal = ({ showInfo, onClose }) => {
-  const [currentTab, setCurrentTab] = useState(WHAT);
+  const [currentTab, setCurrentTab] = useState(ABOUT);
   const contentRef = useRef(null);
+  const makeOnClick = (tab) => () => {
+    setCurrentTab(tab);
+    contentRef.current.scrollTop = 0;
+  };
 
   return (
     <Container isOpen={showInfo} onClose={onClose}>
@@ -26,37 +31,35 @@ const StatisticsModal = ({ showInfo, onClose }) => {
       <Tabs>
         <Tab
           type="button"
-          $active={currentTab === WHAT}
-          onClick={() => {
-            setCurrentTab(WHAT);
-            contentRef.current.scrollTop = 0;
-          }}
+          $active={currentTab === ABOUT}
+          onClick={makeOnClick(ABOUT)}
         >
-          What?
+          About
         </Tab>
         <Tab
           type="button"
-          $active={currentTab === HOW}
-          onClick={() => {
-            setCurrentTab(HOW);
-            contentRef.current.scrollTop = 0;
-          }}
+          $active={currentTab === RULES}
+          onClick={makeOnClick(RULES)}
         >
-          How?
+          Blackjack Rules
         </Tab>
         <Tab
           type="button"
-          $active={currentTab === WHY}
-          onClick={() => {
-            setCurrentTab(WHY);
-            contentRef.current.scrollTop = 0;
-          }}
+          $active={currentTab === TRAINING}
+          onClick={makeOnClick(TRAINING)}
         >
-          Why?
+          Training
+        </Tab>
+        <Tab
+          type="button"
+          $active={currentTab === COUNTING}
+          onClick={makeOnClick(COUNTING)}
+        >
+          Card Counting
         </Tab>
       </Tabs>
       <Content ref={contentRef}>
-        {currentTab === WHAT && (
+        {currentTab === ABOUT && (
           <>
             <SectionTitle>What is this?</SectionTitle>
             <Paragraph>
@@ -85,14 +88,9 @@ const StatisticsModal = ({ showInfo, onClose }) => {
               make it easier to learn and apply Basic Strategy, so you can
               always be sure to make the right play at the tables.
             </Paragraph>
-            <SectionTitle>Statistics</SectionTitle>
-            <Paragraph>
-              Track your statistics, so you can observe your strengths and focus
-              on training your weaknesses!
-            </Paragraph>
           </>
         )}
-        {currentTab === HOW && (
+        {currentTab === RULES && (
           <>
             <SectionTitle>Blackjack Play</SectionTitle>
             <Paragraph>
@@ -103,6 +101,7 @@ const StatisticsModal = ({ showInfo, onClose }) => {
               total). Each hand, the goal is to beat the Dealer without busting,
               or to have the Dealer bust by going over 21 themselves.
             </Paragraph>
+            <Subheading>The Deal</Subheading>
             <Paragraph>
               Each Player, including the Dealer, is dealt two cards. Both of the
               Player&rsquo;s cards, and one of the Dealer&rsquo;s cards, are
@@ -114,6 +113,7 @@ const StatisticsModal = ({ showInfo, onClose }) => {
               If a Player gets a natural and the Dealer does not, the Player
               immediately wins, and their bet (usually) pays out 1.5 to 1.
             </Paragraph>
+            <Subheading>Action</Subheading>
             <Paragraph>
               For their turn, each Player can take one of a series of actions.
               If the Player&rsquo;s first two cards have identical rank, for
@@ -139,12 +139,14 @@ const StatisticsModal = ({ showInfo, onClose }) => {
               with their current total. If the Player hits and their total goes
               over 21, they bust and immediately lose.
             </Paragraph>
+            <Subheading>Dealer Play</Subheading>
             <Paragraph>
               Once all Players have finished their turns, the Dealer completes
               their hand according to a fixed set of rules. This fixed Dealer
               play is the foundation of Basic Strategy, as well as the winning
               strategies enabled by Card Counting.
             </Paragraph>
+            <Subheading>Resolution</Subheading>
             <Paragraph>
               When the Dealer is done, they have either busted or stood with a
               total of 17 or more. If the Dealer busted, every remaining hand
@@ -155,17 +157,36 @@ const StatisticsModal = ({ showInfo, onClose }) => {
             </Paragraph>
           </>
         )}
-        {currentTab === WHY && (
+        {currentTab === TRAINING && (
           <>
             <SectionTitle>Training Modes</SectionTitle>
             <Paragraph>
-              You can train against a mix of all hands, <em>only pairs</em>, or{' '}
-              <em>only soft-hands</em> (<Cards>A-x</Cards>). It also allows you
-              to toggle the rules you&rsquo;re training against, as the optimal
-              strategy changes based on whether the Dealer hits or stands on
-              Soft 17.
+              You can train specifically against different hand mixes or Dealer
+              strategy.
             </Paragraph>
-            <Subheading>Card Counting</Subheading>
+            <Subheading>Hand Mix</Subheading>
+            <Ul>
+              <li>All hands</li>
+              <li>Only pairs</li>
+              <li>
+                Only soft-hands (<Cards>A-x</Cards>)
+              </li>
+            </Ul>
+            <Subheading>Dealer Strategy</Subheading>
+            <Ul>
+              <li>Hit Soft 17</li>
+              <li>Stand Soft 17</li>
+            </Ul>
+            <SectionTitle>Statistics</SectionTitle>
+            <Paragraph>
+              Track your statistics, so you can observe your strengths and focus
+              on training your weaknesses!
+            </Paragraph>
+          </>
+        )}
+        {currentTab === COUNTING && (
+          <>
+            <SectionTitle>Card Counting</SectionTitle>
             <Paragraph>
               Beyond playing Basic Strategy, Blackjack is one of the few games
               in a casino where the Player or House advantage can swing back and
@@ -293,7 +314,19 @@ const Title = styled.span`
 `;
 
 const Tabs = styled.div`
+  border-bottom: ${rem(2)} ${({ theme }) => theme.colors.black} solid;
   display: flex;
+  min-height: ${rem(50)};
+  justify-content: space-between;
+  overflow-x: scroll;
+
+  @media screen and (min-width: ${rem(456)}) {
+    justify-content: flex-start;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    border-color: ${({ theme }) => theme.colors.softWhite};
+  }
 `;
 
 const Tab = styled.button`
@@ -303,21 +336,24 @@ const Tab = styled.button`
   border: none;
   display: inline-block;
   cursor: pointer;
-  border-bottom: ${rem(2)} transparent solid;
   border-top-left-radius: ${rem(3)};
   border-top-right-radius: ${rem(3)};
+
+  @media screen and (min-width: ${rem(456)}) {
+    & + & {
+      margin-left: ${rem(4)};
+    }
+  }
 
   ${({ $active }) =>
     $active &&
     css`
-      color: ${({ theme }) => theme.colors.white};
-      border-color: ${({ theme }) => theme.colors.black};
       background-color: #00000088;
+      color: ${({ theme }) => theme.colors.white};
 
       @media (prefers-color-scheme: dark) {
         background-color: #ffffff88;
         color: ${({ theme }) => theme.colors.black};
-        border-color: ${({ theme }) => theme.colors.softWhite};
       }
     `}
 `;
@@ -346,10 +382,6 @@ const Paragraph = styled.p`
 
   & + & {
     margin-top: ${rem(8)};
-  }
-
-  em {
-    text-decoration: italic;
   }
 `;
 
@@ -410,4 +442,8 @@ const Action = styled.span`
     $action === STAND ? theme.colors.white : theme.colors.black};
   padding: ${rem(1)} ${rem(3)};
   border-radius: ${rem(3)};
+`;
+
+const Ul = styled.ul`
+  margin: 0;
 `;
