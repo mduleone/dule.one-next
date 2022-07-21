@@ -6,10 +6,17 @@ import { hitSoft17, standSoft17 } from '~/data/blackjack';
 import Layout from '~/components/layout';
 import PlayingCard from '~/components/playing-card';
 import WrongAction from '~/components/blackjack-training/wrong-action';
+import StatisticsModal from '~/components/blackjack-training/statistics-modal';
+import InfoModal from '~/components/blackjack-training/info-modal';
 import { rem } from '~/util/style/lengths';
-import { newShoe, DECK, randomSuit, randomTen } from '~/util/playing-cards';
 import {
-  getCardRank,
+  newShoe,
+  DECK,
+  randomSuit,
+  randomTen,
+  shuffle,
+} from '~/util/playing-cards';
+import {
   getCardValue,
   getCorrectActionHitSoft17,
   getCorrectActionStandSoft17,
@@ -21,13 +28,11 @@ import {
   SPLIT,
   getHandKey,
   getDealerKey,
+  getLossKey,
 } from '~/util/blackjack';
 import { getItem, setItem } from '~/util/local-storage';
 import Modal from '~/components/modal';
-import BlackjackTable, {
-  computeActionColor,
-  entryKeySort,
-} from '~/components/blackjack-table';
+import BlackjackTable from '~/components/blackjack-table';
 import Tooltip from '~/components/tooltip';
 import Toggle from '~/components/toggle';
 import { round } from '~/util/number';
@@ -54,19 +59,6 @@ const lossesDefault = {
   split: 0,
 };
 
-const getLossKey = (playerHand, dealerCard, action) =>
-  `${playerHand.map(getCardValue).sort().join(',')}:${getCardValue(
-    dealerCard,
-  )}:${action}`;
-
-const parseLossKey = (lossKey) => {
-  const [playerString, dealerString, action] = lossKey.split(':');
-  const playerHand = playerString.split(',').map(getCardRank);
-  const dealerCard = getCardRank(dealerString);
-
-  return { playerHand, dealerCard, action };
-};
-
 const Training = () => {
   const [streak, setStreak] = useState(0);
   const [statData, setStatData] = useState({
@@ -87,6 +79,7 @@ const Training = () => {
   const [dealerCard, setDealerCard] = useState(null);
   const [correctAction, setCorrectAction] = useState('');
   const [showSettings, setShowSettings] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
   const [showChart, setShowChart] = useState(false);
   const [showStats, setShowStats] = useState(false);
   const [showCountTooltip, setShowCountTooltip] = useState(false);
@@ -105,6 +98,7 @@ const Training = () => {
   const countTooltipButton = useRef(null);
 
   const resetHands = () => {
+    console.log('reset hands');
     let tempShoe = [...shoe];
 
     if (
@@ -117,6 +111,14 @@ const Training = () => {
 
     let nextPlayerHand = [];
     do {
+      if (getHandValue(nextPlayerHand).total === 21) {
+        if (softOnly) {
+          tempShoe.unshift(nextPlayerHand[1]);
+        } else {
+          tempShoe.unshift(...nextPlayerHand);
+        }
+        tempShoe = shuffle(tempShoe);
+      }
       if (doublesOnly) {
         const nextCard = tempShoe.shift();
         let [nextRank] = nextCard.split('');
@@ -143,13 +145,52 @@ const Training = () => {
     setShoe(tempShoe);
   };
 
+  const act = (action) => {
+    track('act', { action, correctAction });
+    if (action === correctAction) {
+      track('correct action');
+      setStreak((s) => {
+        const nextStreak = s + 1;
+        setItem('bjt-streak', nextStreak);
+        if (nextStreak > statData.longestStreak) {
+          setStatData({ ...statData, longestStreak: nextStreak });
+          setItem('bjt-stat-data', { ...statData, longestStreak: nextStreak });
+        }
+
+        return nextStreak;
+      });
+      resetHands();
+      return;
+    }
+    track('incorrect action');
+
+    setPlayerAction(action);
+    setWrongAction(true);
+  };
+
   useEffect(() => {
     track('page load');
   }, []);
 
   useEffect(() => {
-    resetHands();
+    const keypressListener = (e) => {
+      if (['h', 'H'].includes(e.key)) {
+        act(HIT);
+      } else if (['s', 'S'].includes(e.key)) {
+        act(STAND);
+      } else if (['d', 'D'].includes(e.key)) {
+        act(DOUBLE);
+      } else if (['p', 'P'].includes(e.key)) {
+        act(SPLIT);
+      }
+    };
 
+    window.addEventListener('keypress', keypressListener);
+
+    return () => window.removeEventListener('keypress', keypressListener);
+  }, [act]);
+
+  useEffect(() => {
     if (!initiallyLoaded) {
       const possibleStreak = getItem('bjt-streak');
       const possibleStatData = getItem('bjt-stat-data');
@@ -179,10 +220,15 @@ const Training = () => {
         setSoftOnly(softOnlySetting);
         setDealerHitSoft17(dealerHitSoft17Setting);
         setResetCountOnLoss(resetCountOnLossSetting);
+        if (doublesOnlySetting || softOnlySetting) {
+          setForceReset((p) => !p);
+        }
       }
 
       setInitiallyLoaded(true);
     }
+
+    resetHands();
   }, [forceReset]);
 
   useEffect(() => {
@@ -230,29 +276,6 @@ const Training = () => {
 
     return () => {};
   }, [showCountTooltip, countTooltipButton.current]);
-
-  const act = (action) => {
-    track('act', { action, correctAction });
-    if (action === correctAction) {
-      track('correct action');
-      setStreak((s) => {
-        const nextStreak = s + 1;
-        setItem('bjt-streak', nextStreak);
-        if (nextStreak > statData.longestStreak) {
-          setStatData({ ...statData, longestStreak: nextStreak });
-          setItem('bjt-stat-data', { ...statData, longestStreak: nextStreak });
-        }
-
-        return nextStreak;
-      });
-      resetHands();
-      return;
-    }
-    track('incorrect action');
-
-    setPlayerAction(action);
-    setWrongAction(true);
-  };
 
   const clearWrongAction = () => {
     const lossKey = getLossKey(
@@ -321,7 +344,7 @@ const Training = () => {
     }
     setItem('bjt-settings', {
       doublesOnly: nextDoublesOnly,
-      softOnly,
+      softOnly: nextDoublesOnly ? false : softOnly,
       dealerHitSoft17,
       resetCountOnLoss,
       showCount,
@@ -341,7 +364,7 @@ const Training = () => {
       setForceReset((p) => !p);
     }
     setItem('bjt-settings', {
-      doublesOnly,
+      doublesOnly: nextSoftOnly ? false : doublesOnly,
       softOnly: nextSoftOnly,
       dealerHitSoft17,
       resetCountOnLoss,
@@ -412,22 +435,6 @@ const Training = () => {
   const handValue = getHandValue(playerHand);
   const isPair =
     handValue.hand.length === 2 && handValue.hand[0] === handValue.hand[1];
-
-  const average = statData.streakTotals / statData.streaks;
-  const doublesOnlyAverage =
-    statData.doublesOnlyTotals / statData.doublesOnlyStreaks;
-  const softOnlyAverage = statData.softOnlyTotals / statData.softOnlyStreaks;
-
-  const renderedAverage =
-    Math.floor(average) === average ? average : round(average, 0, 5);
-  const renderedDoublesAverage =
-    Math.floor(doublesOnlyAverage) === doublesOnlyAverage
-      ? doublesOnlyAverage
-      : round(doublesOnlyAverage, 0, 5);
-  const renderedSoftAverage =
-    Math.floor(softOnlyAverage) === softOnlyAverage
-      ? softOnlyAverage
-      : round(softOnlyAverage, 0, 5);
 
   return (
     <Layout header={false}>
@@ -571,18 +578,36 @@ const Training = () => {
                 setShowLastWrongAction((p) => !p);
               }}
               type="button"
+              aria-label="show last wrong action"
             >
               <Icon icon={['fas', 'undo']} />
             </FloatingButton>
           </FloatingButtonContainer>
         )}
         <FloatingButtonContainer>
-          <FloatingButton onClick={() => setShowStats((p) => !p)} type="button">
+          <FloatingButton
+            onClick={() => setShowInfo((p) => !p)}
+            type="button"
+            aria-label="show info modal"
+          >
+            <Icon icon={['fas', 'info-circle']} />
+          </FloatingButton>
+        </FloatingButtonContainer>
+        <FloatingButtonContainer>
+          <FloatingButton
+            onClick={() => setShowStats((p) => !p)}
+            type="button"
+            aria-label="show statistics"
+          >
             <Icon icon={['fas', 'chart-bar']} />
           </FloatingButton>
         </FloatingButtonContainer>
         <FloatingButtonContainer>
-          <FloatingButton onClick={() => setShowChart((p) => !p)} type="button">
+          <FloatingButton
+            onClick={() => setShowChart((p) => !p)}
+            type="button"
+            aria-label="action table"
+          >
             <Icon icon={['fas', 'table']} />
           </FloatingButton>
         </FloatingButtonContainer>
@@ -590,6 +615,7 @@ const Training = () => {
           <FloatingButton
             onClick={() => setShowSettings((p) => !p)}
             type="button"
+            aria-label="open settings"
           >
             <Icon icon={['fas', 'cog']} />
           </FloatingButton>
@@ -669,154 +695,12 @@ const Training = () => {
           </Tooltip>
         </FloatingButtonContainer>
       </SettingsButtonsContainer>
-      <Modal isOpen={showStats} onClose={() => setShowStats(false)}>
-        <ChartTitle>Statistics</ChartTitle>
-        <FlexRow>
-          <div>Last Streak</div>
-          <div>{statData.lastStreak || '--'}</div>
-        </FlexRow>
-        <FlexRow>
-          <div>Longest Streak</div>
-          <div>{statData.longestStreak || 0}</div>
-        </FlexRow>
-        <FlexRow>
-          <div>Average Streak</div>
-          <div>{statData.streaks > 0 ? renderedAverage : '--'}</div>
-        </FlexRow>
-        <FlexRow>
-          <div>Streaks lost</div>
-          <div>{statData.streaks}</div>
-        </FlexRow>
-        {statData.doublesOnlyStreaks > 0 && (
-          <>
-            <FlexRow>
-              <div>Average Pairs Only Streak</div>
-              <div>
-                {statData.doublesOnlyStreaks > 0
-                  ? renderedDoublesAverage
-                  : '--'}
-              </div>
-            </FlexRow>
-            <FlexRow>
-              <div>Pairs Only Streaks lost</div>
-              <div>{statData.doublesOnlyStreaks}</div>
-            </FlexRow>
-          </>
-        )}
-        {statData.softOnlyStreaks > 0 && (
-          <>
-            <FlexRow>
-              <div>Soft Only Average Streak</div>
-              <div>
-                {statData.softOnlyStreaks > 0 ? renderedSoftAverage : '--'}
-              </div>
-            </FlexRow>
-            <FlexRow>
-              <div>Soft Only Streaks lost</div>
-              <div>{statData.softOnlyStreaks}</div>
-            </FlexRow>
-          </>
-        )}
-        <ChartTitle>Errant Plays</ChartTitle>
-        <LossTable>
-          <TableWrapper>
-            <Table>
-              <thead>
-                <tr>
-                  <Th>
-                    Soft 17
-                    <br />
-                    Action
-                  </Th>
-                  <Th>
-                    Player
-                    <br />
-                    Hand
-                  </Th>
-                  <Th>
-                    Dealer
-                    <br />
-                    Shows
-                  </Th>
-                  <Th>
-                    Correct
-                    <br />
-                    Play
-                  </Th>
-                  <Th>Incorrect plays</Th>
-                </tr>
-              </thead>
-              <Tbody>
-                {Object.entries(statData.losses)
-                  .sort(([keyA], [keyB]) => {
-                    const { playerHand: playerHandA, dealerCard: dealerA } =
-                      parseLossKey(keyA);
-                    const { playerHand: playerHandB, dealerCard: dealerB } =
-                      parseLossKey(keyB);
-
-                    const handValA = getHandValue(playerHandA);
-                    const handValB = getHandValue(playerHandB);
-
-                    if (handValA.total !== handValB.total) {
-                      return handValB.total - handValA.total;
-                    }
-
-                    const sortedHandA = handValA.hand.sort();
-                    const sortedHandB = handValB.hand.sort();
-
-                    if (sortedHandA[0] !== sortedHandB[0]) {
-                      return sortedHandA[0] - sortedHandB[0];
-                    }
-
-                    if (sortedHandA[1] !== sortedHandB[1]) {
-                      return sortedHandA[1] - sortedHandB[1];
-                    }
-
-                    return dealerB - dealerA;
-                  })
-                  .map(([lossKey, lossData]) => {
-                    const {
-                      playerHand: lossPlayerHand,
-                      dealerCard: lossDealerCard,
-                      action,
-                    } = parseLossKey(lossKey);
-
-                    const correctPlay = (
-                      (action || HIT) === HIT
-                        ? getCorrectActionHitSoft17
-                        : getCorrectActionStandSoft17
-                    )(lossPlayerHand, lossDealerCard);
-                    const { [correctPlay]: _, ...wrongActions } = lossData;
-
-                    return (
-                      <Tr key={lossKey}>
-                        <Td>{action || HIT}</Td>
-                        <Td>{lossPlayerHand.join('-')}</Td>
-                        <Td>{lossDealerCard}</Td>
-                        <Td>
-                          <Action $action={correctPlay}>{correctPlay}</Action>
-                        </Td>
-                        <Td>
-                          {Object.entries(wrongActions)
-                            .sort(entryKeySort)
-                            .map(
-                              ([key, value]) =>
-                                value > 0 && (
-                                  <InlineBlock key={key}>
-                                    <Action $action={key}>{key}</Action>:{' '}
-                                    {value}
-                                  </InlineBlock>
-                                ),
-                            )}
-                        </Td>
-                      </Tr>
-                    );
-                  })}
-              </Tbody>
-            </Table>
-          </TableWrapper>
-        </LossTable>
-      </Modal>
+      <InfoModal showInfo={showInfo} onClose={() => setShowInfo(false)} />
+      <StatisticsModal
+        showStats={showStats}
+        onClose={() => setShowStats(false)}
+        statData={statData}
+      />
       <Modal isOpen={showChart} onClose={() => setShowChart(false)}>
         <ChartTitle>
           Basic Strategy - {dealerHitSoft17 ? 'Hit' : 'Stand'} Soft 17
@@ -884,7 +768,6 @@ const QuestionButtonContainer = styled.button`
     box-shadow: 0 0 ${rem(1)} ${rem(3)} rgba(59, 153, 252, 0.7);
     box-shadow: 0 0 0 ${rem(3)} activeborder; /* Blink, Chrome */
     box-shadow: 0 0 0 ${rem(3)} -moz-mac-focusring; /* Firefox */
-    outline: -webkit-focus-ring-color auto ${rem(1)};
   }
 `;
 
@@ -975,11 +858,10 @@ const SettingsButtonsContainer = styled.div`
   bottom: ${rem(19 + 23.75)};
   z-index: 900;
 
-  @media only screen and (min-width: ${({ $showLastWrongButton }) =>
-      rem($showLastWrongButton ? 1046 : 1034)}) {
+  @media only screen and (min-width: ${rem(1144)}) {
     transform: translateX(
       calc(
-        -50% + (${rem(768)} / 2) + ${rem(19 * 2)} + ${({ $showLastWrongButton }) => rem($showLastWrongButton ? 172 : 150)}
+        -50% + (${rem(768)} / 2) + ${rem(19 * 2)} + ${({ $showLastWrongButton }) => rem($showLastWrongButton ? 239 : 217)}
       )
     );
     right: 50%;
@@ -1085,73 +967,6 @@ const CenterRow = styled(FlexRow)`
 
 const ToggleLabel = styled.label`
   margin-right: ${rem(8)};
-`;
-
-const LossTable = styled.div`
-  line-height: ${rem(20)};
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  flex: 1 1 auto;
-  overflow-y: auto;
-`;
-
-const TableWrapper = styled.div`
-  min-height: ${rem(180)};
-  overflow-y: auto;
-  width: 100%;
-
-  @media screen and (min-width: ${rem(768)}) {
-    max-height: ${rem(300)};
-  }
-`;
-
-const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-`;
-
-const Th = styled.th`
-  position: sticky;
-  top: 0;
-  background-color: ${({ theme }) => theme.colors.white};
-
-  @media (prefers-color-scheme: dark) {
-    background-color: ${({ theme }) => theme.colors.softBlack};
-  }
-`;
-
-const Tbody = styled.tbody`
-  width: 100%;
-`;
-
-const Tr = styled.tr`
-  width: 100%;
-
-  &:nth-child(odd) {
-    background-color: #00000088;
-    color: ${({ theme }) => theme.colors.white};
-
-    @media (prefers-color-scheme: dark) {
-      background-color: #ffffff88;
-      color: ${({ theme }) => theme.colors.black};
-    }
-  }
-`;
-
-const Td = styled.td`
-  line-height: ${rem(30)};
-  text-align: center;
-`;
-
-const Action = styled.span`
-  background-color: ${({ theme, $action }) =>
-    computeActionColor($action, theme.colors)};
-  color: ${({ theme, $action }) =>
-    $action === STAND ? theme.colors.white : theme.colors.black};
-  padding: ${rem(3)};
-  border-radius: ${rem(3)};
 `;
 
 const InlineBlock = styled.span`

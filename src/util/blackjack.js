@@ -331,3 +331,16 @@ export const getCorrectActionStandSoft17 = (playerHand, dealerCard) => {
   // total <= 7
   return HIT;
 };
+
+export const getLossKey = (playerHand, dealerCard, action) =>
+  `${playerHand.map(getCardValue).sort().join(',')}:${getCardValue(
+    dealerCard,
+  )}:${action}`;
+
+export const parseLossKey = (lossKey) => {
+  const [playerString, dealerString, action] = lossKey.split(':');
+  const playerHand = playerString.split(',').map(getCardRank);
+  const dealerCard = getCardRank(dealerString);
+
+  return { playerHand, dealerCard, action };
+};
