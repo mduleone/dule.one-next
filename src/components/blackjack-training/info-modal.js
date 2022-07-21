@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -14,6 +14,7 @@ const WHY = 'why';
 
 const StatisticsModal = ({ showInfo, onClose }) => {
   const [currentTab, setCurrentTab] = useState(WHAT);
+  const contentRef = useRef(null);
 
   return (
     <Container isOpen={showInfo} onClose={onClose}>
@@ -26,26 +27,35 @@ const StatisticsModal = ({ showInfo, onClose }) => {
         <Tab
           type="button"
           $active={currentTab === WHAT}
-          onClick={() => setCurrentTab(WHAT)}
+          onClick={() => {
+            setCurrentTab(WHAT);
+            contentRef.current.scrollTop = 0;
+          }}
         >
           What?
         </Tab>
         <Tab
           type="button"
           $active={currentTab === HOW}
-          onClick={() => setCurrentTab(HOW)}
+          onClick={() => {
+            setCurrentTab(HOW);
+            contentRef.current.scrollTop = 0;
+          }}
         >
           How?
         </Tab>
         <Tab
           type="button"
           $active={currentTab === WHY}
-          onClick={() => setCurrentTab(WHY)}
+          onClick={() => {
+            setCurrentTab(WHY);
+            contentRef.current.scrollTop = 0;
+          }}
         >
           Why?
         </Tab>
       </Tabs>
-      <Content>
+      <Content ref={contentRef}>
         {currentTab === WHAT && (
           <>
             <SectionTitle>What is this?</SectionTitle>
