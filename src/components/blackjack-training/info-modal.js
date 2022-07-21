@@ -99,43 +99,51 @@ const StatisticsModal = ({ showInfo, onClose }) => {
               The rules of Blackjack are simple. The goal is to get a point
               total of 21 without going over (busting). Cards are worth their
               face value, with face cards being worth 10, and Aces being worth
-              either 11 or 1 (whichever provides for a better, un-busted total).
-              Each hand, the goal is to get beat the dealer without going over
-              21, or to have the dealer bust by going over 21 themselves.
+              either 11 or 1 (whichever provides for a better, un-busted,
+              total). Each hand, the goal is to beat the dealer without busting,
+              or to have the dealer bust by going over 21 themselves.
             </Paragraph>
             <Paragraph>
-              Each player, including the dealer, is dealt two cards. Both of the
-              player&rsquo;s cards and one of the dealer&rsquo;s cards is dealt
-              face up. If a player&rsquo;s first two cards are an Ace and a 10,
-              that player has a natural, or a &ldquo;blackjack&rdquo;, and in
-              the event that the dealer is dealt a natural, they automatically
-              win, beating every hand except Player naturals (against which,
-              they draw, or &ldquo;push&rdquo;).
+              Each Player, including the Dealer, is dealt two cards. Both of the
+              Player&rsquo;s cards, and one of the Dealer&rsquo;s cards, are
+              dealt face up. If a Player&rsquo;s first two cards are an Ace and
+              a 10, that Player has a &rdquo;natural,&ldquo; or a
+              &ldquo;blackjack&rdquo;, and in the event that the dealer is dealt
+              a natural, they automatically win, beating every hand except
+              Player naturals (against which they draw, or &ldquo;push&rdquo;).
+              If a Player gets a natural and the Dealer does not, the Player
+              immediately wins, and their bet (usually) pays out 1.5 to 1.
             </Paragraph>
             <Paragraph>
-              For their turn, each player can take one of a series of actions.
+              For their turn, each Player can take one of a series of actions.
               If the Player&rsquo;s first two cards have identical rank, for
               example two sixes or a King and a Ten, the Player may{' '}
               <Action $action={SPLIT}>Split</Action> their pair by doubling
-              their bet and turning their cards into two hands to play.
+              their bet and turning their cards into two hands to play. If they
+              split, each new hand is dealt a single card, and the Player then
+              plays each new hand separately by these rules, except naturals pay
+              out 1 to 1.
             </Paragraph>
             <Paragraph>
-              If the player cannot or chooses not to split, their next decision
+              If the Player cannot or chooses not to split, their next decision
               is whether to <Action $action={DOUBLE}>Double Down</Action>, or
               double their bet in exchange to draw only one more card. In most
-              games, the hand totals a player is allowed to double down on are
+              games, the hand totals a Player is allowed to double down on are
               restricted, but in some games the total is not restricted.
             </Paragraph>
             <Paragraph>
-              If the player chooses not to split or double down, their options
-              are to <Action $action={HIT}>Hit</Action> (draw a card, attempting
-              to improve their total to closer to 21 without going over), or to{' '}
-              <Action $action={STAND}>Stand</Action>, which ends their turn.
+              If the Player chooses not to split or double down, their options
+              are to <Action $action={HIT}>Hit</Action> -- draw a card,
+              attempting to improve their total to closer to 21 -- or{' '}
+              <Action $action={STAND}>Stand</Action> -- which ends their turn
+              with their current total. If the Player hits and their total goes
+              over 21, they bust and immediately lose.
             </Paragraph>
             <Paragraph>
-              Once all players have finished their turns, the Dealer completes
-              their hand according to a fixed set of rules. This fixed dealer
-              play is the foundation of everything that&rsquo;s to come, below.
+              Once all Players have finished their turns, the Dealer completes
+              their hand according to a fixed set of rules. This fixed Dealer
+              play is the foundation of Basic Strategy, as well as the winning
+              strategies enabled by Card Counting.
             </Paragraph>
           </>
         )}
