@@ -225,7 +225,7 @@ export const hitSoft17Explanations = {
     5: "Double to take advantage of the dealer's likely weak hand.",
     4: "Double to take advantage of the dealer's likely weak hand.",
     3: "Double to take advantage of the dealer's likely weak hand.",
-    2: "Double to take advantage of the dealer's likely weak hand.",
+    2: 'Showing a 2 makes the dealer unlikely to bust. Hit.',
   },
   h8: {
     A: 'You need to improve your hand. Hit.',
@@ -942,7 +942,7 @@ export const hitSoft17 = {
       5: { action: 'double', surrender: false },
       4: { action: 'double', surrender: false },
       3: { action: 'double', surrender: false },
-      2: { action: 'double', surrender: false },
+      2: { action: 'hit', surrender: false },
     },
     8: {
       key: 'h8',

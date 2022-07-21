@@ -181,7 +181,7 @@ export const getCorrectActionHitSoft17 = (playerHand, dealerCard) => {
   }
 
   if (total === 9) {
-    if (dealerCardValue >= 7) {
+    if (dealerCardValue >= 7 || dealerCardValue === 2) {
       return HIT;
     }
 
