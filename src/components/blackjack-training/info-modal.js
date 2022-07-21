@@ -145,6 +145,14 @@ const StatisticsModal = ({ showInfo, onClose }) => {
               play is the foundation of Basic Strategy, as well as the winning
               strategies enabled by Card Counting.
             </Paragraph>
+            <Paragraph>
+              When the Dealer is done, they have either busted or stood with a
+              total of 17 or more. If the Dealer busted, every remaining hand
+              wins the associated bet. If the Dealer did not bust, any remaining
+              hand with a total greater than the Dealer&rsquo;s wins. Any hand
+              with a total equal to the Dealer&rsquo;s pushes. Any hand with a
+              lower point total than the Dealer loses the associated bet.
+            </Paragraph>
           </>
         )}
         {currentTab === WHY && (
