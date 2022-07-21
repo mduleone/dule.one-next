@@ -79,11 +79,11 @@ const StatisticsModal = ({ showInfo, onClose }) => {
               </a>
               . In an honest single-deck Blackjack game against Standard Rules,
               playing according to Basic Strategy gives the Player a very slight
-              edge against the house (More specifically, the statistical
-              breakdown is: 0.13% Player edge in a single-deck game, 0.25% and
-              0.41% House edge in two- or four-deck games respectively). This
-              tool hopes to make it easier to learn and apply Basic Strategy, so
-              you can always be sure to make the right play at the tables.
+              edge against the House (specifically, the statistical breakdown
+              is: 0.13% Player edge in a single-deck game, 0.25% and 0.41% House
+              edge in two- or four-deck games respectively). This tool hopes to
+              make it easier to learn and apply Basic Strategy, so you can
+              always be sure to make the right play at the tables.
             </Paragraph>
             <SectionTitle>Statistics</SectionTitle>
             <Paragraph>
