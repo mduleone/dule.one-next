@@ -219,18 +219,20 @@ const StatisticsModal = ({ showInfo, onClose }) => {
               according to the following chart.
             </Paragraph>
             <Table>
-              <tr>
-                <Td>Tens &amp; Aces (High)</Td>
-                <Td>- 1</Td>
-              </tr>
-              <tr>
-                <Td>7 - 9 (Middle)</Td>
-                <Td>+ 0</Td>
-              </tr>
-              <tr>
-                <Td>2 - 6 (Low)</Td>
-                <Td>+ 1</Td>
-              </tr>
+              <tbody>
+                <tr>
+                  <Td>Tens &amp; Aces (High)</Td>
+                  <Td>- 1</Td>
+                </tr>
+                <tr>
+                  <Td>7 - 9 (Middle)</Td>
+                  <Td>+ 0</Td>
+                </tr>
+                <tr>
+                  <Td>2 - 6 (Low)</Td>
+                  <Td>+ 1</Td>
+                </tr>
+              </tbody>
             </Table>
             <Paragraph>
               With this method, the higher the count, the better the situation
@@ -318,7 +320,6 @@ const Tabs = styled.div`
   display: flex;
   min-height: ${rem(50)};
   justify-content: space-between;
-  overflow-x: scroll;
 
   @media screen and (min-width: ${rem(456)}) {
     justify-content: flex-start;
@@ -334,10 +335,31 @@ const Tab = styled.button`
   background-color: transparent;
   outline: none;
   border: none;
-  display: inline-block;
+  display: inline-flex;
   cursor: pointer;
   border-top-left-radius: ${rem(3)};
   border-top-right-radius: ${rem(3)};
+  margin: 0 ${rem(2)};
+  padding: 0 ${rem(4)};
+  height: ${rem(48)};
+  align-items: center;
+  font-size: ${rem(12)};
+
+  :first-child {
+    margin-left: 0;
+  }
+
+  :last-child {
+    margin-right: 0;
+  }
+
+  @media screen and (min-width: ${rem(306)}) {
+    font-size: ${rem(14)};
+  }
+
+  @media screen and (min-width: ${rem(344)}) {
+    font-size: ${rem(19)};
+  }
 
   @media screen and (min-width: ${rem(456)}) {
     & + & {
