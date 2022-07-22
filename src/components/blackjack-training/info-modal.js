@@ -22,7 +22,7 @@ const StatisticsModal = ({ showInfo, onClose }) => {
   };
 
   return (
-    <Container isOpen={showInfo} onClose={onClose}>
+    <Container isOpen={showInfo} onClose={onClose} desktopMaxHeight={650}>
       <ChartTitle>
         <Blackjack />
         <Title>Blackjack Training</Title>
@@ -302,12 +302,6 @@ const Container = styled(Modal)`
   display: flex;
   flex-direction: column;
   font-family: ${({ theme }) => theme.fonts.screenFont};
-
-  :focus {
-    box-shadow: 0 0 ${rem(1)} ${rem(3)} rgba(59, 153, 252, 0.7);
-    box-shadow: 0 0 0 ${rem(3)} activeborder; /* Blink, Chrome */
-    box-shadow: 0 0 0 ${rem(3)} -moz-mac-focusring; /* Firefox */
-  }
 `;
 
 const ChartTitle = styled.h1`
@@ -328,7 +322,7 @@ const Title = styled.span`
 `;
 
 const Tabs = styled.div`
-  border-bottom: ${rem(2)} ${({ theme }) => theme.colors.black} solid;
+  border-bottom: ${rem(2)} ${({ theme }) => theme.colors.softBlack} solid;
   display: flex;
   min-height: ${rem(50)};
   justify-content: space-between;
@@ -361,11 +355,11 @@ const Tab = styled.button`
   ${({ $active }) =>
     $active &&
     css`
-      background-color: #00000088;
+      background-color: ${({ theme }) => theme.colors.softBlack};
       color: ${({ theme }) => theme.colors.white};
 
       @media (prefers-color-scheme: dark) {
-        background-color: #ffffff88;
+        background-color: ${({ theme }) => theme.colors.softWhite};
         color: ${({ theme }) => theme.colors.black};
       }
     `}
@@ -379,9 +373,7 @@ const Tab = styled.button`
   }
 
   :focus {
-    box-shadow: 0 0 ${rem(1)} ${rem(3)} rgba(59, 153, 252, 0.7);
-    box-shadow: 0 0 0 ${rem(3)} activeborder; /* Blink, Chrome */
-    box-shadow: 0 0 0 ${rem(3)} -moz-mac-focusring; /* Firefox */
+    outline: -webkit-focus-ring-color auto ${rem(1)};
   }
 
   @media screen and (min-width: ${rem(306)}) {
@@ -402,10 +394,6 @@ const Tab = styled.button`
 const Content = styled.div`
   flex-grow: 1;
   overflow-y: scroll;
-
-  @media screen and (min-width: ${rem(768)}) {
-    max-height: ${rem(375)};
-  }
 `;
 
 const SectionTitle = styled.h2`
@@ -425,10 +413,8 @@ const Paragraph = styled.p`
     margin-top: ${rem(8)};
   }
 
-  & a:focus {
-    box-shadow: 0 0 ${rem(1)} ${rem(3)} rgba(59, 153, 252, 0.7);
-    box-shadow: 0 0 0 ${rem(3)} activeborder; /* Blink, Chrome */
-    box-shadow: 0 0 0 ${rem(3)} -moz-mac-focusring; /* Firefox */
+  a:focus {
+    outline: -webkit-focus-ring-color auto ${rem(1)};
   }
 `;
 

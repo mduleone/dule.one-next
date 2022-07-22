@@ -7,7 +7,13 @@ import FocusTrap from 'focus-trap-react';
 import ClientOnlyPortal from '~/components/client-only-portal';
 import { rem } from '~/util/style/lengths';
 
-const Modal = ({ isOpen, onClose, width = 640, children }) => {
+const Modal = ({
+  isOpen,
+  onClose,
+  width = 640,
+  desktopMaxHeight = null,
+  children,
+}) => {
   useEffect(() => {
     const handleKeydown = (e) => {
       if (e.key === 'Escape') {
@@ -26,7 +32,12 @@ const Modal = ({ isOpen, onClose, width = 640, children }) => {
       <FocusTrap focusTrapOptions={{ initialFocus: false }}>
         <Container>
           <Overlay onClick={onClose} />
-          <Content role="dialog" aria-modal="true" $width={width}>
+          <Content
+            role="dialog"
+            aria-modal="true"
+            $width={width}
+            $maxHeight={desktopMaxHeight}
+          >
             {children}
             <CloseButton onClick={onClose}>
               <CloseIcon icon={['fas', 'times']} />
@@ -42,6 +53,7 @@ Modal.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   width: PropTypes.number,
+  desktopMaxHeight: PropTypes.string,
   children: PropTypes.node,
 };
 
@@ -82,7 +94,7 @@ const Content = styled.div`
     padding: ${rem(48)};
     width: ${({ $width }) => rem($width)};
     height: auto;
-    max-height: 100vh;
+    max-height: ${({ $maxHeight }) => ($maxHeight ? rem($maxHeight) : '100vh')};
     border-radius: ${rem(6)};
     margin: 0 auto;
     align-self: center;
@@ -105,9 +117,7 @@ export const CloseButton = styled.button`
   cursor: pointer;
 
   :focus {
-    box-shadow: 0 0 ${rem(1)} ${rem(3)} rgba(59, 153, 252, 0.7);
-    box-shadow: 0 0 0 ${rem(3)} activeborder; /* Blink, Chrome */
-    box-shadow: 0 0 0 ${rem(3)} -moz-mac-focusring; /* Firefox */
+    outline: -webkit-focus-ring-color auto ${rem(1)};
   }
 `;
 
