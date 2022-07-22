@@ -543,7 +543,7 @@ const Training = () => {
           >
             Hit
             <DesktopDiv>
-              <FontAwesomeIcon icon={['far', 'keyboard']} /> H
+              <KeyboardIcon icon={['far', 'keyboard']} /> H
             </DesktopDiv>
           </Hit>
           <Stand
@@ -553,7 +553,7 @@ const Training = () => {
           >
             Stand
             <DesktopDiv>
-              <FontAwesomeIcon icon={['far', 'keyboard']} /> S
+              <KeyboardIcon icon={['far', 'keyboard']} /> S
             </DesktopDiv>
           </Stand>
           <Double
@@ -563,7 +563,7 @@ const Training = () => {
           >
             Double
             <DesktopDiv>
-              <FontAwesomeIcon icon={['far', 'keyboard']} /> D
+              <KeyboardIcon icon={['far', 'keyboard']} /> D
             </DesktopDiv>
           </Double>
           <Split
@@ -575,7 +575,7 @@ const Training = () => {
           >
             Split
             <DesktopDiv>
-              <FontAwesomeIcon icon={['far', 'keyboard']} /> P
+              <KeyboardIcon icon={['far', 'keyboard']} /> P
             </DesktopDiv>
           </Split>
         </Actions>
@@ -865,10 +865,12 @@ const Double = styled(ActionButton)`
 
 const DesktopDiv = styled.div`
   font-size: ${rem(16)};
+  justify-content: center;
+  align-items: center;
   display: none;
 
   @media screen and (min-width: ${rem(768)}) {
-    display: block;
+    display: flex;
   }
 `;
 
@@ -930,6 +932,10 @@ const Icon = styled(FontAwesomeIcon)`
   @media (prefers-color-scheme: dark) {
     color: ${({ theme }) => theme.colors.inverseDuleoneRed};
   }
+`;
+
+const KeyboardIcon = styled(FontAwesomeIcon)`
+  margin-right: ${rem(6)};
 `;
 
 const ChartTitle = styled.h1`
