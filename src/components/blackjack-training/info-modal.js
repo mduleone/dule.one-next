@@ -302,6 +302,12 @@ const Container = styled(Modal)`
   display: flex;
   flex-direction: column;
   font-family: ${({ theme }) => theme.fonts.screenFont};
+
+  :focus {
+    box-shadow: 0 0 ${rem(1)} ${rem(3)} rgba(59, 153, 252, 0.7);
+    box-shadow: 0 0 0 ${rem(3)} activeborder; /* Blink, Chrome */
+    box-shadow: 0 0 0 ${rem(3)} -moz-mac-focusring; /* Firefox */
+  }
 `;
 
 const ChartTitle = styled.h1`
@@ -351,12 +357,31 @@ const Tab = styled.button`
   align-items: center;
   font-size: ${rem(12)};
 
+  /* stylelint-disable-next-line selector-type-no-unknown */
+  ${({ $active }) =>
+    $active &&
+    css`
+      background-color: #00000088;
+      color: ${({ theme }) => theme.colors.white};
+
+      @media (prefers-color-scheme: dark) {
+        background-color: #ffffff88;
+        color: ${({ theme }) => theme.colors.black};
+      }
+    `}
+
   :first-child {
     margin-left: 0;
   }
 
   :last-child {
     margin-right: 0;
+  }
+
+  :focus {
+    box-shadow: 0 0 ${rem(1)} ${rem(3)} rgba(59, 153, 252, 0.7);
+    box-shadow: 0 0 0 ${rem(3)} activeborder; /* Blink, Chrome */
+    box-shadow: 0 0 0 ${rem(3)} -moz-mac-focusring; /* Firefox */
   }
 
   @media screen and (min-width: ${rem(306)}) {
@@ -372,18 +397,6 @@ const Tab = styled.button`
       margin-left: ${rem(4)};
     }
   }
-
-  ${({ $active }) =>
-    $active &&
-    css`
-      background-color: #00000088;
-      color: ${({ theme }) => theme.colors.white};
-
-      @media (prefers-color-scheme: dark) {
-        background-color: #ffffff88;
-        color: ${({ theme }) => theme.colors.black};
-      }
-    `}
 `;
 
 const Content = styled.div`
@@ -410,6 +423,12 @@ const Paragraph = styled.p`
 
   & + & {
     margin-top: ${rem(8)};
+  }
+
+  & a:focus {
+    box-shadow: 0 0 ${rem(1)} ${rem(3)} rgba(59, 153, 252, 0.7);
+    box-shadow: 0 0 0 ${rem(3)} activeborder; /* Blink, Chrome */
+    box-shadow: 0 0 0 ${rem(3)} -moz-mac-focusring; /* Firefox */
   }
 `;
 

@@ -97,6 +97,10 @@ const Training = () => {
   const settingsButton = useRef(null);
   const countTooltipButton = useRef(null);
 
+  const handValue = getHandValue(playerHand);
+  const isPair =
+    handValue.hand.length === 2 && handValue.hand[0] === handValue.hand[1];
+
   const resetHands = () => {
     let tempShoe = [...shoe];
 
@@ -179,7 +183,7 @@ const Training = () => {
         act(STAND);
       } else if (['d', 'D'].includes(e.key)) {
         act(DOUBLE);
-      } else if (['p', 'P'].includes(e.key)) {
+      } else if (['p', 'P'].includes(e.key) && isPair) {
         act(SPLIT);
       }
     };
@@ -431,10 +435,6 @@ const Training = () => {
     setShowShoe(next);
   };
 
-  const handValue = getHandValue(playerHand);
-  const isPair =
-    handValue.hand.length === 2 && handValue.hand[0] === handValue.hand[1];
-
   return (
     <Layout header={false}>
       <HandContainer>
@@ -542,6 +542,9 @@ const Training = () => {
             onClick={() => act(HIT)}
           >
             Hit
+            <DesktopDiv>
+              <FontAwesomeIcon icon={['far', 'keyboard']} /> H
+            </DesktopDiv>
           </Hit>
           <Stand
             disabled={showSettings || wrongAction || showLastWrongAction}
@@ -549,6 +552,9 @@ const Training = () => {
             onClick={() => act(STAND)}
           >
             Stand
+            <DesktopDiv>
+              <FontAwesomeIcon icon={['far', 'keyboard']} /> S
+            </DesktopDiv>
           </Stand>
           <Double
             disabled={showSettings || wrongAction || showLastWrongAction}
@@ -556,6 +562,9 @@ const Training = () => {
             onClick={() => act(DOUBLE)}
           >
             Double
+            <DesktopDiv>
+              <FontAwesomeIcon icon={['far', 'keyboard']} /> D
+            </DesktopDiv>
           </Double>
           <Split
             disabled={
@@ -565,6 +574,9 @@ const Training = () => {
             onClick={() => act(SPLIT)}
           >
             Split
+            <DesktopDiv>
+              <FontAwesomeIcon icon={['far', 'keyboard']} /> P
+            </DesktopDiv>
           </Split>
         </Actions>
       )}
@@ -849,6 +861,15 @@ const Split = styled(ActionButton)`
 const Double = styled(ActionButton)`
   background-color: gold;
   color: ${({ theme }) => theme.colors.black};
+`;
+
+const DesktopDiv = styled.div`
+  font-size: ${rem(16)};
+  display: none;
+
+  @media screen and (min-width: ${rem(768)}) {
+    display: block;
+  }
 `;
 
 const SettingsButtonsContainer = styled.div`

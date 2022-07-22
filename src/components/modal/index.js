@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import FocusTrap from 'focus-trap-react';
 
 import ClientOnlyPortal from '~/components/client-only-portal';
 import { rem } from '~/util/style/lengths';
@@ -22,15 +23,17 @@ const Modal = ({ isOpen, onClose, width = 640, children }) => {
   }
   return (
     <ClientOnlyPortal>
-      <Container>
-        <Overlay onClick={onClose} />
-        <Content role="dialog" aria-modal="true" $width={width}>
-          {children}
-          <CloseButton onClick={onClose}>
-            <CloseIcon icon={['fas', 'times']} />
-          </CloseButton>
-        </Content>
-      </Container>
+      <FocusTrap focusTrapOptions={{ initialFocus: false }}>
+        <Container>
+          <Overlay onClick={onClose} />
+          <Content role="dialog" aria-modal="true" $width={width}>
+            {children}
+            <CloseButton onClick={onClose}>
+              <CloseIcon icon={['fas', 'times']} />
+            </CloseButton>
+          </Content>
+        </Container>
+      </FocusTrap>
     </ClientOnlyPortal>
   );
 };
@@ -100,6 +103,12 @@ export const CloseButton = styled.button`
   top: ${rem(18)};
   right: ${rem(25)};
   cursor: pointer;
+
+  :focus {
+    box-shadow: 0 0 ${rem(1)} ${rem(3)} rgba(59, 153, 252, 0.7);
+    box-shadow: 0 0 0 ${rem(3)} activeborder; /* Blink, Chrome */
+    box-shadow: 0 0 0 ${rem(3)} -moz-mac-focusring; /* Firefox */
+  }
 `;
 
 export const CloseIcon = styled(FontAwesomeIcon)`

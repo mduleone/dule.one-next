@@ -12,6 +12,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faEnvelope,
+  faKeyboard,
   faQuestionCircle,
 } from '@fortawesome/free-regular-svg-icons';
 
@@ -22,6 +23,7 @@ const fontAwesomeLibrary = [
   faEnvelope,
   faGlobeAmericas,
   faInfoCircle,
+  faKeyboard,
   faPrint,
   faQuestionCircle,
   faTable,
