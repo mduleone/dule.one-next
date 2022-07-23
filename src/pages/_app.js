@@ -7,6 +7,7 @@ import '~/util/font-awesome';
 import { rem } from '~/util/style/lengths';
 import providedTheme from '~/util/theme';
 import Analytics from '~/components/analytics';
+import BlackjackTrainingProvider from '~/providers/blackjack-training';
 
 const App = ({ Component, pageProps }) => (
   <>
@@ -25,8 +26,10 @@ const App = ({ Component, pageProps }) => (
     <ThemeProvider theme={providedTheme}>
       <GlobalStyle />
       <Analytics />
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <Component {...pageProps} />
+      <BlackjackTrainingProvider>
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <Component {...pageProps} />
+      </BlackjackTrainingProvider>
     </ThemeProvider>
   </>
 );
