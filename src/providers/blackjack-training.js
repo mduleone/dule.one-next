@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
 
 import Context from '~/components/context/blackjack-training';
 import {
@@ -65,10 +66,14 @@ const BlackjackTrainingProvider = ({ children }) => {
   const [dealerHitSoft17, setDealerHitSoft17] = useState(true);
   const [resetCountOnLoss, setResetCountOnLoss] = useState(true);
   const [forceReset, setForceReset] = useState(false);
+  const [trainCount, setTrainCount] = useState(false);
+  const [countInterval, setCountInterval] = useState(800);
+  const [quizInterval, setQuizInterval] = useState(25);
   const [playerAction, setPlayerAction] = useState('');
   const [lastWrongAction, setLastWrongAction] = useState(null);
   const [showSettings, setShowSettings] = useState(false);
   const [showLastWrongAction, setShowLastWrongAction] = useState(false);
+  const { pathname, push, query } = useRouter();
 
   const handValue = getHandValue(playerHand);
   const isPair =
@@ -192,6 +197,8 @@ const BlackjackTrainingProvider = ({ children }) => {
           softOnly: softOnlySetting,
           dealerHitSoft17: dealerHitSoft17Setting,
           resetCountOnLoss: resetCountOnLossSetting,
+          countInterval: countIntervalSetting = countInterval,
+          quizInterval: quizIntervalSetting = quizInterval,
         } = possibleSettings;
         setShowShoe(showShoeSetting);
         setShowCount(showCountSetting);
@@ -199,8 +206,14 @@ const BlackjackTrainingProvider = ({ children }) => {
         setSoftOnly(softOnlySetting);
         setDealerHitSoft17(dealerHitSoft17Setting);
         setResetCountOnLoss(resetCountOnLossSetting);
+        setCountInterval(countIntervalSetting);
+        setQuizInterval(quizIntervalSetting);
         if (doublesOnlySetting || softOnlySetting) {
-          setForceReset((p) => !p);
+          setTimeout(() => {
+            // eslint-disable-next-line no-use-before-define
+            resetCount();
+            setForceReset((p) => !p);
+          }, 0);
         }
       }
 
@@ -209,6 +222,19 @@ const BlackjackTrainingProvider = ({ children }) => {
 
     resetHands();
   }, [forceReset]);
+
+  useEffect(() => {
+    if ('count' in query) {
+      setTrainCount(true);
+      setShoe(newShoe());
+      setCount(0);
+    } else {
+      setTrainCount(false);
+      if (!(playerHand && dealerCard)) {
+        setForceReset((p) => !p);
+      }
+    }
+  }, [query.count]);
 
   useEffect(() => {
     if (playerHand && dealerCard) {
@@ -292,6 +318,8 @@ const BlackjackTrainingProvider = ({ children }) => {
       resetCountOnLoss,
       showCount,
       showShoe,
+      countInterval,
+      quizInterval,
     });
     setStreak(0);
     setItem('bjt-streak', 0);
@@ -313,6 +341,8 @@ const BlackjackTrainingProvider = ({ children }) => {
       resetCountOnLoss,
       showCount,
       showShoe,
+      countInterval,
+      quizInterval,
     });
     setStreak(0);
     setItem('bjt-streak', 0);
@@ -327,6 +357,8 @@ const BlackjackTrainingProvider = ({ children }) => {
       resetCountOnLoss,
       showCount,
       showShoe,
+      countInterval,
+      quizInterval,
     });
     track(`set ${next ? 'hit' : 'stand'} on soft 17`);
     setDealerHitSoft17(next);
@@ -341,6 +373,8 @@ const BlackjackTrainingProvider = ({ children }) => {
       resetCountOnLoss: next,
       showCount,
       showShoe,
+      countInterval,
+      quizInterval,
     });
     track(`turn ${next ? 'on' : 'off'} reset count on loss`);
     setResetCountOnLoss(next);
@@ -355,6 +389,8 @@ const BlackjackTrainingProvider = ({ children }) => {
       resetCountOnLoss,
       showCount: next,
       showShoe,
+      countInterval,
+      quizInterval,
     });
     track(`${next ? 'show' : 'hide'} count`);
     setShowCount(next);
@@ -370,9 +406,24 @@ const BlackjackTrainingProvider = ({ children }) => {
       resetCountOnLoss,
       showCount,
       showShoe: next,
+      countInterval,
+      quizInterval,
     });
     track(`${next ? 'show' : 'hide'} shoe`);
     setShowShoe(next);
+  };
+
+  const toggleTrainCount = () => {
+    const { count: _, ...restQuery } = query;
+    const next = !trainCount;
+
+    if (next) {
+      push({ pathname, query: { count: '', ...restQuery } });
+    } else {
+      push({ pathname, query: { ...restQuery } });
+    }
+
+    track(`switch to train ${next ? 'counting' : 'game play'}`);
   };
 
   const resetCount = () => {
@@ -384,6 +435,51 @@ const BlackjackTrainingProvider = ({ children }) => {
   const resetStreak = () => {
     track('reset streak');
     setStreak(0);
+  };
+
+  const dealCard = () => {
+    let tempShoe = [...shoe];
+
+    if (!tempShoe || tempShoe.length <= 0) {
+      tempShoe = newShoe();
+    }
+    const nextCard = tempShoe.shift();
+
+    const countChange = getCountValue(getCardValue(nextCard));
+    setCount((c) => c + countChange);
+    setShoe(tempShoe);
+
+    return nextCard;
+  };
+
+  const updateCountInterval = (value) => {
+    setCountInterval(value);
+    setItem('bjt-settings', {
+      doublesOnly,
+      softOnly,
+      dealerHitSoft17,
+      resetCountOnLoss,
+      showCount,
+      showShoe,
+      trainCount,
+      countInterval: value,
+      quizInterval,
+    });
+  };
+
+  const updateQuizInterval = (value) => {
+    setQuizInterval(value);
+    setItem('bjt-settings', {
+      doublesOnly,
+      softOnly,
+      dealerHitSoft17,
+      resetCountOnLoss,
+      showCount,
+      showShoe,
+      trainCount,
+      countInterval,
+      quizInterval: value,
+    });
   };
 
   const value = {
@@ -416,10 +512,17 @@ const BlackjackTrainingProvider = ({ children }) => {
     resetCount,
     resetStreak,
     track,
+    trainCount,
+    toggleTrainCount,
+    dealCard,
+    countInterval,
+    updateCountInterval,
     showSettings,
     setShowSettings,
     showLastWrongAction,
     setShowLastWrongAction,
+    quizInterval,
+    updateQuizInterval,
   };
 
   return <Context.Provider value={value}>{children}</Context.Provider>;

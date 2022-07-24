@@ -6,7 +6,7 @@ import Tooltip from '~/components/tooltip';
 import { rem } from '~/util/style/lengths';
 import useBlackjackTraining from '~/hooks/use-blackjack-training';
 
-const CountTooltip = () => {
+const ShowCount = () => {
   const countTooltipButton = useRef(null);
   const [showCountTooltip, setShowCountTooltip] = useState(false);
   const { count, showCount } = useBlackjackTraining();
@@ -59,7 +59,7 @@ const CountTooltip = () => {
   );
 };
 
-export default CountTooltip;
+export default ShowCount;
 
 const QuestionButtonContainer = styled.button`
   display: inline-block;

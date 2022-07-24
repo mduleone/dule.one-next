@@ -53,7 +53,7 @@ Modal.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   width: PropTypes.number,
-  desktopMaxHeight: PropTypes.string,
+  desktopMaxHeight: PropTypes.number,
   children: PropTypes.node,
 };
 

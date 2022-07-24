@@ -10,7 +10,6 @@ import { getHandKey, getDealerKey } from '~/util/blackjack';
 const PlayPractice = () => {
   const {
     streak,
-    initiallyLoaded,
     count,
     playerHand,
     dealerCard,
@@ -26,7 +25,8 @@ const PlayPractice = () => {
   } = useBlackjackTraining();
 
   return (
-    initiallyLoaded && (
+    playerHand &&
+    dealerCard && (
       <>
         <HandContainer>
           <HandLabel>Dealer Shows</HandLabel>

@@ -72,7 +72,7 @@ const StatisticsModal = ({ showInfo, onClose }) => {
               >
                 Beat the Dealer
               </a>{' '}
-              by Edward O. Thorpe, Ph.D, and supplemented by{' '}
+              by Edward O. Thorp, Ph.D, and supplemented by{' '}
               <a
                 href="https://wizardofodds.com/games/blackjack/strategy/4-decks/"
                 target="_blank"
@@ -90,9 +90,13 @@ const StatisticsModal = ({ showInfo, onClose }) => {
               edge in two- or four-deck games respectively).
             </Paragraph>
             <Paragraph>
-              This tool hopes to make it easier to learn and apply Basic
-              Strategy, so you can always be sure to make the right play at the
-              tables.
+              Game Play mode helps you to learn and apply Basic Strategy through
+              repetitive training, so you can always be sure to make the optimal
+              play at the tables.
+            </Paragraph>
+            <Paragraph>
+              Counting mode allows you to practice counting cards at various
+              speeds and check your count at quiz intervals.
             </Paragraph>
           </>
         )}
@@ -165,7 +169,7 @@ const StatisticsModal = ({ showInfo, onClose }) => {
         )}
         {currentTab === TRAINING && (
           <>
-            <SectionTitle>Training Modes</SectionTitle>
+            <SectionTitle>Game Play Training</SectionTitle>
             <Paragraph>
               You can train specifically against different Hand Mixes or Dealer
               Strategy.
@@ -182,6 +186,27 @@ const StatisticsModal = ({ showInfo, onClose }) => {
             <Ul>
               <li>Hit on Soft 17</li>
               <li>Stand on Soft 17</li>
+            </Ul>
+            <SectionTitle>Counting Training</SectionTitle>
+            <Paragraph>
+              You can train against a 6-deck shoe at various card-deal speeds,
+              with &ldquo;Count Check Quizzes&rdquo; at various intervals.
+            </Paragraph>
+            <Subheading>Time between cards dealt</Subheading>
+            <Ul>
+              <li>0.5s</li>
+              <li>0.8s</li>
+              <li>1s</li>
+              <li>2s</li>
+              <li>5s</li>
+            </Ul>
+            <Subheading>Quiz Intervals</Subheading>
+            <Ul>
+              <li>Every 10 cards</li>
+              <li>Every 25 cards</li>
+              <li>Every 52 cards</li>
+              <li>Every 100 cards</li>
+              <li>Infinite run of cards, quiz when you pause</li>
             </Ul>
             <SectionTitle>Statistics</SectionTitle>
             <Paragraph>

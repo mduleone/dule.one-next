@@ -55,6 +55,7 @@ import SpadesJ from './faces/spades/J';
 import SpadesQ from './faces/spades/Q';
 import SpadesK from './faces/spades/K';
 import SpadesA from './faces/spades/A';
+import Joker from './faces/joker';
 
 const Card = ({ card }) => {
   let CardToRender;
@@ -216,8 +217,11 @@ const Card = ({ card }) => {
     case 'Kh':
       CardToRender = HeartsK;
       break;
+    case 'joker':
+      CardToRender = Joker;
+      break;
     default:
-      CardToRender = SpadesA;
+      CardToRender = Joker;
   }
 
   return (
@@ -230,7 +234,7 @@ const Card = ({ card }) => {
 export default Card;
 
 Card.propTypes = {
-  card: PropTypes.oneOf(DECK),
+  card: PropTypes.oneOf([...DECK, 'joker']),
 };
 
 const Svg = styled.svg`

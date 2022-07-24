@@ -1,4 +1,4 @@
-const randNaturalNumber = (max) => Math.floor(Math.random() * (max - 1));
+import { randNaturalNumber } from '~/util/number';
 
 export const shuffle = (array) => {
   const newArray = array.slice();

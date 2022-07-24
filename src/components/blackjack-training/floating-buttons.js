@@ -21,7 +21,6 @@ const FloatingButtons = () => {
 
   const {
     statData,
-    initiallyLoaded,
     playerHand,
     dealerCard,
     lastWrongAction,
@@ -43,6 +42,12 @@ const FloatingButtons = () => {
     setShowLastWrongAction,
     showSettings,
     setShowSettings,
+    trainCount,
+    toggleTrainCount,
+    countInterval,
+    updateCountInterval,
+    quizInterval,
+    updateQuizInterval,
   } = useBlackjackTraining();
 
   useEffect(() => {
@@ -117,42 +122,132 @@ const FloatingButtons = () => {
           </FloatingButton>
           <Tooltip show={showSettings} horizontal="left" vertical="top">
             <SettingsTitle>Settings</SettingsTitle>
-            <FlexRow>
-              <ToggleLabel htmlFor="pairs-only">Pairs only?</ToggleLabel>
-              <Toggle
-                cbId="pairs-only"
-                isOn={doublesOnly}
-                onClick={toggleDoublesOnly}
-              />
-            </FlexRow>
-            <FlexRow>
-              <ToggleLabel htmlFor="soft-only">Soft only?</ToggleLabel>
-              <Toggle
-                cbId="soft-only"
-                isOn={softOnly}
-                onClick={toggleSoftOnly}
-              />
-            </FlexRow>
-            <FlexRow>
-              <ToggleLabel htmlFor="hit-soft-17">
-                Dealer hits soft 17?
-              </ToggleLabel>
-              <Toggle
-                cbId="hit-soft-17"
-                isOn={dealerHitSoft17}
-                onClick={toggleDealerHitsSoft17}
-              />
-            </FlexRow>
-            <FlexRow>
-              <ToggleLabel htmlFor="reset-count">
-                Reset count on loss?
-              </ToggleLabel>
-              <Toggle
-                cbId="reset-count"
-                isOn={resetCountOnLoss}
-                onClick={toggleResetCountOnLoss}
-              />
-            </FlexRow>
+            {trainCount ? (
+              <>
+                <SpeedRow>
+                  <div>Quiz every # cards</div>
+                  <FlexRow $noMb>
+                    <SpeedButton
+                      type="button"
+                      $active={quizInterval === 10}
+                      onClick={() => updateQuizInterval(10)}
+                    >
+                      10
+                    </SpeedButton>
+                    <SpeedButton
+                      type="button"
+                      $active={quizInterval === 25}
+                      onClick={() => updateQuizInterval(25)}
+                    >
+                      25
+                    </SpeedButton>
+                    <SpeedButton
+                      type="button"
+                      $active={quizInterval === 52}
+                      onClick={() => updateQuizInterval(52)}
+                    >
+                      52
+                    </SpeedButton>
+                    <SpeedButton
+                      type="button"
+                      $active={quizInterval === 100}
+                      onClick={() => updateQuizInterval(100)}
+                    >
+                      100
+                    </SpeedButton>
+                    <SpeedButton
+                      type="button"
+                      $active={!Number.isFinite(quizInterval)}
+                      onClick={() => updateQuizInterval(Math.Infinity)}
+                    >
+                      <FontAwesomeIcon icon={['fas', 'infinity']} />
+                    </SpeedButton>
+                  </FlexRow>
+                  <SubFlexRow>
+                    {!Number.isFinite(quizInterval) && '(Quiz on pause)'}
+                  </SubFlexRow>
+                </SpeedRow>
+                <SpeedRow>
+                  <div>Card Speed</div>
+                  <FlexRow>
+                    <SpeedButton
+                      type="button"
+                      $active={countInterval === 5000}
+                      onClick={() => updateCountInterval(5000)}
+                    >
+                      5s
+                    </SpeedButton>
+                    <SpeedButton
+                      type="button"
+                      $active={countInterval === 2000}
+                      onClick={() => updateCountInterval(2000)}
+                    >
+                      2s
+                    </SpeedButton>
+                    <SpeedButton
+                      type="button"
+                      $active={countInterval === 1000}
+                      onClick={() => updateCountInterval(1000)}
+                    >
+                      1s
+                    </SpeedButton>
+                    <SpeedButton
+                      type="button"
+                      $active={countInterval === 800}
+                      onClick={() => updateCountInterval(800)}
+                    >
+                      0.8s
+                    </SpeedButton>
+                    <SpeedButton
+                      type="button"
+                      $active={countInterval === 500}
+                      onClick={() => updateCountInterval(500)}
+                    >
+                      0.5s
+                    </SpeedButton>
+                  </FlexRow>
+                </SpeedRow>
+              </>
+            ) : (
+              <>
+                <FlexRow>
+                  <ToggleLabel htmlFor="pairs-only">Pairs only?</ToggleLabel>
+                  <Toggle
+                    cbId="pairs-only"
+                    isOn={doublesOnly}
+                    onClick={toggleDoublesOnly}
+                  />
+                </FlexRow>
+                <FlexRow>
+                  <ToggleLabel htmlFor="soft-only">Soft only?</ToggleLabel>
+                  <Toggle
+                    cbId="soft-only"
+                    isOn={softOnly}
+                    onClick={toggleSoftOnly}
+                  />
+                </FlexRow>
+                <FlexRow>
+                  <ToggleLabel htmlFor="hit-soft-17">
+                    Dealer hits soft 17?
+                  </ToggleLabel>
+                  <Toggle
+                    cbId="hit-soft-17"
+                    isOn={dealerHitSoft17}
+                    onClick={toggleDealerHitsSoft17}
+                  />
+                </FlexRow>
+                <FlexRow>
+                  <ToggleLabel htmlFor="reset-count">
+                    Reset count on loss?
+                  </ToggleLabel>
+                  <Toggle
+                    cbId="reset-count"
+                    isOn={resetCountOnLoss}
+                    onClick={toggleResetCountOnLoss}
+                  />
+                </FlexRow>
+              </>
+            )}
             <FlexRow>
               <ToggleLabel htmlFor="show-count">Show count?</ToggleLabel>
               <Toggle
@@ -172,8 +267,13 @@ const FloatingButtons = () => {
             <SettingsButton type="button" onClick={resetCount}>
               Reset Count
             </SettingsButton>
-            <SettingsButton type="button" onClick={resetStreak}>
-              Reset Streak
+            {!trainCount && (
+              <SettingsButton type="button" onClick={resetStreak}>
+                Reset Streak
+              </SettingsButton>
+            )}
+            <SettingsButton type="button" onClick={toggleTrainCount}>
+              Train {trainCount ? 'Game Play' : 'Counting'}
             </SettingsButton>
           </Tooltip>
         </FloatingButtonContainer>
@@ -191,7 +291,7 @@ const FloatingButtons = () => {
         <BlackjackTable
           blackjackData={dealerHitSoft17 ? hitSoft17 : standSoft17}
           highlight={
-            initiallyLoaded
+            playerHand && dealerCard && !trainCount
               ? `${getHandKey(playerHand)}:${getDealerKey(dealerCard)}`
               : null
           }
@@ -303,9 +403,41 @@ const FlexRow = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: ${({ $noMb }) => ($noMb ? 0 : rem(4))};
+  text-align: left;
+  font-family: ${({ theme }) => theme.fonts.screenFont};
+`;
+
+const SubFlexRow = styled(FlexRow)`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0;
+  margin-bottom: ${rem(4)};
+  text-align: left;
+  font-size: ${rem(14)};
+  font-family: ${({ theme }) => theme.fonts.screenFont};
+  min-height: ${rem(17.5)};
+`;
+
+const SpeedRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: ${rem(4)};
   text-align: left;
   font-family: ${({ theme }) => theme.fonts.screenFont};
+`;
+
+const SpeedButton = styled.button`
+  border: ${rem(2)} solid
+    ${({ $active, theme }) =>
+      $active ? theme.colors.duleoneRed : 'transparent'};
+  background-color: transparent;
+  border-radius: ${rem(3)};
+  margin: 0;
+  padding: ${rem(2)};
 `;
 
 const ToggleLabel = styled.label`

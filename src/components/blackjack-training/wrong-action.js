@@ -27,13 +27,13 @@ const WrongAction = ({
   const explanationObject = dealerHitSoft17
     ? hitSoft17Explanations
     : standSoft17Explanations;
-  const settingsButtonRef = useRef(null);
+  const clearButtonRef = useRef(null);
 
   useEffect(() => {
-    if (settingsButtonRef.current) {
-      settingsButtonRef.current.focus();
+    if (clearButtonRef.current) {
+      clearButtonRef.current.focus();
     }
-  }, [settingsButtonRef.current]);
+  }, [clearButtonRef.current]);
 
   return (
     <>
@@ -80,13 +80,13 @@ const WrongAction = ({
             <WrongContent>Resetting the count to 0</WrongContent>
           </>
         )}
-        <SettingsButton
-          ref={settingsButtonRef}
+        <ClearButton
+          ref={clearButtonRef}
           type="button"
           onClick={clearWrongAction}
         >
           Got it
-        </SettingsButton>
+        </ClearButton>
       </Container>
     </>
   );
@@ -160,7 +160,7 @@ const TransparentScreenOverlay = styled.div`
   z-index: 900;
 `;
 
-const SettingsButton = styled.button`
+const ClearButton = styled.button`
   color: ${({ theme }) => theme.colors.black};
   cursor: pointer;
   font-size: ${rem(16)};
