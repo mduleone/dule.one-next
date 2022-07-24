@@ -194,11 +194,11 @@ const StatisticsModal = ({ showInfo, onClose }) => {
             </Paragraph>
             <Subheading>Time between cards dealt</Subheading>
             <Ul>
-              <li>0.5s</li>
+              <li>0.5s (fastest)</li>
               <li>0.8s</li>
               <li>1s</li>
               <li>2s</li>
-              <li>5s</li>
+              <li>5s (slowest)</li>
             </Ul>
             <Subheading>Quiz Intervals</Subheading>
             <Ul>

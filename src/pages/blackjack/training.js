@@ -85,7 +85,7 @@ const DealerButton = styled.span`
 
 const RightAlign = styled.div`
   text-align: right;
-  min-height: ${rem(48)};
+  min-height: ${rem(52)};
 `;
 
 const ShoeCount = styled.div`

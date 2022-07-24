@@ -3,15 +3,12 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import useBlackjackTraining from '~/hooks/use-blackjack-training';
-import { getHandKey, getDealerKey } from '~/util/blackjack';
 import { rem } from '~/util/style/lengths';
-import { hitSoft17, standSoft17 } from '~/data/blackjack';
-import Modal from '~/components/modal';
 import Tooltip from '~/components/tooltip';
 import Toggle from '~/components/toggle';
-import BlackjackTable from '~/components/blackjack-table';
 import StatisticsModal from '~/components/blackjack-training/statistics-modal';
 import InfoModal from '~/components/blackjack-training/info-modal';
+import HelpModal from '~/components/blackjack-training/help-modal';
 
 const FloatingButtons = () => {
   const [showInfo, setShowInfo] = useState(false);
@@ -20,9 +17,6 @@ const FloatingButtons = () => {
   const settingsButton = useRef(null);
 
   const {
-    statData,
-    playerHand,
-    dealerCard,
     lastWrongAction,
     track,
     showShoe,
@@ -157,14 +151,14 @@ const FloatingButtons = () => {
                     </SpeedButton>
                     <SpeedButton
                       type="button"
-                      $active={!Number.isFinite(quizInterval)}
-                      onClick={() => updateQuizInterval(Math.Infinity)}
+                      $active={quizInterval === Infinity}
+                      onClick={() => updateQuizInterval(Infinity)}
                     >
                       <FontAwesomeIcon icon={['fas', 'infinity']} />
                     </SpeedButton>
                   </FlexRow>
                   <SubFlexRow>
-                    {!Number.isFinite(quizInterval) && '(Quiz on pause)'}
+                    {quizInterval === Infinity && '(Quiz on pause)'}
                   </SubFlexRow>
                 </SpeedRow>
                 <SpeedRow>
@@ -282,21 +276,8 @@ const FloatingButtons = () => {
       <StatisticsModal
         showStats={showStats}
         onClose={() => setShowStats(false)}
-        statData={statData}
       />
-      <Modal isOpen={showChart} onClose={() => setShowChart(false)}>
-        <ChartTitle>
-          Basic Strategy - {dealerHitSoft17 ? 'Hit' : 'Stand'} Soft 17
-        </ChartTitle>
-        <BlackjackTable
-          blackjackData={dealerHitSoft17 ? hitSoft17 : standSoft17}
-          highlight={
-            playerHand && dealerCard && !trainCount
-              ? `${getHandKey(playerHand)}:${getDealerKey(dealerCard)}`
-              : null
-          }
-        />
-      </Modal>
+      <HelpModal isOpen={showChart} onClose={() => setShowChart(false)} />
     </>
   );
 };
@@ -404,6 +385,7 @@ const FlexRow = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: ${({ $noMb }) => ($noMb ? 0 : rem(4))};
+  padding: 0;
   text-align: left;
   font-family: ${({ theme }) => theme.fonts.screenFont};
 `;
@@ -415,10 +397,11 @@ const SubFlexRow = styled(FlexRow)`
   align-items: center;
   margin-top: 0;
   margin-bottom: ${rem(4)};
+  padding: 0;
   text-align: left;
   font-size: ${rem(14)};
   font-family: ${({ theme }) => theme.fonts.screenFont};
-  min-height: ${rem(17.5)};
+  min-height: ${rem(18)};
 `;
 
 const SpeedRow = styled.div`
@@ -442,10 +425,4 @@ const SpeedButton = styled.button`
 
 const ToggleLabel = styled.label`
   margin-right: ${rem(8)};
-`;
-
-const ChartTitle = styled.h1`
-  font-size: ${rem(24)};
-  font-family: ${({ theme }) => theme.fonts.screenFont};
-  text-align: center;
 `;

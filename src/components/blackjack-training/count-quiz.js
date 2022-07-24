@@ -5,9 +5,15 @@ import FocusTrap from 'focus-trap-react';
 
 import useBlackjackTraining from '~/hooks/use-blackjack-training';
 import { rem } from '~/util/style/lengths';
+import { setItem } from '~/util/local-storage';
 
-const CountQuiz = ({ clearQuiz }) => {
-  const { count } = useBlackjackTraining();
+const CountQuiz = ({
+  clearQuiz,
+  sinceLastWrong,
+  setSinceLastWrong,
+  sinceLastQuiz,
+}) => {
+  const { count, statData, setStatData } = useBlackjackTraining();
   const [userInput, setUserInput] = useState('');
   const [madeGuess, setMadeGuess] = useState('');
   const quizInputRef = useRef(null);
@@ -22,6 +28,20 @@ const CountQuiz = ({ clearQuiz }) => {
   const makeGuess = () => {
     setMadeGuess(true);
 
+    if (Number(userInput) === count) {
+      setSinceLastWrong((lw) => lw + sinceLastQuiz);
+    } else {
+      if (sinceLastWrong !== 0) {
+        const nextStatData = {
+          ...statData,
+          countStreaks: [...statData.countStreaks, sinceLastWrong],
+        };
+        setStatData(nextStatData);
+        setItem('bjt-stat-data', nextStatData);
+        setSinceLastWrong(0);
+      }
+      setSinceLastWrong(0);
+    }
     if (closeRef.current) {
       setTimeout(() => closeRef.current.focus(), 0);
     }
@@ -75,6 +95,9 @@ export default CountQuiz;
 
 CountQuiz.propTypes = {
   clearQuiz: PropTypes.func.isRequired,
+  sinceLastWrong: PropTypes.number.isRequired,
+  sinceLastQuiz: PropTypes.number.isRequired,
+  setSinceLastWrong: PropTypes.func.isRequired,
 };
 
 const Container = styled.div`
@@ -138,7 +161,7 @@ const QuizContent = styled.div`
   }
 
   @media screen and (min-width: ${rem(326)}) {
-    min-height: ${rem(28.5)};
+    min-height: ${rem(29)};
   }
 `;
 

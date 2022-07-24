@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import Modal from '~/components/modal';
-import { rem } from '~/util/style/lengths';
 import { computeActionColor, entryKeySort } from '~/components/blackjack-table';
+import useBlackjackTraining from '~/hooks/use-blackjack-training';
 import {
   getCorrectActionHitSoft17,
   getCorrectActionStandSoft17,
@@ -14,9 +14,11 @@ import {
   DOUBLE,
   parseLossKey,
 } from '~/util/blackjack';
+import { rem } from '~/util/style/lengths';
 import { round } from '~/util/number';
 
-const StatisticsModal = ({ showStats, onClose, statData }) => {
+const StatisticsModal = ({ showStats, onClose }) => {
+  const { statData, trainCount } = useBlackjackTraining();
   const average = statData.streakTotals / statData.streaks;
   const doublesOnlyAverage =
     statData.doublesOnlyTotals / statData.doublesOnlyStreaks;
@@ -33,151 +35,193 @@ const StatisticsModal = ({ showStats, onClose, statData }) => {
       ? softOnlyAverage
       : round(softOnlyAverage, 0, 5);
 
+  const averageCountingStreak =
+    statData.countStreaks.length > 0
+      ? round(
+          statData.countStreaks.reduce((s, c) => s + c, 0) /
+            statData.countStreaks.length,
+          0,
+          5,
+        )
+      : '--';
+
   return (
     <Modal isOpen={showStats} onClose={onClose}>
-      <ChartTitle>Statistics</ChartTitle>
-      <FlexRow>
-        <div>Last Streak</div>
-        <div>{statData.lastStreak || '--'}</div>
-      </FlexRow>
-      <FlexRow>
-        <div>Longest Streak</div>
-        <div>{statData.longestStreak || 0}</div>
-      </FlexRow>
-      <FlexRow>
-        <div>Average Streak</div>
-        <div>{statData.streaks > 0 ? renderedAverage : '--'}</div>
-      </FlexRow>
-      <FlexRow>
-        <div>Streaks lost</div>
-        <div>{statData.streaks}</div>
-      </FlexRow>
-      {statData.doublesOnlyStreaks > 0 && (
+      <ChartTitle>
+        {trainCount ? 'Counting' : 'Game Play'} Statistics
+      </ChartTitle>
+      {trainCount ? (
         <>
+          <CenterRow>
+            Counting Streaks only count up until your last successful answer,
+            and don&rsquo;t start until you&rsquo;ve gotten one right. For
+            example, if you answer a quiz successfully and get a 10-card streak
+            and then answer your next quiz incorrectly, the streak is recorded
+            as a 10-card streak. If you never answer a quiz correctly, you will
+            have no statistics recorded.
+          </CenterRow>
           <FlexRow>
-            <div>Average Pairs Only Streak</div>
-            <div>
-              {statData.doublesOnlyStreaks > 0 ? renderedDoublesAverage : '--'}
-            </div>
+            <div>Longest Streak</div>
+            <div>{Math.max(...statData.countStreaks) || '--'}</div>
           </FlexRow>
           <FlexRow>
-            <div>Pairs Only Streaks lost</div>
-            <div>{statData.doublesOnlyStreaks}</div>
+            <div>Average Streak</div>
+            <div>{averageCountingStreak}</div>
+          </FlexRow>
+          <FlexRow>
+            <div>Total Streaks</div>
+            <div>{statData.countStreaks.length}</div>
           </FlexRow>
         </>
-      )}
-      {statData.softOnlyStreaks > 0 && (
+      ) : (
         <>
           <FlexRow>
-            <div>Soft Only Average Streak</div>
-            <div>
-              {statData.softOnlyStreaks > 0 ? renderedSoftAverage : '--'}
-            </div>
+            <div>Last Streak</div>
+            <div>{statData.lastStreak || '--'}</div>
           </FlexRow>
           <FlexRow>
-            <div>Soft Only Streaks lost</div>
-            <div>{statData.softOnlyStreaks}</div>
+            <div>Longest Streak</div>
+            <div>{statData.longestStreak || 0}</div>
           </FlexRow>
+          <FlexRow>
+            <div>Average Streak</div>
+            <div>{statData.streaks > 0 ? renderedAverage : '--'}</div>
+          </FlexRow>
+          <FlexRow>
+            <div>Streaks lost</div>
+            <div>{statData.streaks}</div>
+          </FlexRow>
+          {statData.doublesOnlyStreaks > 0 && (
+            <>
+              <FlexRow>
+                <div>Average Pairs Only Streak</div>
+                <div>
+                  {statData.doublesOnlyStreaks > 0
+                    ? renderedDoublesAverage
+                    : '--'}
+                </div>
+              </FlexRow>
+              <FlexRow>
+                <div>Pairs Only Streaks lost</div>
+                <div>{statData.doublesOnlyStreaks}</div>
+              </FlexRow>
+            </>
+          )}
+          {statData.softOnlyStreaks > 0 && (
+            <>
+              <FlexRow>
+                <div>Soft Only Average Streak</div>
+                <div>
+                  {statData.softOnlyStreaks > 0 ? renderedSoftAverage : '--'}
+                </div>
+              </FlexRow>
+              <FlexRow>
+                <div>Soft Only Streaks lost</div>
+                <div>{statData.softOnlyStreaks}</div>
+              </FlexRow>
+            </>
+          )}
+          <ChartTitle>Errant Plays</ChartTitle>
+          <LossTable>
+            <TableWrapper>
+              <Table>
+                <thead>
+                  <tr>
+                    <Th>
+                      Soft 17
+                      <br />
+                      Action
+                    </Th>
+                    <Th>
+                      Player
+                      <br />
+                      Hand
+                    </Th>
+                    <Th>
+                      Dealer
+                      <br />
+                      Shows
+                    </Th>
+                    <Th>
+                      Correct
+                      <br />
+                      Play
+                    </Th>
+                    <Th>Incorrect plays</Th>
+                  </tr>
+                </thead>
+                <Tbody>
+                  {Object.entries(statData.losses)
+                    .sort(([keyA], [keyB]) => {
+                      const { playerHand: playerHandA, dealerCard: dealerA } =
+                        parseLossKey(keyA);
+                      const { playerHand: playerHandB, dealerCard: dealerB } =
+                        parseLossKey(keyB);
+
+                      const handValA = getHandValue(playerHandA);
+                      const handValB = getHandValue(playerHandB);
+
+                      if (handValA.total !== handValB.total) {
+                        return handValB.total - handValA.total;
+                      }
+
+                      const sortedHandA = handValA.hand.sort();
+                      const sortedHandB = handValB.hand.sort();
+
+                      if (sortedHandA[0] !== sortedHandB[0]) {
+                        return sortedHandA[0] - sortedHandB[0];
+                      }
+
+                      if (sortedHandA[1] !== sortedHandB[1]) {
+                        return sortedHandA[1] - sortedHandB[1];
+                      }
+
+                      return dealerB - dealerA;
+                    })
+                    .map(([lossKey, lossData]) => {
+                      const {
+                        playerHand: lossPlayerHand,
+                        dealerCard: lossDealerCard,
+                        action,
+                      } = parseLossKey(lossKey);
+
+                      const correctPlay = (
+                        (action || HIT) === HIT
+                          ? getCorrectActionHitSoft17
+                          : getCorrectActionStandSoft17
+                      )(lossPlayerHand, lossDealerCard);
+                      const { [correctPlay]: _, ...wrongActions } = lossData;
+
+                      return (
+                        <Tr key={lossKey}>
+                          <Td>{action || HIT}</Td>
+                          <Td>{lossPlayerHand.join('-')}</Td>
+                          <Td>{lossDealerCard}</Td>
+                          <Td>
+                            <Action $action={correctPlay}>{correctPlay}</Action>
+                          </Td>
+                          <Td>
+                            {Object.entries(wrongActions)
+                              .sort(entryKeySort)
+                              .map(
+                                ([key, value]) =>
+                                  value > 0 && (
+                                    <InlineBlock key={key}>
+                                      <Action $action={key}>{key}</Action>:{' '}
+                                      {value}
+                                    </InlineBlock>
+                                  ),
+                              )}
+                          </Td>
+                        </Tr>
+                      );
+                    })}
+                </Tbody>
+              </Table>
+            </TableWrapper>
+          </LossTable>
         </>
       )}
-      <ChartTitle>Errant Plays</ChartTitle>
-      <LossTable>
-        <TableWrapper>
-          <Table>
-            <thead>
-              <tr>
-                <Th>
-                  Soft 17
-                  <br />
-                  Action
-                </Th>
-                <Th>
-                  Player
-                  <br />
-                  Hand
-                </Th>
-                <Th>
-                  Dealer
-                  <br />
-                  Shows
-                </Th>
-                <Th>
-                  Correct
-                  <br />
-                  Play
-                </Th>
-                <Th>Incorrect plays</Th>
-              </tr>
-            </thead>
-            <Tbody>
-              {Object.entries(statData.losses)
-                .sort(([keyA], [keyB]) => {
-                  const { playerHand: playerHandA, dealerCard: dealerA } =
-                    parseLossKey(keyA);
-                  const { playerHand: playerHandB, dealerCard: dealerB } =
-                    parseLossKey(keyB);
-
-                  const handValA = getHandValue(playerHandA);
-                  const handValB = getHandValue(playerHandB);
-
-                  if (handValA.total !== handValB.total) {
-                    return handValB.total - handValA.total;
-                  }
-
-                  const sortedHandA = handValA.hand.sort();
-                  const sortedHandB = handValB.hand.sort();
-
-                  if (sortedHandA[0] !== sortedHandB[0]) {
-                    return sortedHandA[0] - sortedHandB[0];
-                  }
-
-                  if (sortedHandA[1] !== sortedHandB[1]) {
-                    return sortedHandA[1] - sortedHandB[1];
-                  }
-
-                  return dealerB - dealerA;
-                })
-                .map(([lossKey, lossData]) => {
-                  const {
-                    playerHand: lossPlayerHand,
-                    dealerCard: lossDealerCard,
-                    action,
-                  } = parseLossKey(lossKey);
-
-                  const correctPlay = (
-                    (action || HIT) === HIT
-                      ? getCorrectActionHitSoft17
-                      : getCorrectActionStandSoft17
-                  )(lossPlayerHand, lossDealerCard);
-                  const { [correctPlay]: _, ...wrongActions } = lossData;
-
-                  return (
-                    <Tr key={lossKey}>
-                      <Td>{action || HIT}</Td>
-                      <Td>{lossPlayerHand.join('-')}</Td>
-                      <Td>{lossDealerCard}</Td>
-                      <Td>
-                        <Action $action={correctPlay}>{correctPlay}</Action>
-                      </Td>
-                      <Td>
-                        {Object.entries(wrongActions)
-                          .sort(entryKeySort)
-                          .map(
-                            ([key, value]) =>
-                              value > 0 && (
-                                <InlineBlock key={key}>
-                                  <Action $action={key}>{key}</Action>: {value}
-                                </InlineBlock>
-                              ),
-                          )}
-                      </Td>
-                    </Tr>
-                  );
-                })}
-            </Tbody>
-          </Table>
-        </TableWrapper>
-      </LossTable>
     </Modal>
   );
 };
@@ -221,6 +265,11 @@ const FlexRow = styled.div`
   margin-bottom: ${rem(4)};
   text-align: left;
   font-family: ${({ theme }) => theme.fonts.screenFont};
+`;
+
+const CenterRow = styled(FlexRow)`
+  justify-content: center;
+  text-align: center;
 `;
 
 const LossTable = styled.div`

@@ -14,8 +14,9 @@ const CountingPractice = () => {
   const [playedCards, setPlayedCards] = useState([]);
   const [isRunning, setIsRunning] = useState(false);
   const [sinceLastQuiz, setSinceLastQuiz] = useState(0);
+  const [sinceLastWrong, setSinceLastWrong] = useState(0);
   const [showQuiz, setShowQuiz] = useState(false);
-  const { shoe, dealCard, countInterval, quizInterval } =
+  const { shoe, dealCard, countInterval, quizInterval, showSettings, track } =
     useBlackjackTraining();
   const { width } = useWindowResize();
 
@@ -65,10 +66,11 @@ const CountingPractice = () => {
     if (next) {
       dealNextCard();
     }
-    if (!next && !Number.isFinite(quizInterval)) {
+    if (!next && quizInterval === Infinity) {
       setShowQuiz(true);
     }
 
+    track(`${next ? 'start' : 'pause'} count training session`);
     setIsRunning(next);
   };
 
@@ -94,10 +96,22 @@ const CountingPractice = () => {
               <PlayingCard card={card} />
             </CardContainer>
           ))}
-          {showQuiz && <CountQuiz clearQuiz={clearQuiz} />}
+          {showQuiz && (
+            <CountQuiz
+              clearQuiz={clearQuiz}
+              sinceLastWrong={sinceLastWrong}
+              setSinceLastWrong={setSinceLastWrong}
+              sinceLastQuiz={sinceLastQuiz}
+              setSinceLastQuiz={setSinceLastQuiz}
+            />
+          )}
         </Hand>
       </HandContainer>
-      <ActionButton type="button" onClick={toggleTraining} disabled={showQuiz}>
+      <ActionButton
+        type="button"
+        onClick={toggleTraining}
+        disabled={showSettings || showQuiz}
+      >
         {isRunning ? 'Pause' : 'Start/resume'} training round
       </ActionButton>
     </>
@@ -157,7 +171,7 @@ const CardContainer = styled(StaticCardContainer)`
     `translateX(calc(-50% + ${rem($offset)})) rotate(${$rotation}deg)`};
   animation: ${rotationKeyframes}
     ${({ $interval }) => Math.floor((3 / 2) * $interval)}ms linear
-    ${({ $interval }) => $interval}ms forwards;
+    ${({ $interval }) => 4 * $interval}ms forwards;
 `;
 
 const ActionButton = styled.button`

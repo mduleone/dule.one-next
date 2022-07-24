@@ -40,6 +40,7 @@ const defaultStatData = {
   softOnlyTotals: 0,
   softOnlyStreaks: 0,
   losses: {},
+  countStreaks: [],
 };
 
 const lossesDefault = {
@@ -227,9 +228,11 @@ const BlackjackTrainingProvider = ({ children }) => {
     if ('count' in query) {
       setTrainCount(true);
       setShoe(newShoe());
+      setShowCount(false);
       setCount(0);
     } else {
       setTrainCount(false);
+      setShowCount(true);
       if (!(playerHand && dealerCard)) {
         setForceReset((p) => !p);
       }
@@ -454,6 +457,7 @@ const BlackjackTrainingProvider = ({ children }) => {
 
   const updateCountInterval = (value) => {
     setCountInterval(value);
+    track(`update card counting deal interval: ${value}`);
     setItem('bjt-settings', {
       doublesOnly,
       softOnly,
@@ -469,6 +473,7 @@ const BlackjackTrainingProvider = ({ children }) => {
 
   const updateQuizInterval = (value) => {
     setQuizInterval(value);
+    track(`update card counting quiz interval: ${value}`);
     setItem('bjt-settings', {
       doublesOnly,
       softOnly,
@@ -485,6 +490,7 @@ const BlackjackTrainingProvider = ({ children }) => {
   const value = {
     streak,
     statData,
+    setStatData,
     initiallyLoaded,
     count,
     shoe,

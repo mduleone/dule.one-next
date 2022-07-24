@@ -86,6 +86,8 @@ const FlexRow = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-top: 0;
+  padding: 0;
   margin-bottom: ${rem(4)};
   text-align: left;
   font-family: ${({ theme }) => theme.fonts.screenFont};
