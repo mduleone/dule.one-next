@@ -9,7 +9,7 @@ import Modal from '~/components/modal';
 import BlackjackTable from '~/components/blackjack-table';
 
 const HelpModal = ({ isOpen, onClose }) => {
-  const { playerHand, dealerCard, dealerHitSoft17, trainCount } =
+  const { playerHand, dealerCard, dealerHitSoft17, trainCount, count } =
     useBlackjackTraining();
 
   return (
@@ -17,7 +17,10 @@ const HelpModal = ({ isOpen, onClose }) => {
       {trainCount ? (
         <>
           <ChartTitle>Counting Strategy</ChartTitle>
-          <CenterRow>Reset to 0 on shuffle</CenterRow>
+          <FlexCol>
+            <div>The current count is</div>
+            <Count>{count}</Count>
+          </FlexCol>
           <FlexRow>
             <div>Tens &amp; Aces</div>
             <div>- 1</div>
@@ -68,12 +71,17 @@ const FlexRow = styled.div`
   font-family: ${({ theme }) => theme.fonts.screenFont};
 `;
 
-const CenterRow = styled(FlexRow)`
-  justify-content: center;
+const FlexCol = styled(FlexRow)`
+  flex-direction: column;
 `;
 
 const ChartTitle = styled.h1`
   font-size: ${rem(24)};
   font-family: ${({ theme }) => theme.fonts.screenFont};
+  text-align: center;
+`;
+
+const Count = styled.div`
+  font-size: ${rem(60)};
   text-align: center;
 `;

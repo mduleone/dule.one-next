@@ -419,6 +419,7 @@ const Tab = styled.button`
 const Content = styled.div`
   flex-grow: 1;
   overflow-y: scroll;
+  padding: 0 ${rem(8)};
 `;
 
 const SectionTitle = styled.h2`
@@ -494,6 +495,7 @@ const Fraction = styled.div`
 `;
 
 const Action = styled.span`
+  display: inline-block;
   background-color: ${({ theme, $action }) =>
     computeActionColor($action, theme.colors)};
   color: ${({ theme, $action }) =>
