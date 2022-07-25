@@ -1,27 +1,57 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
 import Layout from '~/components/layout';
-import FloatingButtons from '~/components/blackjack-training/floating-buttons';
-import GameBoard from '~/components/blackjack-training/game-board';
-import Header from '~/components/blackjack-training/header';
-import SplashScreen from '~/components/blackjack-training/splash-screen';
-import BlackjackTrainingProvider from '~/providers/blackjack-training';
+import { getItem } from '~/util/local-storage';
+import { rem } from '~/util/style/lengths';
 
-const Training = () => (
-  <BlackjackTrainingProvider>
-    <Layout header={false}>
-      <Relative>
-        <Header />
-        <GameBoard />
-        <SplashScreen />
-      </Relative>
-      <FloatingButtons />
+const Blackjack = () => {
+  useEffect(() => {
+    setTimeout(() => {
+      const possibleStreak = getItem('bjt-streak');
+      const possibleStatData = getItem('bjt-stat-data');
+      const possibleSettings = getItem('bjt-settings');
+      const toEncode = JSON.stringify({
+        streak: possibleStreak,
+        statData: possibleStatData,
+        settings: possibleSettings,
+      });
+      const isCount =
+        window.location.search.includes('?count') ||
+        window.location.search.includes('&count');
+
+      window.location = `https://www.trainblackjack.com/?${
+        isCount ? 'count&' : ''
+      }transfer=${window.btoa(toEncode)}`;
+    }, 3000);
+  }, []);
+
+  return (
+    <Layout>
+      <Container>
+        <div>This project moved to a new location. Redirecting...</div>
+        <FontAwesomeIcon pulse icon={['fas', 'spinner']} size="3x" />
+      </Container>
     </Layout>
-  </BlackjackTrainingProvider>
-);
+  );
+};
 
-export default Training;
+export default Blackjack;
 
-const Relative = styled.div`
-  position: relative;
+const Container = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: ${rem(16)};
+  color: ${({ theme }) => theme.colors.black};
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @media (prefers-color-scheme: dark) {
+    color: ${({ theme }) => theme.colors.softWhite};
+  }
 `;
