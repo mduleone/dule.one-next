@@ -1,8 +1,8 @@
 const projects = [
   {
-    title: 'Blackjack Training',
+    title: 'Blackjack Training (trainblackjack.com)',
     href: 'https://www.trainblackjack.com',
-    desc: 'Still evolving. A training tool for playing "Perfect Blackjack". Several training modes, including pairs-only and soft-hands-only, with more still being worked on and added soon. Contains a strategy card as well as tracks statistics.',
+    desc: 'A training tool for playing Blackjack. Allows you to train Basic Strategy with several options, as well as a mode to train Counting Cards. Game Play training gives the option to change the Dealer Strategy (hit or stand on Soft 17), as well as train a mix of all possible starting hands, pairs-only, or soft-hands-only. Contains a Basic Strategy Card corresponding to the current Dealer Strategy against which you’re training. Card Counting training allows you to modify the speed at which cards are dealt, as well as the quiz interval to allow you to ease into practicing extended runs of cards.',
     internal: false,
     imageHeight: 1930,
     imageWidth: 1284,
