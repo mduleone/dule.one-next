@@ -7,9 +7,11 @@ import { rem } from '~/util/style/lengths';
 
 const Blackjack = () => {
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       window.location = 'https://www.trainblackjack.com/blackjack-card';
     }, 3000);
+
+    return () => clearTimeout(timeout);
   }, []);
 
   return (
@@ -30,13 +32,13 @@ const Container = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: ${rem(16)};
-  color: ${({ theme }) => theme.colors.duleoneRed};
+  color: ${({ theme }) => theme.colors.black};
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
   @media (prefers-color-scheme: dark) {
-    color: ${({ theme }) => theme.colors.inverseDuleoneRed};
+    color: ${({ theme }) => theme.colors.softWhite};
   }
 `;
