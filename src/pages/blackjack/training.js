@@ -8,7 +8,7 @@ import { rem } from '~/util/style/lengths';
 
 const Blackjack = () => {
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       const possibleStreak = getItem('bjt-streak');
       const possibleStatData = getItem('bjt-stat-data');
       const possibleSettings = getItem('bjt-settings');
@@ -25,6 +25,8 @@ const Blackjack = () => {
         isCount ? 'count&' : ''
       }transfer=${window.btoa(toEncode)}`;
     }, 3000);
+
+    return () => clearTimeout(timeout);
   }, []);
 
   return (
