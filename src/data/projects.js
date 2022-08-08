@@ -17,7 +17,7 @@ const projects = [
   },
   {
     title: "Gammy's Game",
-    href: 'https://www.trainblackjack.com/blackjack-card',
+    href: 'https://www.trainblackjack.com/card',
     desc: 'A Blackjack Strategy Card in-browser, because a physical card is just too darn inconvenient. This is Basic Strategy as described in Chapter 3 of <a href="https://smile.amazon.com/Beat-Dealer-Winning-Strategy-Twenty-One/dp/0394703103/ref=asc_df_0394703103" target="_blank" rel="noopener noreferrer">Beat the Dealer</a>, trusted by Ina Frey.',
     internal: false,
     imageHeight: 1930,
