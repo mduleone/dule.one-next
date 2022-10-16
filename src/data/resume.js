@@ -20,7 +20,7 @@ const resume = [
         date: 'February 2019 - Present',
         positions: [
           {
-            title: 'Director of Engineering, Digital Product',
+            title: 'Director of Engineering',
             date: 'December 2021 - Present',
           },
           {
