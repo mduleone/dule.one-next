@@ -12,7 +12,7 @@ Then, you'll be able to see the application running at http://localhost:3000. Ed
 
 ## Generating the Resume
 
-In Chrome on macOS, navigate to /resume and print the page to either to a PDF or a printer, and remember to remove the headers and footers for the cleanest version, without the added page title, date, or url.
+In Chrome on macOS, navigate to /resume and print the page to either a PDF or a printer, and remember to remove the headers and footers for the cleanest version, without the added page title, date, or url.
 
 ## Deploying
 
