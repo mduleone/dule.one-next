@@ -1,4 +1,5 @@
 const projects = [
+  /*
   {
     title: 'Blackjack Training (trainblackjack.com)',
     href: 'https://www.trainblackjack.com',
@@ -42,6 +43,7 @@ const projects = [
       '/images/dark-on-on.png',
     ],
   },
+  */
   {
     title: 'Tranquil Island',
     href: 'https://tranquil-island.glitch.me',
