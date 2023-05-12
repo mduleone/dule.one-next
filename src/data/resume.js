@@ -174,7 +174,7 @@ const resume = [
         id: 'putnam',
         displayName:
           'William Lowell Putnam Undergraduate Mathematics Competition',
-        href: 'http://math.scu.edu/putnam/',
+        href: 'https://www.maa.org/math-competitions/william-lowell-putnam-mathematical-competition',
         date: '2009',
         content: '77<sup>th</sup> Percentile',
       },
