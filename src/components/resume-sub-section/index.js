@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import ResumeSubSectionContent, {
   subSectionContentShape,
@@ -15,6 +15,7 @@ export const subSectionShape = {
   date: PropTypes.string,
   printHalfWidth: PropTypes.bool,
   hideForPrint: PropTypes.bool,
+  onlyPrintLastPosition: PropTypes.bool,
   hideContentForPrint: PropTypes.bool,
   positions: PropTypes.arrayOf(
     PropTypes.shape({
@@ -32,14 +33,21 @@ const ResumeSubSection = ({ subsection }) => {
   const positions =
     subsection.positions &&
     (Array.isArray(subsection.positions) && subsection.positions.length > 1 ? (
-      subsection.positions.map((position) => (
-        <div key={`${position.title}-${position.date}`}>
+      subsection.positions.map((position, idx) => (
+        <SubSectionPosition
+          key={`${position.title}-${position.date}`}
+          $hideForPrint={subsection.onlyPrintLastPosition && idx > 0}
+        >
           <PositionTitle
             $multi
             dangerouslySetInnerHTML={{ __html: position.title }}
           />
-          <SubSectionDate>{position.date}</SubSectionDate>
-        </div>
+          <SubSectionDate
+            $onlyPrintLastPosition={subsection.onlyPrintLastPosition}
+          >
+            {position.date}
+          </SubSectionDate>
+        </SubSectionPosition>
       ))
     ) : (
       <PositionTitle
@@ -98,6 +106,10 @@ const SubSection = styled.div`
     page-break-inside: avoid;
     margin-bottom: ${rem(12)};
 
+    &:last-child {
+      margin-bottom: ${rem(12)};
+    }
+
     &.print-half {
       width: 50% !important;
       display: inline-block;
@@ -113,6 +125,17 @@ const SubSection = styled.div`
       display: none !important;
       visibility: hidden !important;
     }
+  }
+`;
+
+const SubSectionPosition = styled.div`
+  @media only print {
+    ${({ $hideForPrint }) =>
+      $hideForPrint &&
+      css`
+        display: none;
+        visibility: hidden;
+      `}
   }
 `;
 
@@ -144,6 +167,12 @@ const SubSectionDate = styled.time`
   @media only print {
     font-size: ${rem(12)};
     float: ${({ $printHalf }) => ($printHalf ? 'none' : 'right')};
+    ${({ $onlyPrintLastPosition }) =>
+      $onlyPrintLastPosition &&
+      css`
+        display: none;
+        visibility: hidden;
+      `}
   }
 `;
 
