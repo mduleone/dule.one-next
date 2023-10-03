@@ -131,7 +131,6 @@ const resume = [
     id: 'awards',
     title: 'Honors and Awards',
     noPrintBottomMargin: true,
-    noPrintTopMargin: true,
     subSections: [
       {
         id: 'patents',
