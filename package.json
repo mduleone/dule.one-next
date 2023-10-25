@@ -21,7 +21,7 @@
     "@fortawesome/react-fontawesome": "^0.1.12",
     "classnames": "^2.2.6",
     "focus-trap-react": "^9.0.2",
-    "next": "12.3.1",
+    "next": "13.5.0",
     "next-image-export-optimizer": "^0.10.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
