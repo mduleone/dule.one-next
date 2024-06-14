@@ -38,6 +38,7 @@ const resume = [
         ],
         content:
           'Responsible for all technology efforts across the company, including Engineering, IT, and Security, and setting the 2+ year technical direction and vision. Leader of multiple engineering teams, encompassing customer- and internally-facing digital product and physical product fulfillment operations. Leader of IT operations, including corporate IT and Security, as well as our technology-enabled fulfillment operations. Partner with internal physical product stakeholders to ensure multiple successful key new product launches. Hired and promoted multiple engineers and managers, and empowered managers to grow and promote skip-level reports. In previous scope, built out Incident Response Procedures and Engineering on-call responsibilities to ensure Engineering Excellence. As an Individual Contributor, architected and orchestrated carving out the Front End application from our React-rendering Rails monolith into a NextJS application — increasing engineer productivity and drastically decreasing site loading time. While Tech Lead of the Growth Product-Engineering team, improved key site-speed metrics by over 3-times, coupled with other conversion-enhancing tactics to increase site-wide conversion by over 7% while growing site traffic by 35%. Implemented integrations with third parties to ensure GDPR and CCPA privacy, cookie policy, and data-deletion requirement compliance. Partnered with internal Marketing stakeholders to architect implementation of Tag Manager solution.',
+        onlyPrintLastPosition: true,
       },
       {
         id: 'slice',
@@ -210,7 +211,6 @@ const resume = [
         date: 'August 2017',
         content:
           '"Create React App Plus - Super Handy, Obviously Opinionated, Tested!" - An opinionated, scaffolded approach to building React/Redux Web Applications, with an unejected instance of Create React App as its base.<br /><a href="https://github.com/mduleone/crapshoot" target="_blank" rel="noopener noreferrer">Repository</a>',
-        hideForPrint: true,
       },
       {
         id: 'iot',
