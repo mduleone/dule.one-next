@@ -6,7 +6,7 @@ const resume = [
     hideTitleForPrint: true,
     webOrder: -1,
     content:
-      'Successful engineering leader with over a decade of meaningful organization-building and software contributions. Extensive experience providing solutions and building and working on teams across myriad industries including health and wellness, food-delivery services, and education. Strong collaborative leader who has consistently over-delivered. Proven track record of building clean, robust, maintainable products, and empowering others to do the same. Managed several complex projects servicing stakeholders across multiple business units. An ideal role would include leveraging my skills to create the future, while troubleshooting and solving problems of the past.',
+      'Successful engineering leader with over a decade of meaningful organization-building and software contributions. Extensive experience providing solutions and building and working on teams across a myriad of industries including health and wellness, food-delivery services, and education. Strong collaborative leader who has consistently over-delivered. Proven track record of building clean, robust, maintainable products, and empowering others to do the same. Managed several complex projects servicing stakeholders across multiple business units. An ideal role would include leveraging my skills to create the future, while troubleshooting and solving problems of the past.',
   },
   {
     id: 'expertise',
