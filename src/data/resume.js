@@ -3,9 +3,17 @@ const resume = [
     id: 'summary',
     title: 'Summary',
     noPrintBottomMargin: true,
+    hideTitleForPrint: true,
     webOrder: -1,
     content:
       'Successful engineering leader with over a decade of meaningful organization-building and software contributions. Extensive experience providing solutions and building and working on teams across myriad industries including health and wellness, food-delivery services, and education. Strong collaborative leader who has consistently over-delivered. Proven track record of building clean, robust, maintainable products, and empowering others to do the same. Managed several complex projects servicing stakeholders across multiple business units. An ideal role would include leveraging my skills to create the future, while troubleshooting and solving problems of the past.',
+  },
+  {
+    id: 'expertise',
+    title: 'Areas of Expertise',
+    content:
+      'Engineering Management, Building Digital Products, Front End Application Architecture, Process Improvement, Future Innovations',
+    webOrder: -1,
   },
   {
     id: 'work',
@@ -16,12 +24,13 @@ const resume = [
         id: 'care/of',
         name: 'Care/of',
         location: 'New York, NY',
-        displayName: 'Care/of,&nbsp;New&nbsp;York,&nbsp;NY',
-        date: 'February 2019 - Present',
+        displayName:
+          'Care/of (NoHo&nbsp;Health&nbsp;Inc.), New&nbsp;York,&nbsp;NY',
+        date: 'February 2019 - July 2024',
         positions: [
           {
             title: 'Head of Engineering',
-            date: 'August 2023 - Present',
+            date: 'August 2023 - July 2024',
           },
           {
             title: 'Director of Engineering',
@@ -36,8 +45,39 @@ const resume = [
             date: 'February 2019 - May 2020',
           },
         ],
-        content:
-          'Responsible for all technology efforts across the company, including Engineering, IT, and Security, and setting the 2+ year technical direction and vision. Leader of multiple engineering teams, encompassing customer- and internally-facing digital product and physical product fulfillment operations. Leader of IT operations, including corporate IT and Security, as well as our technology-enabled fulfillment operations. Partner with internal physical product stakeholders to ensure multiple successful key new product launches. Hired and promoted multiple engineers and managers, and empowered managers to grow and promote skip-level reports. In previous scope, built out Incident Response Procedures and Engineering on-call responsibilities to ensure Engineering Excellence. As an Individual Contributor, architected and orchestrated carving out the Front End application from our React-rendering Rails monolith into a NextJS application — increasing engineer productivity and drastically decreasing site loading time. While Tech Lead of the Growth Product-Engineering team, improved key site-speed metrics by over 3-times, coupled with other conversion-enhancing tactics to increase site-wide conversion by over 7% while growing site traffic by 35%. Implemented integrations with third parties to ensure GDPR and CCPA privacy, cookie policy, and data-deletion requirement compliance. Partnered with internal Marketing stakeholders to architect implementation of Tag Manager solution.',
+        content: `
+          <div>
+            Responsible for all technology efforts across the company, including Engineering, IT, and Security, and setting the 2+ year technical direction and vision.
+            <ul>
+              <li>
+                Led multiple engineering teams, encompassing customer- and internally-facing digital product and physical product fulfillment operations.
+              </li>
+              <li>
+                Led corporate IT and Security, as well as our technology-enabled fulfillment operations.
+              </li>
+              <li>
+                Partnered with internal physical product stakeholders to ensure multiple successful key new product launches.
+              </li>
+              <li>
+                Hired and promoted engineers and managers, and empowered managers to grow and promote skip-level reports.
+              </li>
+              <li>
+                Built out Incident Response Procedures and Engineering on-call responsibilities.
+              </li>
+              <li>
+                As an Individual Contributor, architected and orchestrated transitioning the Front End application from a React-rendering Rails monolith into a NextJS application—increasing engineer productivity and drastically decreasing site loading time.
+              </li>
+              <li>
+                While Tech Lead of the Growth Product-Engineering team, improved key site-speed metrics by over 3-times, coupled with other conversion-enhancing tactics to increase site-wide conversion by over 7% while growing site traffic by 35%.
+              </li>
+              <li>
+                Ensured GDPR and CCPA privacy, cookie policy, and data-deletion compliance.
+              </li>
+              <li>
+                Partnered with internal Marketing stakeholders to architect implementation of Tag Manager solution.
+              </li>
+            </ul>
+          </div>`,
         onlyPrintLastPosition: true,
       },
       {
@@ -52,8 +92,27 @@ const resume = [
             date: 'October 2017 - February 2019',
           },
         ],
-        content:
-          'Owned Front End of web-based owner-facing application. Created React+D3 chart library, used for visualizations for owners to track their progress and sales. Created and integrated standard JavaScript style and linting config across all JavaScript respositories. Transitioned from ownership of Front End of owners-application to ownership of Front End of customer-facing application. Architected redux store for customer-facing application (search, menu, checkout, order tracking). Rearchitected and implemented Checkout experience. Transitioned customer-facing application from React-on-Rails to Node.js server with server-side-rendering application.',
+        content: `
+          <div>
+            Owned Front End of web-based customer-facing application and owner-facing application.
+            <ul>
+              <li>
+                Created React+D3 chart library, used for visualizations for owners to track their progress and sales.
+              </li>
+              <li>
+                Created and integrated standard JavaScript style and linting config across all JavaScript respositories.
+              </li>
+              <li>
+                Architected redux store for customer-facing application (search, menu, checkout, order tracking).
+              </li>
+              <li>
+                Rearchitected and reimplemented Checkout experience.
+              </li>
+              <li>
+                Transitioned customer-facing application from React-on-Rails to Node.js application with server-side-rendering.
+              </li>
+            </ul>
+          </div>`,
       },
       {
         id: 'grovo',
@@ -75,8 +134,21 @@ const resume = [
             date: 'December 2015 - March 2016',
           },
         ],
-        content:
-          'Front End technical lead. Owned significant portions of flagship high-scale React/Redux application powered by a microservices-architecture back end. Worked closely with Product, Design, back end counterpart lead, and team of engineers to build a wide range of beautiful and highly functional product features. Architect of Redux store structure, saga implementation, and action normalization. Integrated with d3 to create data visualizations.',
+        content: `
+          <div>
+            Front End technical lead.
+            <ul>
+              <li>
+                Owned significant portions of flagship high-scale React/Redux application.
+              </li>
+              <li>
+                Architected Redux store structure, saga implementation, and action normalization.
+              </li>
+              <li>
+                Integrated with d3 to create data visualizations.
+              </li>
+            </ul>
+          </div>`,
         onlyPrintLastPosition: true,
       },
       {
@@ -91,8 +163,21 @@ const resume = [
             date: 'June 2014 - December 2015',
           },
         ],
-        content:
-          "Developer, technical generalist, and mathematician on NBCUniversal's Technical Innovation team. Ideated, designed, and prototyped solutions to issues across company footprint and all brands, from wearables in Universal Parks to web based solutions for Television networks including NBC, CNBC, and Telemundo. Participated in and acted as Technical/Developer Support during NBCUniversal hosted hackathons. Named Inventor on 2 Patents.",
+        content: `
+          <div>
+            Developer, technical generalist, and mathematician on NBCUniversal's Technical Innovation team.
+            <ul>
+              <li>
+                Ideated, designed, and prototyped solutions to issues across company footprint and all brands, from wearables in Universal Parks to web based solutions for Television networks including NBC, CNBC, and Telemundo.
+              </li>
+              <li>
+                Participated in and acted as Technical/Developer Support during NBCUniversal hosted hackathons.
+              </li>
+              <li>
+                Named Inventor on 2 Patents.
+              </li>
+            </ul>
+          </div>`,
       },
       {
         id: 'issi',
@@ -108,7 +193,7 @@ const resume = [
           },
         ],
         content:
-          'With specifications provided by clients, developed new software for Benefit Fund Administration. Analyzed and assessed bugs in existing software as reported by clients, and implemented appropriate changes to resolve issues. Emphasis was on product quality and turnaround.',
+          '<div>Developed new custom software for Benefit Fund Administration, as well as resolved bugs as reported by clients.</div>',
       },
       {
         id: 'tdbank',
@@ -182,6 +267,7 @@ const resume = [
         href: 'https://www.maa.org/math-competitions/william-lowell-putnam-mathematical-competition',
         date: '2009',
         content: '77<sup>th</sup> Percentile',
+        hideForPrint: true,
       },
     ],
   },
@@ -258,7 +344,6 @@ const resume = [
   {
     id: 'tech',
     title: 'Technology Proficiencies',
-    noPrintTopMargin: true,
     content:
       'JavaScript, React, Next.js, Styled Components, React Storybook, Redux, Node.js, Express, d3.js, HTML, CSS, SASS, Ruby, Rails, GraphQL, Matlab, ImageMagick, Python, COBOL',
     webOrder: -1,
@@ -271,9 +356,14 @@ const resume = [
       {
         id: 'rutgers',
         displayName: 'Rutgers University, New Brunswick, NJ',
-        date: 'May 2011',
-        content:
-          '<div>Bachelors of Arts, Mathematics with Honors</div><div>Minor, Computer Science</div>',
+        content: `
+          <div>
+            Bachelors of Arts (BA), Mathematics with Honors
+          </div>
+          <div>
+            Minor, Computer Science
+          </div>
+        `,
       },
     ],
   },
