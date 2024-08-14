@@ -29,7 +29,7 @@ const ResumeSection = ({ section }) => (
     $webOrder={section.webOrder}
   >
     <SectionTitle $hideForPrint={section.hideTitleForPrint}>
-      {section.printPrefix && <PrintPrefix>{section.printPrefix}</PrintPrefix>}
+      {section.printPrefix && <PrintPrefix>{section.printPrefix} </PrintPrefix>}
       {section.title}
     </SectionTitle>
     {/* eslint-disable-next-line react/no-danger */}
@@ -111,6 +111,7 @@ const SectionTitle = styled.h2`
             border-radius: 0;
             padding: 0;
             margin: 0;
+            text-decoration: underline;
 
             & * {
               font-size: ${rem(56 / 3)};
@@ -126,8 +127,7 @@ const PrintPrefix = styled.span`
   }
 
   @media only print {
-    margin-right: ${rem(4)};
-    display: inline-block;
+    display: inline;
     visibility: visible;
   }
 `;
