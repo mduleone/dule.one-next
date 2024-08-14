@@ -104,16 +104,17 @@ const SubSection = styled.div`
 
   @media only print {
     page-break-inside: avoid;
-    margin-bottom: ${rem(12)};
+    margin-bottom: ${rem(8)};
 
     &:last-child {
-      margin-bottom: ${rem(12)};
+      margin-bottom: ${rem(8)};
     }
 
     &.print-half {
       width: 50% !important;
       display: inline-block;
       max-width: calc(50% - ${rem(8)});
+      margin-bottom: 0;
 
       &:nth-child(odd) {
         vertical-align: top;
@@ -185,6 +186,7 @@ const PositionTitle = styled.h4`
   vertical-align: top;
 
   @media only print {
+    font-weight: 600;
     font-size: ${rem(16)};
   }
 `;

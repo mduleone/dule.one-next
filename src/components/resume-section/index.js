@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { rem } from '~/util/style/lengths';
 import ResumeSubSection, {
@@ -28,8 +28,8 @@ const ResumeSection = ({ section }) => (
     $noPrintBottomMargin={section.noPrintBottomMargin}
     $webOrder={section.webOrder}
   >
-    <SectionTitle>
-      {section.printPrefix && <PrintPrefix>{section.printPrefix}</PrintPrefix>}
+    <SectionTitle $hideForPrint={section.hideTitleForPrint}>
+      {section.printPrefix && <PrintPrefix>{section.printPrefix} </PrintPrefix>}
       {section.title}
     </SectionTitle>
     {/* eslint-disable-next-line react/no-danger */}
@@ -70,14 +70,14 @@ const Section = styled.div`
     display: ${({ $hideForPrint }) => ($hideForPrint ? 'none' : 'inherit')};
     visibility: ${({ $hideForPrint }) =>
       $hideForPrint ? 'hidden' : 'inherit'};
-    margin-top: ${({ $noPrintTopMargin }) => ($noPrintTopMargin ? 0 : rem(12))};
+    margin-top: ${({ $noPrintTopMargin }) => ($noPrintTopMargin ? 0 : rem(8))};
     margin-right: 0;
     margin-bottom: ${({ $noPrintBottomMargin }) =>
-      $noPrintBottomMargin ? 0 : rem(12)};
+      $noPrintBottomMargin ? 0 : rem(8)};
     margin-left: 0;
 
     &:first-child {
-      margin-top: ${rem(12)};
+      margin-top: ${rem(8)};
     }
   }
 `;
@@ -97,17 +97,26 @@ const SectionTitle = styled.h2`
   }
 
   @media only print {
-    font-size: ${rem(56 / 3)};
-    color: inherit;
-    background-color: inherit;
-    font-weight: bold;
-    border-radius: 0;
-    padding: 0;
-    margin: 0;
+    ${({ $hideForPrint }) =>
+      $hideForPrint
+        ? css`
+            display: none;
+            margin: 0;
+          `
+        : css`
+            font-size: ${rem(56 / 3)};
+            color: inherit;
+            background-color: inherit;
+            font-weight: bold;
+            border-radius: 0;
+            padding: 0;
+            margin: 0;
+            text-decoration: underline;
 
-    & * {
-      font-size: ${rem(56 / 3)};
-    }
+            & * {
+              font-size: ${rem(56 / 3)};
+            }
+          `}
   }
 `;
 
@@ -118,8 +127,7 @@ const PrintPrefix = styled.span`
   }
 
   @media only print {
-    margin-right: ${rem(4)};
-    display: inline-block;
+    display: inline;
     visibility: visible;
   }
 `;

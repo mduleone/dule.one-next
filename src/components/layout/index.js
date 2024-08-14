@@ -84,6 +84,7 @@ const Main = styled.main`
   @media only print {
     max-width: 100%;
     margin: ${rem(36)} 0 0;
+    padding-top: ${rem(16)};
   }
 
   @page {

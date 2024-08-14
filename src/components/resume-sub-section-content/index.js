@@ -45,7 +45,7 @@ export const subSectionContentShape = [
   PropTypes.arrayOf(PropTypes.shape(contentShape)),
 ];
 
-const Content = styled.div`
+const Content = styled.span`
   @media only print {
     text-align: left;
     ${({ $hideForPrint }) =>
@@ -120,6 +120,24 @@ const SubSectionContent = styled.div`
 
   & sup {
     font-size: smaller;
+  }
+
+  &:has(div ul),
+  &:has(div) {
+    margin-left: ${rem(16)};
+
+    & ul {
+      padding-left: ${rem(20)};
+    }
+  }
+
+  &:has(div + div) {
+    margin-left: 0;
+  }
+
+  & ul {
+    margin-block-start: 0;
+    margin-block-end: 0;
   }
 
   @media only print {

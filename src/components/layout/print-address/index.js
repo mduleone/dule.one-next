@@ -5,7 +5,7 @@ import { rem } from '~/util/style/lengths';
 const PrintAddress = () => (
   <Container>
     <Address>
-      <div>Jersey City, NJ</div>
+      <div>Jersey City, NJ 07302</div>
       <a href="mailto:matt@duleone.com">matt@duleone.com</a>
     </Address>
   </Container>
