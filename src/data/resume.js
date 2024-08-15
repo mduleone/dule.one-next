@@ -208,7 +208,7 @@ const resume = [
           },
         ],
         content:
-          'Provided excellent customer service by engaging customers, assessing their financial needs, responding to their questions and concerns, and nurturing the company-customer relationship.',
+          '<div>Provided excellent customer service by engaging customers, assessing their financial needs, responding to their questions and concerns, and nurturing the company-customer relationship.</div>',
         hideForPrint: true,
       },
     ],
@@ -280,28 +280,28 @@ const resume = [
       {
         id: 'tranquilIsalnd',
         displayName: 'Tranquil Island',
-        date: 'June 2018',
+        // date: 'June 2018',
         content:
           'A generative-art project built using React and the canvas. Inspired by talks from several meetups and conferences.<br /><a href="https://tranquil-island.glitch.me" target="_blank" rel="noopener noreferrer">Make some art</a><br /><a href="https://glitch.com/edit/#!/remix/tranquil-island" target="_blank" rel="noopener noreferrer">Remix on Glitch</a>',
       },
       {
         id: 'reduxMajic',
         displayName: 'Redux Majic',
-        date: 'September 2017',
+        // date: 'September 2017',
         content:
           '"Module Architecture for JsonAPI Ingesting Consumers" - Redux Majic makes building client-side JavaScript applications using <a href="http://redux.js.org/" target="_blank" rel="noopener noreferrer">Redux</a> against <a href="http://jsonapi.org/" target="_blank" rel="noopener noreferrer">JsonAPI</a> backends easier.<br /><a href="https://github.com/mduleone/redux-majic" target="_blank" rel="noopener noreferrer">Repository</a><br /><a href="https://www.npmjs.com/package/redux-majic" target="_blank" rel="noopener noreferrer">npm</a>',
       },
       {
         id: 'crapshoot',
         displayName: 'Crapshoot',
-        date: 'August 2017',
+        // date: 'August 2017',
         content:
           '"Create React App Plus - Super Handy, Obviously Opinionated, Tested!" - An opinionated, scaffolded approach to building React/Redux Web Applications, with an unejected instance of Create React App as its base.<br /><a href="https://github.com/mduleone/crapshoot" target="_blank" rel="noopener noreferrer">Repository</a>',
       },
       {
         id: 'iot',
         displayName: 'Amazon IoT Button Starter Kit',
-        date: 'October 2016',
+        // date: 'October 2016',
         content:
           'Built during <a href="https://hacktoberfest.digitalocean.com/" target="_blank" rel="noopener noreferrer">Hacktoberfest 2016</a>, this is a template project for an <a href="https://aws.amazon.com/iotbutton/" target="_blank" rel="noopener noreferrer">Amazon IoT Button</a> with a web interface.<br /><a href="https://github.com/mduleone/iotbutton-starter" target="_blank" rel="noopener noreferrer">Repository</a><br />',
         hideForPrint: true,
@@ -309,7 +309,7 @@ const resume = [
       {
         id: '5cardAlexa',
         displayName: 'Five Card Draw - Amazon Alexa Skill',
-        date: 'January 2016 - March 2016',
+        // date: 'January 2016 - March 2016',
         content:
           'An Amazon Alexa skill that lets you play Five Card Draw. Powered by Node Poker.<br /><a href="https://github.com/mduleone/alexaFivecard" target="_blank" rel="noopener noreferrer">Repository</a>',
         hideForPrint: true,
@@ -317,15 +317,15 @@ const resume = [
       {
         id: 'poker',
         displayName: 'Node Poker',
-        date: 'January 2016',
+        // date: 'January 2016',
         content:
           'Node.js implementation of hand-winner analysis for several poker variations, including a UI for Texas Hold\'em and an API endpoint for Five Card Draw.<br /><a href="https://github.com/mduleone/nodePoker" target="_blank" rel="noopener noreferrer">Repository</a><br /><a href="/holdemAnalyzer" target="_blank" rel="noopener noreferrer">Play</a>',
-        printHalfWidth: true,
+        // printHalfWidth: true,
       },
       {
         id: 'utterance',
         displayName: 'Make Utterance',
-        date: 'December 2015',
+        // date: 'December 2015',
         content:
           'Simple CLI intended to make creating complex Alexa Skill Utterances simpler.<br /><a href="https://github.com/mduleone/makeUtterance" target="_blank" rel="noopener noreferrer">Repository</a><br /><a href="https://www.npmjs.com/package/make-utterance" target="_blank" rel="noopener noreferrer">npm</a>',
         hideForPrint: true,
@@ -334,10 +334,10 @@ const resume = [
       {
         id: 'craps',
         displayName: 'Casino Craps',
-        date: 'February 2013 - January 2014',
+        // date: 'February 2013 - January 2014',
         content:
           'Front end implementation of the popular casino game Craps. Built as a means to learn JavaScript, JQuery, how to interact with the HTML5 canvas, and CSS.<br /><a href="https://github.com/mduleone/craps" target="_blank" rel="noopener noreferrer">Repository</a><br /><a href="https://dule.one/craps" target="_blank" rel="noopener noreferrer">Play</a>',
-        printHalfWidth: true,
+        // printHalfWidth: true,
       },
     ],
   },

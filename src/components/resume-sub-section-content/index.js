@@ -141,6 +141,8 @@ const SubSectionContent = styled.div`
   }
 
   @media only print {
+    margin-top: 0;
+
     ${({ $hideForPrint }) =>
       $hideForPrint &&
       css`
