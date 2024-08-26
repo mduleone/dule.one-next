@@ -78,7 +78,7 @@ const resume = [
               </li>
             </ul>
           </div>`,
-        onlyPrintLastPosition: true,
+        // onlyPrintLastPosition: true,
       },
       {
         id: 'slice',
