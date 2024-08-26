@@ -21,7 +21,7 @@
   // Disable this since it conflicts with other formatters (if you have them enabled)
   // See https://github.com/microsoft/vscode/issues/87096
   "editor.codeActionsOnSave": {
-    "source.organizeImports": false
+    "source.organizeImports": "never"
   },
   // Disable built-in CSS type formatting so it doesn't conflict with stylelint
   // See https://github.com/stylelint/vscode-stylelint#optional-but-recommended-setup
