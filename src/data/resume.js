@@ -21,6 +21,20 @@ const resume = [
     noPrintBottomMargin: true,
     subSections: [
       {
+        id: 'atlassian',
+        name: 'Atlassian',
+        location: 'Remote',
+        displayName: 'Atlassian, Jersey&nbsp;City,&nbsp;NJ (Remote)',
+        date: 'December 2024 - Present',
+        positions: [
+          {
+            title: 'Senior Software Engineer',
+            date: 'December 2024 - Present',
+          },
+        ],
+        content: '',
+      },
+      {
         id: 'care/of',
         name: 'Care/of',
         location: 'New York, NY',
@@ -78,7 +92,7 @@ const resume = [
               </li>
             </ul>
           </div>`,
-        // onlyPrintLastPosition: true,
+        onlyPrintLastPosition: true,
       },
       {
         id: 'slice',
@@ -155,7 +169,7 @@ const resume = [
         id: 'nbc',
         name: 'NBCUniversal',
         location: 'Englewood Cliffs',
-        displayName: 'NBCUniversal,&nbsp;Englewood&nbsp;Cliffs,&nbsp;NJ',
+        displayName: 'NBCUniversal, Englewood&nbsp;Cliffs,&nbsp;NJ',
         date: 'June 2014 - December 2015',
         positions: [
           {
@@ -184,7 +198,7 @@ const resume = [
         name: 'Innovative Software Solutions Inc.',
         location: 'Maple Shade, NJ',
         displayName:
-          'Innovative&nbsp;Software&nbsp;Solutions&nbsp;Inc., Maple&nbsp;Shade,&nbsp;NJ',
+          'Innovative&nbsp;Software Solutions&nbsp;Inc., Maple&nbsp;Shade,&nbsp;NJ',
         date: 'February 2012 - June 2014',
         positions: [
           {
@@ -199,7 +213,7 @@ const resume = [
         id: 'tdbank',
         name: 'TD Bank',
         location: 'Cherry Hill, NJ',
-        displayName: 'TD Bank, Cherry Hill, NJ',
+        displayName: 'TD Bank, Cherry&nbsp;Hill,&nbsp;NJ',
         date: 'July 2011 - February 2012',
         positions: [
           {
@@ -345,7 +359,7 @@ const resume = [
     id: 'tech',
     title: 'Technology Proficiencies',
     content:
-      'JavaScript, React, Next.js, Styled Components, React Storybook, Redux, Node.js, Express, d3.js, HTML, CSS, SASS, Ruby, Rails, GraphQL, Matlab, ImageMagick, Python, COBOL',
+      'JavaScript, React, React Native, Next.js, Styled Components, React Storybook, Redux, Node.js, Express, d3.js, HTML, CSS, SASS, Ruby, Rails, GraphQL, Matlab, ImageMagick, Python, COBOL',
     webOrder: -1,
   },
   {

@@ -60,7 +60,6 @@ const Container = styled.span`
     font-size: ${({ $header, $width }) => rem($header ? $width : $width / 2)};
     line-height: ${({ $header, $width }) =>
       $header ? 'inherit' : rem($width)};
-    color: ${({ theme }) => theme.colors.black};
     position: ${({ $header }) => ($header ? 'static' : 'relative')};
     margin-left: ${({ $header, $width }) =>
       $header ? 0 : rem($width + imageMargin)};
