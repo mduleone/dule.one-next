@@ -140,6 +140,11 @@ const SubSectionContent = styled.div`
     margin-block-end: 0;
   }
 
+  ${({ as }) => as === 'ul' && css`
+    margin-block-start: 0;
+    margin-block-end: 0;
+  `}
+
   @media only print {
     margin-top: 0;
 
