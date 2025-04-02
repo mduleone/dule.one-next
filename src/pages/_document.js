@@ -33,7 +33,7 @@ class DuLeoneDocument extends Document {
 
   render() {
     return (
-      <Html>
+      <Html lang="en">
         <Head>
           <Favicon />
         </Head>
