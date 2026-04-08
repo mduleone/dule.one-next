@@ -45,6 +45,22 @@ const projects = [
   },
   */
   {
+    title: 'myKaraoke',
+    href: 'https://mykaraoke.info',
+    repo: 'https://github.com/mduleone/karaoke',
+    desc: 'A personal karaoke song list manager. Add songs, tag them, mark favorites, duets, ones to learn, and ones to avoid. Track your singing history. Built as a PWA so it lives on your home screen. Built with Next.js, Drizzle ORM, and Neon (serverless Postgres), hosted on Netlify.',
+    internal: false,
+    imageHeight: 2796,
+    imageWidth: 1290,
+    images: [
+      '/images/karaoke-landing.png',
+      '/images/karaoke-logged-out.png',
+      '/images/karaoke-history.png',
+      '/images/karaoke-song-form.png',
+      '/images/karaoke-logged-in.png',
+    ],
+  },
+  {
     title: 'Tranquil Island',
     href: 'https://tranquil-island.glitch.me',
     repo: 'https://glitch.com/edit/#!/tranquil-island',
