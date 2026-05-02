@@ -67,9 +67,11 @@ const Section = styled.div`
   @media only print {
     text-align: justify;
     font-size: ${rem(16)};
-    display: ${({ $hideForPrint }) => ($hideForPrint ? 'none' : 'inherit')};
+    display: ${({ $hideForPrint }) => ($hideForPrint ? 'none' : 'grid')};
     visibility: ${({ $hideForPrint }) =>
       $hideForPrint ? 'hidden' : 'inherit'};
+    grid-template-columns: 1fr 1fr;
+    column-gap: ${rem(16)};
     margin-top: ${({ $noPrintTopMargin }) => ($noPrintTopMargin ? 0 : rem(8))};
     margin-right: 0;
     margin-bottom: ${({ $noPrintBottomMargin }) =>
@@ -78,6 +80,10 @@ const Section = styled.div`
 
     &:first-child {
       margin-top: ${rem(8)};
+    }
+
+    > * {
+      grid-column: span 2;
     }
   }
 `;
