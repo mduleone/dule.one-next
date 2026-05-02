@@ -113,7 +113,7 @@ const SubSection = styled.div`
     &.print-half {
       grid-column: span 1;
       align-self: start;
-      margin-bottom: 0;
+      margin-bottom: ${rem(8)};
     }
 
     &.no-print {
