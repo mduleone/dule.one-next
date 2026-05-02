@@ -111,15 +111,9 @@ const SubSection = styled.div`
     }
 
     &.print-half {
-      width: 50% !important;
-      display: inline-block;
-      max-width: calc(50% - ${rem(8)});
+      grid-column: span 1;
+      align-self: start;
       margin-bottom: 0;
-
-      &:nth-child(odd) {
-        vertical-align: top;
-        margin-left: ${rem(16)};
-      }
     }
 
     &.no-print {

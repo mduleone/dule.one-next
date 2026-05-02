@@ -24,7 +24,7 @@ const resume = [
         id: 'atlassian',
         name: 'Atlassian',
         location: 'Remote',
-        displayName: 'Atlassian, Jersey&nbsp;City,&nbsp;NJ (Remote)',
+        displayName: 'Atlassian, Remote',
         date: 'December 2024 - Present',
         positions: [
           {
@@ -32,7 +32,7 @@ const resume = [
             date: 'December 2024 - Present',
           },
         ],
-        content: '',
+        content: 'Confluence Mobile',
       },
       {
         id: 'care/of',
@@ -292,11 +292,19 @@ const resume = [
     noPrintBottomMargin: true,
     subSections: [
       {
+        id: 'myKaraoke',
+        displayName: 'myKaraoke.info',
+        // date: 'September 2025 - Present',
+        content:
+          'A karaoke song list manager built as a PWA. Built with Next.js, Drizzle ORM, and Neon (serverless Postgres), hosted on Netlify.<br /><a href="https://mykaraoke.info" target="_blank" rel="noopener noreferrer">Check it out</a>',
+      },
+      {
         id: 'tranquilIsalnd',
         displayName: 'Tranquil Island',
         // date: 'June 2018',
         content:
           'A generative-art project built using React and the canvas. Inspired by talks from several meetups and conferences.<br /><a href="https://tranquil-island.glitch.me" target="_blank" rel="noopener noreferrer">Make some art</a><br /><a href="https://glitch.com/edit/#!/remix/tranquil-island" target="_blank" rel="noopener noreferrer">Remix on Glitch</a>',
+        hideForPrint: true,
       },
       {
         id: 'reduxMajic',
@@ -326,7 +334,7 @@ const resume = [
         // date: 'January 2016 - March 2016',
         content:
           'An Amazon Alexa skill that lets you play Five Card Draw. Powered by Node Poker.<br /><a href="https://github.com/mduleone/alexaFivecard" target="_blank" rel="noopener noreferrer">Repository</a>',
-        hideForPrint: true,
+        // hideForPrint: true,
       },
       {
         id: 'poker',
@@ -334,7 +342,7 @@ const resume = [
         // date: 'January 2016',
         content:
           'Node.js implementation of hand-winner analysis for several poker variations, including a UI for Texas Hold\'em and an API endpoint for Five Card Draw.<br /><a href="https://github.com/mduleone/nodePoker" target="_blank" rel="noopener noreferrer">Repository</a><br /><a href="/holdemAnalyzer" target="_blank" rel="noopener noreferrer">Play</a>',
-        // printHalfWidth: true,
+        printHalfWidth: true,
       },
       {
         id: 'utterance',
@@ -344,14 +352,13 @@ const resume = [
           'Simple CLI intended to make creating complex Alexa Skill Utterances simpler.<br /><a href="https://github.com/mduleone/makeUtterance" target="_blank" rel="noopener noreferrer">Repository</a><br /><a href="https://www.npmjs.com/package/make-utterance" target="_blank" rel="noopener noreferrer">npm</a>',
         hideForPrint: true,
       },
-      { id: 'spacer' },
       {
         id: 'craps',
         displayName: 'Casino Craps',
         // date: 'February 2013 - January 2014',
         content:
           'Front end implementation of the popular casino game Craps. Built as a means to learn JavaScript, JQuery, how to interact with the HTML5 canvas, and CSS.<br /><a href="https://github.com/mduleone/craps" target="_blank" rel="noopener noreferrer">Repository</a><br /><a href="https://dule.one/craps" target="_blank" rel="noopener noreferrer">Play</a>',
-        // printHalfWidth: true,
+        printHalfWidth: true,
       },
     ],
   },
