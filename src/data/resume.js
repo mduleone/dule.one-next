@@ -296,22 +296,21 @@ const resume = [
         displayName: 'myKaraoke.info',
         // date: 'September 2025 - Present',
         content:
-          'A karaoke song list manager built as a PWA. Built with Next.js, Drizzle ORM, and Neon (serverless Postgres), hosted on Netlify.<br /><a href="https://mykaraoke.info" target="_blank" rel="noopener noreferrer">Check it out</a>',
+          'A karaoke song list manager built as a PWA. Built with Next.js, Drizzle ORM, and Neon, hosted on Netlify.<br /><a href="https://github.com/mduleone/karaoke" target="_blank" rel="noopener noreferrer">Repository</a> | <a href="https://mykaraoke.info" target="_blank" rel="noopener noreferrer">See Matt\'s List</a>',
       },
       {
         id: 'tranquilIsalnd',
         displayName: 'Tranquil Island',
         // date: 'June 2018',
         content:
-          'A generative-art project built using React and the canvas. Inspired by talks from several meetups and conferences.<br /><a href="https://tranquil-island.glitch.me" target="_blank" rel="noopener noreferrer">Make some art</a><br /><a href="https://glitch.com/edit/#!/remix/tranquil-island" target="_blank" rel="noopener noreferrer">Remix on Glitch</a>',
-        hideForPrint: true,
+          'A generative-art project built using React and the canvas. Inspired by talks from several meetups and conferences.<br /><a href="https://github.com/mduleone/tranquil-island" target="_blank" rel="noopener noreferrer">Repository</a> | <a href="https://matt.dule.one/tranquil-island" target="_blank" rel="noopener noreferrer">Make some art</a>',
       },
       {
         id: 'reduxMajic',
         displayName: 'Redux Majic',
         // date: 'September 2017',
         content:
-          '"Module Architecture for JsonAPI Ingesting Consumers" - Redux Majic makes building client-side JavaScript applications using <a href="http://redux.js.org/" target="_blank" rel="noopener noreferrer">Redux</a> against <a href="http://jsonapi.org/" target="_blank" rel="noopener noreferrer">JsonAPI</a> backends easier.<br /><a href="https://github.com/mduleone/redux-majic" target="_blank" rel="noopener noreferrer">Repository</a><br /><a href="https://www.npmjs.com/package/redux-majic" target="_blank" rel="noopener noreferrer">npm</a>',
+          '"Module Architecture for JsonAPI Ingesting Consumers" - Redux Majic makes building client-side JavaScript applications using <a href="http://redux.js.org/" target="_blank" rel="noopener noreferrer">Redux</a> against <a href="http://jsonapi.org/" target="_blank" rel="noopener noreferrer">JsonAPI</a> backends easier.<br /><a href="https://github.com/mduleone/redux-majic" target="_blank" rel="noopener noreferrer">Repository</a> | <a href="https://www.npmjs.com/package/redux-majic" target="_blank" rel="noopener noreferrer">npm</a>',
       },
       {
         id: 'crapshoot',
@@ -334,22 +333,21 @@ const resume = [
         // date: 'January 2016 - March 2016',
         content:
           'An Amazon Alexa skill that lets you play Five Card Draw. Powered by Node Poker.<br /><a href="https://github.com/mduleone/alexaFivecard" target="_blank" rel="noopener noreferrer">Repository</a>',
-        // hideForPrint: true,
+        hideForPrint: true,
       },
       {
         id: 'poker',
         displayName: 'Node Poker',
         // date: 'January 2016',
         content:
-          'Node.js implementation of hand-winner analysis for several poker variations, including a UI for Texas Hold\'em and an API endpoint for Five Card Draw.<br /><a href="https://github.com/mduleone/nodePoker" target="_blank" rel="noopener noreferrer">Repository</a><br /><a href="/holdemAnalyzer" target="_blank" rel="noopener noreferrer">Play</a>',
-        printHalfWidth: true,
+          'Node.js implementation of hand-winner analysis for several poker variations, including a UI for Texas Hold\'em and an API endpoint for Five Card Draw.<br /><a href="https://github.com/mduleone/nodePoker" target="_blank" rel="noopener noreferrer">Repository</a> | <a href="/holdemAnalyzer" target="_blank" rel="noopener noreferrer">Play</a>',
       },
       {
         id: 'utterance',
         displayName: 'Make Utterance',
         // date: 'December 2015',
         content:
-          'Simple CLI intended to make creating complex Alexa Skill Utterances simpler.<br /><a href="https://github.com/mduleone/makeUtterance" target="_blank" rel="noopener noreferrer">Repository</a><br /><a href="https://www.npmjs.com/package/make-utterance" target="_blank" rel="noopener noreferrer">npm</a>',
+          'Simple CLI intended to make creating complex Alexa Skill Utterances simpler.<br /><a href="https://github.com/mduleone/makeUtterance" target="_blank" rel="noopener noreferrer">Repository</a> | <a href="https://www.npmjs.com/package/make-utterance" target="_blank" rel="noopener noreferrer">npm</a>',
         hideForPrint: true,
       },
       {
@@ -357,8 +355,7 @@ const resume = [
         displayName: 'Casino Craps',
         // date: 'February 2013 - January 2014',
         content:
-          'Front end implementation of the popular casino game Craps. Built as a means to learn JavaScript, JQuery, how to interact with the HTML5 canvas, and CSS.<br /><a href="https://github.com/mduleone/craps" target="_blank" rel="noopener noreferrer">Repository</a><br /><a href="https://dule.one/craps" target="_blank" rel="noopener noreferrer">Play</a>',
-        printHalfWidth: true,
+          'Front end implementation of the popular casino game Craps. Built as a means to learn JavaScript, JQuery, how to interact with the HTML5 canvas, and CSS.<br /><a href="https://github.com/mduleone/craps" target="_blank" rel="noopener noreferrer">Repository</a> | <a href="https://dule.one/craps" target="_blank" rel="noopener noreferrer">Play</a>',
       },
     ],
   },
